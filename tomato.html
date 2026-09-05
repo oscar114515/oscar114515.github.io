@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>番茄鐘計時器 · 我的網站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        .navbar-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(-100%);
+            animation: slideDown 0.5s ease-out forwards;
+            z-index: 4000;
+        }
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+        }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 50px; width: auto; display: block; }
+        .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
+        .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+        .avatar-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            cursor: pointer; background: white; padding: 0; overflow: hidden;
+            transition: border-color 0.2s; flex-shrink: 0;
+        }
+        .avatar-btn:hover { border-color: #007bff; }
+        .avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-btn .default-avatar {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            justify-content: center; background: #e6edf8; color: #2c4a7a;
+            font-weight: 600; font-size: 1.1rem;
+        }
+        .auth-link {
+            text-decoration: none; color: #007bff; font-size: 1rem;
+            cursor: pointer; padding: 6px 16px; border-radius: 40px;
+            border: 1px solid #007bff; transition: all 0.2s ease;
+            background: transparent;
+        }
+        .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
+        .auth-link.logout { border-color: #dc3545; color: #dc3545; }
+        .auth-link.logout:hover { background: #dc3545; color: white; }
+
+        .content-wrapper {
+            max-width: 800px;
+            width: 90%;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            border: 1px solid #eef2f7;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #0b1b33;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        h1 small {
+            font-size: 0.9rem;
+            color: #6a7e9b;
+            font-weight: 400;
+        }
+        .subhead {
+            text-align: center;
+            color: #4a6a8e;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        /* ===== 番茄鐘主體 ===== */
+        .tomato-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        .timer-display {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-bg {
+            fill: none;
+            stroke: #eef2f7;
+            stroke-width: 8;
+        }
+        .timer-progress {
+            fill: none;
+            stroke: url(#tomatoGradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .timer-time {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #0b1b33;
+            letter-spacing: -2px;
+        }
+        .timer-label {
+            font-size: 0.9rem;
+            color: #6a7e9b;
+            margin-top: 5px;
+        }
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .mode-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a6a8e;
+            transition: all 0.2s;
+        }
+        .mode-btn:hover {
+            border-color: #007bff;
+            color: #007bff;
+        }
+        .mode-btn.active {
+            background: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .control-btn.primary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            color: white;
+            box-shadow: 0 8px 25px rgba(238,90,90,0.3);
+        }
+        .control-btn.primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(238,90,90,0.4);
+        }
+        .control-btn.secondary {
+            background: #f8f9fa;
+            color: #4a6a8e;
+            border: 2px solid #e0e0e0;
+        }
+        .control-btn.secondary:hover {
+            background: #e9ecef;
+        }
+        .session-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .session-item {
+            text-align: center;
+        }
+        .session-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0b1b33;
+        }
+        .session-label {
+            font-size: 0.8rem;
+            color: #6a7e9b;
+            margin-top: 5px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eef2f7;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #8a9bb0;
+        }
+
+        /* ===== 彈窗 ===== */
+        .modal-overlay, .auth-modal-overlay, .admin-modal-overlay, .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+        .auth-modal-overlay { z-index: 5000; }
+        .admin-modal-overlay { z-index: 6000; }
+        .loading-overlay { z-index: 9999; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+        .modal-box, .auth-modal-box, .admin-modal-box, .loading-box {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            cursor: default;
+            animation: fadeIn 0.3s ease;
+        }
+        .admin-modal-box { max-width: 550px; max-height: 80vh; overflow-y: auto; }
+        .loading-box { text-align: center; min-width: 180px; }
+        .modal-box { max-width: 340px; padding: 30px 35px; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
+        .modal-box .divider, .auth-modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
+        .contact-info, .auth-modal-box .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
+        .qq-label { font-size: 0.85rem; color: #888; }
+        .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .platform-btn-small {
+            display: block; width: 100%; padding: 12px 0;
+            border: 1px solid #dce3ed; border-radius: 40px; background: #ffffff;
+            font-size: 0.95rem; font-weight: 500; color: #1a1a1a;
+            cursor: pointer; text-align: center; transition: 0.15s;
+            font-family: sans-serif;
+        }
+        .platform-btn-small:active { background: #f0f0f0; transform: scale(0.97); }
+        .platform-btn-small.bili { color: #00a1d6; }
+        .platform-btn-small.xhs { color: #ff2442; }
+        .platform-btn-small.douyin { color: #000000; }
+        .platform-btn-small.yt { color: #ff0000; }
+        .auth-modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
+        .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: #5c5c5c; cursor: pointer; }
+        .auth-modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .auth-modal-box .form-panel { display: block; }
+        .auth-modal-box .form-panel.hidden { display: none; }
+        .auth-modal-box .input-group { margin-bottom: 1rem; }
+        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+        .auth-modal-box .input-field:focus { border-color: #007bff; }
+        .auth-modal-box .action-btn { width: 100%; padding: 0.9rem; border: none; border-radius: 1rem; background: #007bff; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .auth-modal-box .action-btn:hover { background: #0056b3; transform: translateY(-1px); }
+        .auth-modal-box .action-btn.danger { background: #dc3545; }
+        .auth-modal-box .action-btn.danger:hover { background: #b02a37; }
+        .auth-modal-box .google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 0.9rem; border: 1px solid #e5e7eb; border-radius: 1rem; background: white; font-size: 0.95rem; font-weight: 500; color: #333; cursor: pointer; transition: all 0.2s; }
+        .auth-modal-box .google-btn:hover { background: #f8f9fa; }
+        .auth-modal-box .divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; color: #aaa; font-size: 0.85rem; }
+        .auth-modal-box .divider::before, .auth-modal-box .divider::after { content: ''; flex: 1; height: 1px; background: #e8ecf0; }
+        .auth-modal-box .message-box { min-height: 24px; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: center; }
+        .auth-modal-box .message-box.success { color: #28a745; }
+        .auth-modal-box .message-box.error { color: #dc3545; }
+        .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
+        .admin-modal-box { position: relative; }
+        .admin-modal-box h3 { margin-bottom: 1rem; color: #333; }
+        .admin-modal-box table { width: 100%; border-collapse: collapse; }
+        .admin-modal-box th, .admin-modal-box td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #e8ecf0; font-size: 0.9rem; }
+        .admin-modal-box th { font-weight: 600; color: #333; }
+        .delete-user-btn { background: #dc3545; color: white; border: none; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
+        .loading-spinner-full { width: 40px; height: 40px; border: 3px solid #e8ecf0; border-top-color: #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .admin-btn-small { display: block; width: 100%; margin-top: 0.8rem; padding: 0.6rem; border: 1px solid #6c757d; border-radius: 0.8rem; background: white; color: #6c757d; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .admin-btn-small:hover { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li>
+                        <button class="avatar-btn" id="avatarBtn">
+                            <div class="default-avatar" id="avatarPlaceholder">👤</div>
+                            <img id="avatarImg" style="display:none;" alt="頭像">
+                        </button>
+                    </li>
+                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="card">
+            <h1><i class="fas fa tomato" style="color:#ee5a5a"></i> 番茄鐘計時器</h1>
+            <div class="subhead">提升專注力，高效完成任務</div>
+            
+            <div class="tomato-container">
+                <div class="timer-display">
+                    <svg class="timer-svg" viewBox="0 0 280 280">
+                        <defs>
+                            <linearGradient id="tomatoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#ff6b6b"/>
+                                <stop offset="100%" style="stop-color:#ee5a5a"/>
+                            </linearGradient>
+                        </defs>
+                        <circle class="timer-bg" cx="140" cy="140" r="120"></circle>
+                        <circle class="timer-progress" id="timerProgress" cx="140" cy="140" r="120" 
+                            stroke-dasharray="754" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="timer-text">
+                        <div class="timer-time" id="timerTime">25:00</div>
+                        <div class="timer-label" id="timerLabel">專注時間</div>
+                    </div>
+                </div>
+                
+                <div class="mode-selector">
+                    <button class="mode-btn active" data-minutes="25" data-label="專注時間">🍅 25分鐘</button>
+                    <button class="mode-btn" data-minutes="5" data-label="短休息">☕ 5分鐘</button>
+                    <button class="mode-btn" data-minutes="15" data-label="長休息">😴 15分鐘</button>
+                    <button class="mode-btn" data-minutes="50" data-label="超長專注">🔥 50分鐘</button>
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn secondary" id="resetBtn" title="重置"><i class="fas fa-redo"></i></button>
+                    <button class="control-btn primary" id="startBtn" title="開始"><i class="fas fa-play"></i></button>
+                    <button class="control-btn secondary" id="pauseBtn" title="暫停" style="display:none;"><i class="fas fa-pause"></i></button>
+                </div>
+                
+                <div class="session-info">
+                    <div class="session-item">
+                        <div class="session-value" id="sessionCount">0</div>
+                        <div class="session-label">已完成番茄</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-value" id="totalTime">0:00</div>
+                        <div class="session-label">總計時間</div>
+                    </div>
+                    <div class="session-item">
+                        <div class="session-value" id="streakCount">0</div>
+                        <div class="session-label">連續次數</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="footer-note">🍅 專注工作，合理休息</div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="contact-info">
+                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
+                <div class="qq-label">QQ</div>
+                <span class="qq-number">1962487792</span>
+            </div>
+            <div class="divider"></div>
+            <div class="title">📱 追蹤我</div>
+            <div class="platform-grid-small">
+                <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')">嗶哩嗶哩</button>
+                <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')">小紅書</button>
+                <button class="platform-btn-small douyin" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')">抖音</button>
+                <button class="platform-btn-small yt" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')">YouTube</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-box">
+            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
+                <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
+                <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
+                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+            </div>
+            <div id="authPanel">
+                <div class="tab-switch">
+                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
+                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                </div>
+                <div id="loginPanel" class="form-panel">
+                    <div id="loginMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleLoginBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 登入
+                    </button>
+                </div>
+                <div id="registerPanel" class="form-panel hidden">
+                    <div id="registerMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleRegisterBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 註冊
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top:0.8rem;font-size:0.7rem;color:#aaa;text-align:center;">☁️ Firebase 雲端 · 跨設備同步</div>
+        </div>
+    </div>
+
+    <div class="admin-modal-overlay" id="adminModal">
+        <div class="admin-modal-box">
+            <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner-full"></div>
+            <p id="loadingText">載入中...</p>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
+            projectId: "oscar-io-log-in",
+            storageBucket: "oscar-io-log-in.firebasestorage.app",
+            messagingSenderId: "51821788083",
+            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.email === 'oscarmtr114514@gmail.com';
+        }
+
+        function generateIdenticon(name) {
+            const seed = name || 'default';
+            const encoder = new TextEncoder();
+            const data = encoder.encode(seed);
+            let hash = BigInt('0xcbf29ce484222325');
+            const prime = BigInt('0x100000001b3');
+            for (let i = 0; i < data.length; i++) {
+                hash ^= BigInt(data[i]);
+                hash = (hash * prime) & BigInt('0xffffffffffffffff');
+            }
+            const bytes = new Uint8Array(8);
+            for (let i = 0; i < 8; i++) bytes[7 - i] = Number((hash >> BigInt(i * 8)) & BigInt(0xff));
+            const hue = (bytes[0] * 256 + bytes[1]) % 360;
+            const sat = 70 + (bytes[2] % 20);
+            const lig = 55 + (bytes[0] % 20);
+            const bits = [];
+            let bi = 3, bj = 0;
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (c < 3) {
+                        const b = bytes[bi] || 0;
+                        bits.push(((b >> (7 - bj)) & 1) === 1);
+                        bj++; if (bj >= 8) { bj = 0; bi++; }
+                    } else { bits.push(bits[4 - c]); }
+                }
+            }
+            const size = 100, cell = size / 5;
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 5 5">`;
+            svg += `<rect width="5" height="5" fill="hsl(${hue},${sat}%,${lig}%)" rx="1"/>`;
+            bits.forEach((b, i) => {
+                const col = i % 5, row = Math.floor(i / 5);
+                if (b) svg += `<rect x="${col}" y="${row}" width="1" height="1" fill="white"/>`;
+            });
+            svg += '</svg>';
+            return 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showUI(user) {
+            authNavLink.textContent = '登出';
+            authNavLink.className = 'auth-link logout';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.addEventListener('click', handleLogout);
+            updateAvatar(user.photo, user.name);
+            authPanel.style.display = 'none';
+            authLoggedInPanel.style.display = 'block';
+            authDisplayName.textContent = user.name || '使用者';
+            authDisplayEmail.textContent = user.email || '';
+            if (isAdmin(user)) {
+                authAdminBtn.style.display = 'block';
+            } else {
+                authAdminBtn.style.display = 'none';
+            }
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            hideLoading();
+        }
+        function hideUI() {
+            authNavLink.textContent = '登入';
+            authNavLink.className = 'auth-link';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.addEventListener('click', openAuthModal);
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            authPanel.style.display = 'block';
+            authLoggedInPanel.style.display = 'none';
+            localStorage.removeItem('currentUser');
+            hideLoading();
+        }
+        function updateAvatar(url, name) {
+            if (url) {
+                avatarImg.src = url;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.src = generateIdenticon(name);
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            }
+        }
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        function openAdminModalFn() {
+            adminModal.classList.add('show');
+            loadUserTable();
+        }
+        function closeAdminModalFn() {
+            adminModal.classList.remove('show');
+        }
+
+        async function googleLogin() {
+            showLoading('Google 登入中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const u = result.user;
+                const userData = { name: u.displayName, email: u.email, photo: u.photoURL, uid: u.uid };
+                await db.ref('users/' + u.uid).set({ name: u.displayName, email: u.email, photo: u.photoURL, lastLogin: Date.now() });
+                showUI(userData);
+                closeAuthModal();
+            } catch (e) {
+                hideLoading();
+                if (e.code !== 'auth/popup-closed-by-user') {
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                }
+            }
+        }
+        async function handleRegister() {
+            const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            showLoading('註冊中...');
+            registerSubmitBtn.disabled = true;
+            registerSubmitBtn.innerHTML = '<span class="spinner"></span>註冊中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; return; }
+                const avatar = generateIdenticon(name);
+                const ref = db.ref('users').push();
+                await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
+                const ud = { name, email: '', photo: avatar, uid: ref.key };
+                showUI(ud);
+                closeAuthModal();
+                regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
+            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error'); hideLoading(); }
+            finally { registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; }
+        }
+        async function handleLogin() {
+            const name = loginName.value.trim(), pw = loginPassword.value;
+            if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+            showLoading('登入中...');
+            loginSubmitBtn.disabled = true;
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                let found = false;
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.password === pw) {
+                        found = true;
+                        const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: c.key };
+                        showUI(ud);
+                        closeAuthModal();
+                        db.ref('users/' + c.key + '/lastLogin').set(Date.now());
+                        loginName.value = ''; loginPassword.value = '';
+                    }
+                });
+                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading();
+            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+        }
+        function handleLogout() {
+            showLoading('登出中...');
+            auth.signOut().catch(() => {});
+            hideUI();
+        }
+        function showMsg(el, msg, type) {
+            el.textContent = msg;
+            el.className = 'message-box ' + type;
+            setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000);
+        }
+        let allUsers = [];
+        async function loadUserTable() {
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            try {
+                const snap = await db.ref('users').once('value');
+                allUsers = [];
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const d = c.val();
+                        if (d.name) allUsers.push({ key: c.key, ...d });
+                    });
+                }
+                if (allUsers.length === 0) {
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    return;
+                }
+                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                allUsers.forEach((u) => {
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const pwDisplay = u.password ? u.password : 'Google';
+                    html += `<tr><td>${u.name}</td><td>${u.email || '-'}</td><td>${pwDisplay}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${u.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                });
+                html += '</tbody></table>';
+                userTableContainer.innerHTML = html;
+            } catch (e) {
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+            }
+        }
+        window._deleteUser = async function(key, name) {
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            try {
+                await db.ref('users/' + key).remove();
+                const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (local && local.uid === key) { hideUI(); }
+                loadUserTable();
+            } catch (e) { alert('刪除失敗：' + e.message); }
+        };
+
+        // ===== 番茄鐘功能 =====
+        let timerInterval = null;
+        let timeLeft = 25 * 60;
+        let totalTime = 25 * 60;
+        let isRunning = false;
+        let completedSessions = 0;
+        let streak = 0;
+        let totalMinutes = 0;
+
+        const timerTime = document.getElementById('timerTime');
+        const timerLabel = document.getElementById('timerLabel');
+        const timerProgress = document.getElementById('timerProgress');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const sessionCount = document.getElementById('sessionCount');
+        const totalTimeEl = document.getElementById('totalTime');
+        const streakCount = document.getElementById('streakCount');
+        const progressFill = document.getElementById('progressFill');
+        const circumference = 2 * Math.PI * 120;
+
+        timerProgress.style.strokeDasharray = circumference;
+        timerProgress.style.strokeDashoffset = 0;
+
+        function updateDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerTime.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const progress = ((totalTime - timeLeft) / totalTime) * 100;
+            progressFill.style.width = progress + '%';
+            timerProgress.style.strokeDashoffset = circumference - (progress / 100) * circumference;
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            startBtn.style.display = 'none';
+            pauseBtn.style.display = 'flex';
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    startBtn.style.display = 'flex';
+                    pauseBtn.style.display = 'none';
+                    completedSessions++;
+                    streak++;
+                    totalMinutes += totalTime / 60;
+                    sessionCount.textContent = completedSessions;
+                    streakCount.textContent = streak;
+                    const hours = Math.floor(totalMinutes / 60);
+                    const mins = totalMinutes % 60;
+                    totalTimeEl.textContent = hours > 0 ? `${hours}小時${mins}分` : `${mins}分`;
+                    playNotificationSound();
+                    if (completedSessions % 4 === 0) {
+                        alert('🎉 太棒了！完成 ' + completedSessions + ' 個番茄鐘，記得休息哦！');
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            startBtn.style.display = 'flex';
+            pauseBtn.style.display = 'none';
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = totalTime;
+            updateDisplay();
+            startBtn.style.display = 'flex';
+            pauseBtn.style.display = 'none';
+        }
+
+        function playNotificationSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.3;
+            oscillator.start();
+            setTimeout(() => {
+                oscillator.stop();
+                audioCtx.close();
+            }, 500);
+        }
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const minutes = parseInt(btn.dataset.minutes);
+                totalTime = minutes * 60;
+                timeLeft = totalTime;
+                timerLabel.textContent = btn.dataset.label;
+                updateDisplay();
+                resetTimer();
+            });
+        });
+
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
+
+        // ===== 初始化 =====
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
+                localStorage.setItem('currentUser', JSON.stringify(ud));
+                showUI(ud);
+            } else {
+                hideUI();
+            }
+        });
+
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        authNavLink.addEventListener('click', openAuthModal);
+        authLogoutBtn.addEventListener('click', handleLogout);
+        authAdminBtn.addEventListener('click', function() { closeAuthModal(); setTimeout(openAdminModalFn, 300); });
+        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+        closeAdminModal.addEventListener('click', closeAdminModalFn);
+        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('show')) closeAdminModalFn();
+                if (authModal.style.display === 'flex') closeAuthModal();
+                if (contactModal.style.display === 'flex') {
+                    contactModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        loginTabBtn.addEventListener('click', () => {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        });
+        registerTabBtn.addEventListener('click', () => {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        });
+
+        loginSubmitBtn.addEventListener('click', handleLogin);
+        registerSubmitBtn.addEventListener('click', handleRegister);
+        googleLoginBtn.addEventListener('click', googleLogin);
+        googleRegisterBtn.addEventListener('click', googleLogin);
+
+        updateDisplay();
+    </script>
+</body>
+</html>
