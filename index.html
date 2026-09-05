@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oscar Tools - 我的工具網站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #eef2f7;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            border-color: #007bff;
+        }
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .tool-card h2 {
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .tool-card p {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-tools" style="color: #007bff;"></i> Oscar Tools</h1>
+            <p>我的工具網站 - 提供多種實用工具</p>
+        </div>
+
+        <div class="tools-grid">
+            <a href="tomato.html" class="tool-card">
+                <span class="tool-icon">🍅</span>
+                <h2>番茄鐘計時器</h2>
+                <p>25分鐘工作/5分鐘休息循環，提升工作效率</p>
+            </a>
+
+            <a href="paint.html" class="tool-card">
+                <span class="tool-icon">🎨</span>
+                <h2>簡易畫板</h2>
+                <p>繪圖工具，支援多種筆刷和形狀</p>
+            </a>
+
+            <a href="worldclock.html" class="tool-card">
+                <span class="tool-icon">🌍</span>
+                <h2>世界時鐘</h2>
+                <p>顯示多個城市時間，自動日夜模式</p>
+            </a>
+
+            <a href="password.html" class="tool-card">
+                <span class="tool-icon">🔐</span>
+                <h2>密碼生成器</h2>
+                <p>生成安全密碼，支援多種組合</p>
+            </a>
+
+            <a href="converter.html" class="tool-card">
+                <span class="tool-icon">🔄</span>
+                <h2>單位轉換器</h2>
+                <p>長度、重量、溫度、顏色等轉換</p>
+            </a>
+
+            <a href="spinner.html" class="tool-card">
+                <span class="tool-icon">🎡</span>
+                <h2>隨機抽籤轉盤</h2>
+                <p>隨機選擇選項，支援增減項目</p>
+            </a>
+
+            <a href="qr.html" class="tool-card">
+                <span class="tool-icon">📱</span>
+                <h2>QR Code 生成器</h2>
+                <p>生成 QR 碼，支援自訂顏色大小</p>
+            </a>
+
+            <a href="calculator.html" class="tool-card">
+                <span class="tool-icon">🧮</span>
+                <h2>簡易計算機</h2>
+                <p>基本運算和科學計算功能</p>
+            </a>
+
+            <a href="qinqi.html" class="tool-card">
+                <span class="tool-icon">👨‍👩‍👧</span>
+                <h2>親戚計算機</h2>
+                <p>中文親屬關係查詢和稱呼計算</p>
+            </a>
+
+            <a href="timer.html" class="tool-card">
+                <span class="tool-icon">⏱️</span>
+                <h2>秒表計時器</h2>
+                <p>精確到毫秒的計時器，支援計圈</p>
+            </a>
+
+            <a href="htmlrunner.html" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <h2>HTML 運行器</h2>
+                <p>編輯並即時預覽 HTML 代碼</p>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>由 <a href="https://github.com/oscar114515" target="_blank">oscar114515</a> 製作 | 所有工具都是單個 HTML 文件，無需伺服器</p>
+        </div>
+    </div>
+</body>
+</html>
