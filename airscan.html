@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 传输助手 · 我的网站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            flex-direction: column;
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+        .navbar-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%;
+            transform: translateY(-100%);
+            animation: slideDown 0.5s ease-out forwards;
+            z-index: 4000;
+        }
+        @keyframes slideDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(0); } }
+        .navbar {
+            background-color: #f8f9fa; padding: 0.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #ddd; width: 100%;
+        }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 50px; width: auto; display: block; }
+        .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
+        .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+        .avatar-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid #e0e0e0; cursor: pointer; background: white; padding: 0; overflow: hidden;
+            transition: border-color 0.2s; flex-shrink: 0;
+        }
+        .avatar-btn:hover { border-color: #007bff; }
+        .avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-btn .default-avatar {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            justify-content: center; background: #e6edf8; color: #2c4a7a;
+            font-weight: 600; font-size: 1.1rem;
+        }
+        .auth-link {
+            text-decoration: none; color: #007bff; font-size: 1rem;
+            cursor: pointer; padding: 6px 16px; border-radius: 40px;
+            border: 1px solid #007bff; transition: all 0.2s ease;
+            background: transparent;
+        }
+        .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
+        .auth-link.logout { border-color: #dc3545; color: #dc3545; }
+        .auth-link.logout:hover { background: #dc3545; color: white; }
+
+        /* ===== QR 工具样式 ===== */
+        .qr-wrapper {
+            max-width: 600px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .qr-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+        }
+
+        .tab-switch {
+            display: flex;
+            background: #f0f2f5;
+            border-radius: 16px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #007bff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .input-area {
+            margin-bottom: 16px;
+        }
+
+        .input-area textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px dashed #e5e7eb;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            resize: none;
+            min-height: 120px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-area textarea:focus {
+            border-color: #007bff;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #fee2e2;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .control-value {
+            font-size: 0.9rem;
+            color: #007bff;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .control-row input[type="range"] {
+            width: 160px;
+            margin-left: 12px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-primary:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .qr-display {
+            display: flex;
+            justify-content: center;
+            padding: 24px;
+            background: white;
+            border-radius: 24px;
+            margin: 20px 0;
+        }
+
+        .qr-display canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        .frame-counter {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-family: monospace;
+        }
+
+        .frame-counter span {
+            color: #007bff;
+        }
+
+        .frame-slider {
+            width: 100%;
+            margin: 16px 0;
+        }
+
+        .playback-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .playback-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 12px;
+            background: #f3f4f6;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+
+        .playback-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .playback-btn.play-pause {
+            width: 64px;
+            background: #1f2937;
+            color: white;
+        }
+
+        .playback-btn.play-pause:hover {
+            background: #374151;
+        }
+
+        /* ===== 接收端样式 ===== */
+        .scanner-area {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 16px;
+            background: #1f2937;
+            overflow: hidden;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .scanner-placeholder {
+            color: #6b7280;
+            font-size: 0.85rem;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #reader {
+            width: 100%;
+            height: 100%;
+        }
+
+        #reader video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .scan-btns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .scan-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .scan-btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .scan-btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .scan-btn-indigo {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .scan-btn-indigo:hover {
+            background: #4338ca;
+        }
+
+        .scan-btn-full {
+            grid-column: span 2;
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .scan-btn-full:hover {
+            background: #e5e7eb;
+        }
+
+        .task-info {
+            padding: 12px 16px;
+            background: #eff6ff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .task-info.show {
+            display: block;
+        }
+
+        .task-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .task-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e40af;
+            word-break: break-all;
+        }
+
+        .progress-section {
+            padding: 16px;
+            background: #fef2f2;
+            border-radius: 16px;
+            margin-bottom: 16px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ef4444;
+            text-transform: uppercase;
+        }
+
+        .progress-stats {
+            background: #fecaca;
+            color: #b91c1c;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .missing-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 24px;
+        }
+
+        .missing-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            padding: 6px 10px;
+            background: #fff1f2;
+            color: #be185d;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            border: 1px solid #ffe4e6;
+            cursor: pointer;
+        }
+
+        .missing-chip:hover {
+            background: #ffe4e6;
+        }
+
+        .dot-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .dot {
+            width: calc(10% - 6px);
+            aspect-ratio: 1;
+            border-radius: 4px;
+            background: #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .dot.received {
+            background: #10b981;
+            box-shadow: 0 0 8px rgba(16,185,129,0.3);
+        }
+
+        .success-card {
+            display: none;
+            background: #059669;
+            color: white;
+            padding: 32px;
+            border-radius: 24px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .success-card.show {
+            display: block;
+        }
+
+        .success-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: white;
+            color: #059669;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            background: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        /* ===== 弹框样式 ===== */
+        .modal-overlay, .auth-modal-overlay, .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; justify-content: center; align-items: center;
+            z-index: 3000; background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px); cursor: pointer;
+        }
+        .auth-modal-overlay { z-index: 5000; }
+        .loading-overlay { z-index: 9999; }
+        .modal-box, .auth-modal-box, .loading-box {
+            background: white; border-radius: 24px; padding: 2rem;
+            width: 90%; max-width: 400px; cursor: default;
+            animation: fadeIn 0.3s ease;
+        }
+        .loading-box { text-align: center; min-width: 180px; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
+        .modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
+        .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
+        .qq-label { font-size: 0.85rem; color: #888; }
+        .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .platform-btn-small {
+            display: block; width: 100%; padding: 12px 0;
+            border: 1px solid #dce3ed; border-radius: 40px; background: #ffffff;
+            font-size: 0.95rem; font-weight: 500; color: #1a1a1a;
+            cursor: pointer; text-align: center; transition: 0.15s;
+            font-family: sans-serif;
+        }
+        .platform-btn-small:active { background: #f0f0f0; transform: scale(0.97); }
+        .platform-btn-small.bili { color: #00a1d6; }
+        .platform-btn-small.xhs { color: #ff2442; }
+        .platform-btn-small.douyin { color: #000000; }
+        .platform-btn-small.yt { color: #ff0000; }
+        .auth-modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
+        .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: #5c5c5c; cursor: pointer; }
+        .auth-modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .auth-modal-box .form-panel { display: block; }
+        .auth-modal-box .form-panel.hidden { display: none; }
+        .auth-modal-box .input-group { margin-bottom: 1rem; }
+        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+        .auth-modal-box .input-field:focus { border-color: #007bff; }
+        .auth-modal-box .action-btn { width: 100%; padding: 0.9rem; border: none; border-radius: 1rem; background: #007bff; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .auth-modal-box .action-btn:hover { background: #0056b3; transform: translateY(-1px); }
+        .auth-modal-box .action-btn.danger { background: #dc3545; }
+        .auth-modal-box .action-btn.danger:hover { background: #b02a37; }
+        .auth-modal-box .google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 0.9rem; border: 1px solid #e5e7eb; border-radius: 1rem; background: white; font-size: 0.95rem; font-weight: 500; color: #333; cursor: pointer; transition: all 0.2s; }
+        .auth-modal-box .google-btn:hover { background: #f8f9fa; }
+        .auth-modal-box .divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; color: #aaa; font-size: 0.85rem; }
+        .auth-modal-box .divider::before, .auth-modal-box .divider::after { content: ''; flex: 1; height: 1px; background: #e8ecf0; }
+        .auth-modal-box .message-box { min-height: 24px; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: center; }
+        .auth-modal-box .message-box.success { color: #28a745; }
+        .auth-modal-box .message-box.error { color: #dc3545; }
+        .loading-spinner-full { width: 40px; height: 40px; border: 3px solid #e8ecf0; border-top-color: #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li>
+                        <button class="avatar-btn" id="avatarBtn">
+                            <div class="default-avatar" id="avatarPlaceholder">👤</div>
+                            <img id="avatarImg" style="display:none;" alt="头像">
+                        </button>
+                    </li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div class="qr-wrapper">
+        <div class="tab-switch">
+            <button class="tab-btn active" id="tabSend" onclick="switchTab('send')">发送</button>
+            <button class="tab-btn" id="tabReceive" onclick="switchTab('receive')">接收</button>
+        </div>
+
+        <!-- 发送端 -->
+        <div id="panelSend">
+            <div class="qr-card">
+                <div class="input-area">
+                    <textarea id="inputText" placeholder="输入内容..."></textarea>
+                </div>
+                <div class="file-info" id="fileInfo" style="display:none;">
+                    <span class="file-name" id="fileName"></span>
+                    <button class="remove-btn" onclick="removeFile()">取消文件</button>
+                </div>
+                <div class="control-row">
+                    <span class="control-label">速度: <span id="fpsVal" class="control-value">12</span> FPS</span>
+                    <input type="range" id="fpsRange" min="1" max="30" value="12" oninput="updateFPS(this.value)">
+                </div>
+                <div class="control-row">
+                    <span class="control-label">单帧: <span id="sizeVal" class="control-value">350</span> BYTE</span>
+                    <input type="range" id="sizeRange" min="200" max="800" step="10" value="350" oninput="updateSize(this.value)">
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📎 选文件</button>
+                    <button class="btn btn-primary" id="startBtn" onclick="prepareSending()">🚀 开始发送</button>
+                </div>
+                <input type="file" id="fileInput" style="display:none;" onchange="handleFile(this.files[0])">
+            </div>
+
+            <div class="qr-card" id="playerBox" style="display:none;">
+                <div class="frame-counter">
+                    <span id="curFrame">0</span>/<span id="totalFrames">0</span>
+                </div>
+                <div class="qr-display">
+                    <canvas id="qrCanvas" width="350" height="350"></canvas>
+                </div>
+                <input type="range" class="frame-slider" id="frameSlider" min="0" max="0" value="0" oninput="manualSeek(this.value)">
+                <div class="playback-controls">
+                    <button class="playback-btn" onclick="step(-1)">◀</button>
+                    <button class="playback-btn play-pause" id="pauseBtn" onclick="togglePause()">⏸</button>
+                    <button class="playback-btn" onclick="step(1)">▶</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 接收端 -->
+        <div id="panelReceive" style="display:none;">
+            <div class="qr-card">
+                <div class="scanner-area" id="scannerArea">
+                    <p class="scanner-placeholder" id="scannerPlaceholder">等待启动扫描...</p>
+                </div>
+                <div class="scan-btns">
+                    <button class="scan-btn scan-btn-primary" id="btnCamera" onclick="toggleCamera()">📷 摄像头</button>
+                    <button class="scan-btn scan-btn-indigo" id="btnScreen" onclick="toggleScreen()">🖥️ 屏幕录制</button>
+                    <button class="scan-btn scan-btn-full" onclick="location.reload()">重置所有状态</button>
+                </div>
+
+                <div class="task-info" id="taskInfo">
+                    <div class="task-label">当前文件名</div>
+                    <div class="task-name" id="taskFileName"></div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-header">
+                        <span class="progress-label">进度统计</span>
+                        <span class="progress-stats" id="progressStats">0/0</span>
+                    </div>
+                    <div class="missing-list" id="missingList">— 待扫码 —</div>
+                    <div class="dot-grid" id="dotGrid"></div>
+                </div>
+            </div>
+
+            <div class="success-card" id="successCard">
+                <p class="success-label" id="successLabel"></p>
+                <button class="download-btn" id="downloadBtn">立即下载文件</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="contact-info">
+                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
+                <div class="qq-label">QQ</div>
+                <span class="qq-number">1962487792</span>
+            </div>
+            <div class="divider"></div>
+            <div class="title">📱 追蹤我</div>
+            <div class="platform-grid-small">
+                <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')">嗶哩嗶哩</button>
+                <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')">小紅書</button>
+                <button class="platform-btn-small douyin" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')">抖音</button>
+                <button class="platform-btn-small yt" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')">YouTube</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-box">
+            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div class="tab-switch">
+                <button class="tab-btn active" onclick="switchAuthTab('login')">登錄</button>
+                <button class="tab-btn" onclick="switchAuthTab('register')">註冊</button>
+            </div>
+            <div class="message-box" id="authMessage"></div>
+            <div class="input-group"><input type="text" class="input-field" placeholder="姓名"></div>
+            <div class="input-group"><input type="password" class="input-field" placeholder="密碼"></div>
+            <button class="action-btn">登入</button>
+            <div class="divider"><span>或</span></div>
+            <button class="google-btn">使用 Google 登入</button>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner-full"></div>
+            <p>處理中...</p>
+        </div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
+            projectId: "oscar-io-log-in",
+            storageBucket: "oscar-io-log-in.firebasestorage.app",
+            messagingSenderId: "51821788083",
+            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ===== QR 工具状态 =====
+        let state = {
+            isSending: false,
+            isPaused: false,
+            frameIdx: 0,
+            chunks: [],
+            fileName: "",
+            fps: 12,
+            chunkSize: 350,
+            timer: null,
+            tid: "",
+            rawData: null,
+            qr: null
+        };
+
+        let recv = {
+            active: false,
+            scanner: null,
+            received: {},
+            total: 0,
+            tid: "",
+            startTime: 0,
+            fileName: "",
+            stream: null,
+            mode: null
+        };
+
+        // ===== 初始化 =====
+        window.onload = () => {
+            state.qr = new QRious({
+                element: document.getElementById('qrCanvas'),
+                size: 350,
+                level: 'L'
+            });
+            checkAuth();
+        };
+
+        function checkAuth() {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    showLoggedIn(user);
+                } else {
+                    showLoggedOut();
+                }
+            });
+        }
+
+        function showLoggedIn(user) {
+            document.getElementById('authNavLink').textContent = '登出';
+            document.getElementById('authNavLink').className = 'auth-link logout';
+            document.getElementById('authNavLink').onclick = handleLogout;
+            document.getElementById('avatarImg').style.display = 'block';
+            document.getElementById('avatarPlaceholder').style.display = 'none';
+        }
+
+        function showLoggedOut() {
+            document.getElementById('authNavLink').textContent = '登入';
+            document.getElementById('authNavLink').className = 'auth-link';
+            document.getElementById('authNavLink').onclick = () => {
+                document.getElementById('authModal').style.display = 'flex';
+            };
+            document.getElementById('avatarImg').style.display = 'none';
+            document.getElementById('avatarPlaceholder').style.display = 'flex';
+        }
+
+        function handleLogout() {
+            auth.signOut();
+        }
+
+        // ===== Tab 切换 =====
+        function switchTab(tab) {
+            const sendPanel = document.getElementById('panelSend');
+            const receivePanel = document.getElementById('panelReceive');
+            const tabSend = document.getElementById('tabSend');
+            const tabReceive = document.getElementById('tabReceive');
+
+            if (tab === 'send') {
+                sendPanel.style.display = 'block';
+                receivePanel.style.display = 'none';
+                tabSend.className = 'tab-btn active';
+                tabReceive.className = 'tab-btn';
+            } else {
+                sendPanel.style.display = 'none';
+                receivePanel.style.display = 'block';
+                tabSend.className = 'tab-btn';
+                tabReceive.className = 'tab-btn active';
+            }
+        }
+
+        // ===== 发送端逻辑 =====
+        function updateFPS(val) {
+            state.fps = parseInt(val);
+            document.getElementById('fpsVal').textContent = val;
+            if (state.isSending) restartTimer();
+        }
+
+        function updateSize(val) {
+            state.chunkSize = parseInt(val);
+            document.getElementById('sizeVal').textContent = val;
+            if (state.isSending) prepareSending(true);
+        }
+
+        function handleFile(file) {
+            if (!file) return;
+            state.fileName = file.name;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                let bin = new Uint8Array(e.target.result);
+                let s = '';
+                for (let i = 0; i < bin.length; i++) {
+                    s += String.fromCharCode(bin[i]);
+                }
+                state.rawData = btoa(s);
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileInfo').style.display = 'flex';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function removeFile() {
+            state.rawData = null;
+            state.fileName = '';
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+        }
+
+        function prepareSending(isAuto = false) {
+            if (!isAuto) clearInterval(state.timer);
+
+            const text = document.getElementById('inputText').value;
+            let b64 = state.rawData || (text ? btoa(unescape(encodeURIComponent(text))) : '');
+
+            if (!b64) {
+                alert('请先输入内容或选择文件');
+                return;
+            }
+
+            if (!isAuto) {
+                state.tid = Math.random().toString(36).substring(2, 5).toUpperCase();
+                state.frameIdx = 0;
+            }
+
+            state.fileName = state.fileName || 'unnamed_file.txt';
+            state.chunks = [];
+
+            const size = parseInt(state.chunkSize);
+            for (let i = 0; i < b64.length; i += size) {
+                state.chunks.push(b64.substring(i, i + size));
+            }
+
+            state.isSending = true;
+            document.getElementById('playerBox').style.display = 'block';
+            renderFrame();
+
+            if (!isAuto) restartTimer();
+        }
+
+        function renderFrame() {
+            if (state.chunks.length === 0) return;
+            const cur = state.frameIdx;
+            document.getElementById('curFrame').textContent = cur + 1;
+            document.getElementById('totalFrames').textContent = state.chunks.length;
+            document.getElementById('frameSlider').max = state.chunks.length - 1;
+            document.getElementById('frameSlider').value = cur;
+
+            const payload = [state.tid, state.fileName, state.chunks.length, cur, state.chunks[cur]].join('|');
+            state.qr.value = payload;
+        }
+
+        function restartTimer() {
+            clearInterval(state.timer);
+            state.timer = setInterval(() => {
+                if (state.isPaused) return;
+                state.frameIdx = (state.frameIdx + 1) % state.chunks.length;
+                renderFrame();
+            }, 1000 / state.fps);
+        }
+
+        function manualSeek(val) {
+            state.frameIdx = parseInt(val);
+            state.isPaused = true;
+            renderFrame();
+        }
+
+        function step(d) {
+            state.isPaused = true;
+            state.frameIdx = (state.frameIdx + d + state.chunks.length) % state.chunks.length;
+            renderFrame();
+        }
+
+        function togglePause() {
+            state.isPaused = !state.isPaused;
+            document.getElementById('pauseBtn').textContent = state.isPaused ? '▶' : '⏸';
+        }
+
+        // ===== 接收端逻辑 =====
+        async function toggleCamera() {
+            if (recv.active) {
+                await stopScanning();
+                return;
+            }
+
+            try {
+                recv.scanner = new Html5Qrcode('scannerArea');
+                await recv.scanner.start(
+                    { facingMode: 'environment' },
+                    { fps: 25 },
+                    handleDecoded
+                );
+                recv.active = true;
+                recv.mode = 'camera';
+                document.getElementById('btnCamera').textContent = '停止扫描';
+            } catch (err) {
+                alert('摄像头启动失败: ' + err);
+            }
+        }
+
+        async function toggleScreen() {
+            if (recv.active) {
+                await stopScanning();
+                return;
+            }
+
+            try {
+                recv.stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 20 } });
+                recv.active = true;
+                recv.mode = 'screen';
+                document.getElementById('btnScreen').textContent = '停止录屏';
+
+                const video = document.createElement('video');
+                video.srcObject = recv.stream;
+                video.muted = true;
+                await video.play();
+
+                const scannerArea = document.getElementById('scannerArea');
+                scannerArea.innerHTML = '';
+                scannerArea.appendChild(video);
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+                const loop = () => {
+                    if (!recv.active || recv.mode !== 'screen') return;
+                    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        ctx.drawImage(video, 0, 0);
+                        let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        let code = jsQR(img.data, img.width, img.height);
+                        if (code?.data) handleDecoded(code.data);
+                    }
+                    requestAnimationFrame(loop);
+                };
+                loop();
+
+                recv.stream.getVideoTracks()[0].onended = () => stopScanning();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function stopScanning() {
+            if (recv.scanner) {
+                await recv.scanner.stop();
+                recv.scanner = null;
+            }
+            if (recv.stream) {
+                recv.stream.getTracks().forEach(t => t.stop());
+                recv.stream = null;
+            }
+            recv.active = false;
+            recv.mode = null;
+            document.getElementById('btnCamera').textContent = '📷 摄像头';
+            document.getElementById('btnScreen').textContent = '🖥️ 屏幕录制';
+            document.getElementById('scannerArea').innerHTML = '<p class="scanner-placeholder">等待启动扫描...</p>';
+        }
+
+        function handleDecoded(text) {
+            const p = text.split('|');
+            if (p.length < 5) return;
+
+            const [tid, fullFileName, total, idx, data] = [p[0], p[1], parseInt(p[2]), parseInt(p[3]), p[4]];
+
+            if (tid !== recv.tid) {
+                recv.tid = tid;
+                recv.total = total;
+                recv.received = {};
+                recv.startTime = Date.now();
+                recv.fileName = fullFileName;
+
+                document.getElementById('taskInfo').classList.add('show');
+                document.getElementById('taskFileName').textContent = fullFileName;
+                document.getElementById('dotGrid').innerHTML = '';
+
+                for (let i = 0; i < total; i++) {
+                    const d = document.createElement('div');
+                    d.id = `dot-${i}`;
+                    d.className = 'dot';
+                    document.getElementById('dotGrid').appendChild(d);
+                }
+            }
+
+            if (!recv.received[idx]) {
+                recv.received[idx] = data;
+                const dot = document.getElementById(`dot-${idx}`);
+                if (dot) dot.classList.add('received');
+                updateProgress();
+
+                if (Object.keys(recv.received).length === total) {
+                    finalize();
+                }
+            }
+        }
+
+        function updateProgress() {
+            const received = Object.keys(recv.received).length;
+            document.getElementById('progressStats').textContent = `${received}/${recv.total}`;
+
+            const missing = [];
+            for (let i = 0; i < recv.total; i++) {
+                if (!recv.received[i]) missing.push(i + 1);
+            }
+
+            const missingList = document.getElementById('missingList');
+            if (missing.length === 0) {
+                missingList.innerHTML = '<span style="color:#10b981;font-weight:600;">同步完成！</span>';
+            } else {
+                missingList.innerHTML = missing.map(m =>
+                    `<span class="missing-chip" onclick="requestFrame(${m - 1})">${m}</span>`
+                ).join('');
+            }
+        }
+
+        function finalize() {
+            stopScanning();
+            let b64 = '';
+            for (let i = 0; i < recv.total; i++) {
+                b64 += recv.received[i];
+            }
+
+            const bytes = new Uint8Array(atob(b64).split('').map(c => c.charCodeAt(0)));
+            const blob = new Blob([bytes]);
+
+            document.getElementById('successCard').classList.add('show');
+            document.getElementById('successLabel').textContent = '传输成功: ' + recv.fileName;
+            document.getElementById('downloadBtn').onclick = () => {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = recv.fileName;
+                a.click();
+            };
+        }
+
+        function requestFrame(i) {
+            if (state.isSending) {
+                state.frameIdx = i;
+                state.isPaused = true;
+                renderFrame();
+            }
+        }
+
+        // ===== 弹框逻辑 =====
+        document.getElementById('contactBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('contactModal').style.display = 'flex';
+        });
+
+        document.getElementById('contactModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('contactModal')) {
+                document.getElementById('contactModal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
