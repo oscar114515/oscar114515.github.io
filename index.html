@@ -12,21 +12,18 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            padding-top: 80px;
+            flex-direction: column;
+            color: #fff;
+            overflow-x: hidden;
         }
 
+        /* ===== 導航欄 ===== */
         .navbar-wrapper {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            position: fixed; top: 0; left: 0; width: 100%;
             transform: translateY(-100%);
             animation: slideDown 0.5s ease-out forwards;
             z-index: 4000;
@@ -36,291 +33,276 @@
             100% { transform: translateY(0); }
         }
         .navbar {
-            background-color: #f8f9fa;
-            padding: 0.5rem 2rem;
+            background: rgba(15, 15, 26, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #ddd;
+            height: 70px;
             width: 100%;
         }
         .logo a { display: flex; align-items: center; }
-        .logo img { height: 50px; width: auto; display: block; }
+        .logo img { height: 42px; width: auto; display: block; }
         .nav-right { display: flex; align-items: center; gap: 1.2rem; }
-        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-        .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
-        .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: rgba(255,255,255,0.75); font-size: 0.95rem; cursor: pointer; transition: color 0.2s; }
+        .nav-links a:hover { color: #fff; }
 
         .avatar-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 2px solid #e0e0e0;
-            cursor: pointer; background: white; padding: 0; overflow: hidden;
+            width: 38px; height: 38px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.15);
+            cursor: pointer; background: rgba(255,255,255,0.08); padding: 0; overflow: hidden;
             transition: border-color 0.2s; flex-shrink: 0;
         }
-        .avatar-btn:hover { border-color: #007bff; }
+        .avatar-btn:hover { border-color: rgba(255,255,255,0.4); }
         .avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .avatar-btn .default-avatar {
             width: 100%; height: 100%; display: flex; align-items: center;
-            justify-content: center; background: #e6edf8; color: #2c4a7a;
-            font-weight: 600; font-size: 1.1rem;
+            justify-content: center; background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6); font-size: 1rem;
         }
 
         .auth-link {
-            text-decoration: none; color: #007bff; font-size: 1rem;
-            cursor: pointer; padding: 6px 16px; border-radius: 40px;
-            border: 1px solid #007bff; transition: all 0.2s ease;
-            background: transparent;
+            text-decoration: none; color: #fff; font-size: 0.95rem;
+            cursor: pointer; padding: 7px 20px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.3); transition: all 0.2s ease;
+            background: rgba(255,255,255,0.08);
         }
-        .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
-        .auth-link.logout { border-color: #dc3545; color: #dc3545; }
-        .auth-link.logout:hover { background: #dc3545; color: white; }
+        .auth-link:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+        .auth-link.logout { border-color: rgba(239,68,68,0.5); color: #f87171; }
+        .auth-link.logout:hover { background: rgba(239,68,68,0.15); }
 
-        .container { max-width: 1200px; width: 100%; padding: 20px; }
+        /* ===== 背景粒子動畫 ===== */
+        .bg-particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .particle {
+            position: absolute; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,107,53,0.3) 0%, transparent 70%);
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1); opacity: 0; }
+        }
 
-        .hero {
-            background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
-            border-radius: 32px; padding: 60px 50px 50px; text-align: center;
-            box-shadow: 0 20px 60px rgba(0,20,40,0.08);
-            border: 1px solid rgba(255,255,255,0.6); margin-bottom: 50px;
-            position: relative; overflow: hidden;
+        /* ===== 主容器 ===== */
+        .container {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 120px 20px 60px;
+            position: relative; z-index: 1;
+            min-height: 100vh;
         }
-        .hero::before {
-            content: ''; position: absolute; top: -60%; right: -20%;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(0,102,204,0.04) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
+
+        /* ===== 維修橫幅 ===== */
+        .maintenance-banner {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(90deg, rgba(255,107,53,0.2), rgba(247,147,30,0.2));
+            border: 1px solid rgba(255,107,53,0.3);
+            color: #ffb347; padding: 8px 20px;
+            border-radius: 50px; font-size: 0.85rem;
+            font-weight: 500; letter-spacing: 0.05em;
+            margin-bottom: 40px;
+            animation: pulseBanner 2s ease-in-out infinite;
         }
-        .hero::after {
-            content: ''; position: absolute; bottom: -40%; left: -10%;
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%);
-            border-radius: 50%; pointer-events: none;
+        @keyframes pulseBanner {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.2); }
+            50% { box-shadow: 0 0 20px 5px rgba(255,107,53,0.1); }
         }
-        .hero-content { position: relative; z-index: 2; }
-        .hero .avatar-main {
-            width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
-            border: 3px solid #ffffff; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+
+        /* ===== 核心動畫圖標 ===== */
+        .hero-gear {
+            width: 120px; height: 120px; margin: 0 auto 40px;
+            position: relative;
         }
-        .hero h1 { font-size: 3rem; font-weight: 600; color: #0b1b33; letter-spacing: -0.02em; margin-bottom: 8px; }
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, #0066cc, #4a90d9);
+        .gear {
+            position: absolute; color: rgba(255,107,53,0.9);
+            animation: spinGear linear infinite;
+        }
+        .gear-lg { width: 80px; height: 80px; top: 0; left: 20px; animation-duration: 4s; }
+        .gear-sm { width: 50px; height: 50px; bottom: 0; right: 5px; animation-duration: 3s; animation-direction: reverse; }
+        @keyframes spinGear { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* ===== Hero 區 ===== */
+        .hero-title {
+            font-size: 3.5rem; font-weight: 800;
+            text-align: center; margin: 0 0 16px 0;
+            line-height: 1.2; letter-spacing: -0.02em;
+        }
+        .title-line { display: block; }
+        .title-accent {
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ffb347);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .hero .subtitle { font-size: 1.15rem; color: #4a6a8e; font-weight: 400; margin-bottom: 30px; letter-spacing: 0.3px; }
-        .hero .divider { width: 60px; height: 3px; background: linear-gradient(90deg, #0066cc, #4a90d9); border-radius: 10px; margin: 0 auto 30px; }
+        .hero-desc {
+            font-size: 1.15rem; color: rgba(255,255,255,0.55);
+            text-align: center; margin: 0 0 40px 0;
+            max-width: 500px; line-height: 1.7;
+        }
 
-        .platform-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
-        .platform-btn {
+        /* ===== 狀態徽章 ===== */
+        .status-badge {
             display: inline-flex; align-items: center; gap: 10px;
-            padding: 12px 28px; border-radius: 60px; font-size: 0.95rem;
-            font-weight: 500; color: #1a1a1a; background: #ffffff;
-            border: 1px solid #e6ecf3; cursor: pointer; transition: all 0.2s ease;
-            text-decoration: none; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            background: rgba(255,107,53,0.1);
+            border: 1px solid rgba(255,107,53,0.3);
+            color: #ffb347; padding: 12px 24px;
+            border-radius: 50px; font-size: 0.95rem;
+            font-weight: 500; margin-bottom: 60px;
         }
-        .platform-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: #b8c8e0; }
-        .platform-btn .icon { font-size: 1.3rem; line-height: 1; }
-        .platform-btn.bili { color: #00a1d6; border-color: rgba(0,161,214,0.2); }
-        .platform-btn.bili:hover { background: #f0f8fe; border-color: #00a1d6; }
-        .platform-btn.xhs { color: #ff2442; border-color: rgba(255,36,66,0.2); }
-        .platform-btn.xhs:hover { background: #fef0f2; border-color: #ff2442; }
-        .platform-btn.douyin { color: #000000; border-color: rgba(0,0,0,0.12); }
-        .platform-btn.douyin:hover { background: #f5f5f5; border-color: #000; }
-        .platform-btn.yt { color: #ff0000; border-color: rgba(255,0,0,0.15); }
-        .platform-btn.yt:hover { background: #fef0f0; border-color: #ff0000; }
-
-        .section-label { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #6a7e9b; margin-bottom: 20px; text-align: center; }
-        .section-label::before, .section-label::after { content: ''; display: inline-block; width: 30px; height: 1px; background: #dce3ed; vertical-align: middle; margin: 0 12px; }
-
-        .site-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
-        .site-card {
-            background: #ffffff; border-radius: 20px; padding: 28px 20px 22px;
-            text-align: center; border: 1px solid #eef2f7;
-            transition: all 0.25s ease; cursor: pointer; text-decoration: none;
-            color: inherit; display: block; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        .status-dot {
+            width: 10px; height: 10px; background: #ff6b35;
+            border-radius: 50%; animation: pulseDot 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255,107,53,0.5);
         }
-        .site-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,20,40,0.08); border-color: #d0dcec; }
-        .site-card .emoji { font-size: 2.2rem; display: block; margin-bottom: 12px; }
-        .site-card .name { font-size: 1rem; font-weight: 600; color: #0b1b33; margin-bottom: 4px; }
-        .site-card .desc { font-size: 0.8rem; color: #6a7e9b; font-weight: 400; }
-        .site-card .badge { display: inline-block; margin-top: 10px; padding: 2px 12px; border-radius: 30px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.5px; background: #e6edf8; color: #2c4a7a; }
-        .site-card .badge.new { background: #0066cc; color: white; }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
 
-        .footer { text-align: center; margin-top: 50px; font-size: 0.8rem; color: #8a9bb0; border-top: 1px solid #eef2f7; padding-top: 25px; letter-spacing: 0.3px; }
+        /* ===== 信息卡片 ===== */
+        .maintenance-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 20px; max-width: 860px; width: 100%;
+        }
+        .maint-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 36px 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .maint-card:hover {
+            transform: translateY(-6px);
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,107,53,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .maint-icon {
+            font-size: 2.8rem; margin-bottom: 18px;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(255,107,53,0.3));
+        }
+        .maint-card h3 {
+            font-size: 1.1rem; color: #fff;
+            margin: 0 0 10px 0; font-weight: 600;
+        }
+        .maint-card p {
+            font-size: 0.9rem; color: rgba(255,255,255,0.5);
+            margin: 0; line-height: 1.7;
+        }
 
-        /* ===== 登入/聯繫我們彈窗樣式 ===== */
+        /* ===== 頁尾 ===== */
+        .site-footer {
+            text-align: center; padding: 40px 0 20px;
+            color: rgba(255,255,255,0.3); font-size: 0.85rem;
+            margin-top: 60px;
+        }
+
+        /* ===== 彈窗樣式 ===== */
         .modal-overlay, .auth-modal-overlay, .admin-modal-overlay, .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
-            z-index: 3000; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
-            cursor: pointer;
+            z-index: 3000; background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
         }
         .auth-modal-overlay { z-index: 5000; }
         .admin-modal-overlay { z-index: 6000; }
-        .loading-overlay { z-index: 9999; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
-
+        .loading-overlay { z-index: 9999; }
         .modal-box, .auth-modal-box, .admin-modal-box, .loading-box {
-            background: white; border-radius: 24px; padding: 2rem;
-            width: 90%; max-width: 400px; cursor: default; animation: fadeIn 0.3s ease;
+            background: linear-gradient(145deg, #1e1e3a, #16162a);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px; padding: 2rem;
+            width: 90%; max-width: 400px; cursor: default;
+            animation: fadeIn 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
         }
         .admin-modal-box { max-width: 550px; max-height: 80vh; overflow-y: auto; }
         .loading-box { text-align: center; min-width: 180px; }
-        .modal-box { max-width: 340px; padding: 30px 35px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-        .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
-        .modal-box .divider, .auth-modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+        .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #fff; margin-bottom: 16px; }
+        .modal-box .divider, .auth-modal-box .divider { height: 1px; background: rgba(255,255,255,0.1); margin: 14px 0; }
         .contact-info, .auth-modal-box .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
         .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-        .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
-        .qq-label { font-size: 0.85rem; color: #888; }
-
+        .qq-number { font-size: 1.6rem; font-weight: bold; color: #fff; letter-spacing: 2px; }
+        .qq-label { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
         .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
         .platform-btn-small {
             display: block; width: 100%; padding: 12px 0;
-            border: 1px solid #dce3ed; border-radius: 40px; background: #ffffff;
-            font-size: 0.95rem; font-weight: 500; color: #1a1a1a;
-            cursor: pointer; text-align: center; transition: 0.15s;
-            font-family: sans-serif;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 40px;
+            background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.8);
+            font-size: 0.95rem; font-weight: 500; cursor: pointer;
+            text-align: center; transition: 0.15s; font-family: sans-serif;
         }
-        .platform-btn-small:active { background: #f0f0f0; transform: scale(0.97); }
-        .platform-btn-small.bili { color: #00a1d6; }
-        .platform-btn-small.xhs { color: #ff2442; }
-        .platform-btn-small.douyin { color: #000000; }
-        .platform-btn-small.yt { color: #ff0000; }
-
-        .auth-modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
-        .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: #5c5c5c; cursor: pointer; }
-        .auth-modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .platform-btn-small:active { background: rgba(255,255,255,0.12); transform: scale(0.97); }
+        .platform-btn-small.bili { color: #00d4ff; border-color: rgba(0,212,255,0.2); }
+        .platform-btn-small.xhs { color: #ff2442; border-color: rgba(255,36,66,0.2); }
+        .platform-btn-small.douyin { color: #fff; border-color: rgba(255,255,255,0.15); }
+        .platform-btn-small.yt { color: #ff4444; border-color: rgba(255,68,68,0.2); }
+        .auth-modal-box .tab-switch { display: flex; background: rgba(255,255,255,0.06); border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
+        .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: rgba(255,255,255,0.5); cursor: pointer; }
+        .auth-modal-box .tab-btn.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: 600; }
         .auth-modal-box .form-panel { display: block; }
         .auth-modal-box .form-panel.hidden { display: none; }
         .auth-modal-box .input-group { margin-bottom: 1rem; }
-        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; }
-        .auth-modal-box .input-field:focus { border-color: #b0b0b0; }
-        .auth-modal-box .action-btn { width: 100%; background: #1a1a1a; color: white; border: none; padding: 0.8rem; border-radius: 1rem; font-weight: 500; font-size: 1rem; cursor: pointer; }
-        .auth-modal-box .action-btn:disabled { background: #999; cursor: not-allowed; }
-        .auth-modal-box .action-btn.danger { background: #dc3545; }
-        .auth-modal-box .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; background: #fff; border: 1px solid #e5e7eb; padding: 0.8rem; border-radius: 1rem; font-weight: 500; color: #2d2d2d; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
-        .auth-modal-box .google-btn:hover { background: #f5f5f5; }
-        .auth-modal-box .google-btn svg { flex-shrink: 0; }
+        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; font-size: 0.95rem; outline: none; background: rgba(255,255,255,0.05); color: #fff; }
+        .auth-modal-box .input-field:focus { border-color: rgba(255,107,53,0.5); background: rgba(255,255,255,0.08); }
+        .auth-modal-box .input-field::placeholder { color: rgba(255,255,255,0.3); }
+        .auth-modal-box .action-btn { width: 100%; background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; border: none; padding: 0.8rem; border-radius: 1rem; font-weight: 600; font-size: 1rem; cursor: pointer; transition: opacity 0.2s; }
+        .auth-modal-box .action-btn:hover { opacity: 0.9; }
+        .auth-modal-box .action-btn:disabled { background: #555; cursor: not-allowed; opacity: 0.6; }
+        .auth-modal-box .action-btn.danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .auth-modal-box .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem; border-radius: 1rem; font-weight: 500; color: rgba(255,255,255,0.85); font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+        .auth-modal-box .google-btn:hover { background: rgba(255,255,255,0.1); }
         .auth-modal-box .message-box { text-align: center; font-size: 0.85rem; padding: 0.5rem; border-radius: 2rem; margin-bottom: 1rem; display: none; }
-        .auth-modal-box .message-success { color: #065f46; background: #f0fdf6; border: 1px solid #d1fae5; display: block; }
-        .auth-modal-box .message-error { color: #991b1b; background: #fef2f2; border: 1px solid #fee2e2; display: block; }
-        .auth-modal-box .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ccc; border-top: 2px solid #1a1a1a; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; }
-        .auth-modal-box .admin-btn-small { margin-top: 0.8rem; background: transparent; border: 1px solid #e5e7eb; padding: 0.5rem; border-radius: 1rem; width: 100%; color: #6b7280; cursor: pointer; font-size: 0.85rem; display: none; }
-        .admin-modal-box .modal-close { float: right; background: #f5f5f5; border: none; width: 32px; height: 32px; border-radius: 0.8rem; cursor: pointer; font-size: 1rem; color: #6b7280; }
-        .admin-modal-box .modal-close:hover { background: #e5e7eb; }
+        .auth-modal-box .message-success { color: #34d399; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); display: block; }
+        .auth-modal-box .message-error { color: #f87171; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); display: block; }
+        .auth-modal-box .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid #fff; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .auth-modal-box .admin-btn-small { margin-top: 0.8rem; background: transparent; border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem; border-radius: 1rem; width: 100%; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 0.85rem; display: none; }
+        .admin-modal-box .modal-close { float: right; background: rgba(255,255,255,0.08); border: none; width: 32px; height: 32px; border-radius: 0.8rem; cursor: pointer; font-size: 1rem; color: rgba(255,255,255,0.5); }
+        .admin-modal-box .modal-close:hover { background: rgba(255,255,255,0.15); }
         .admin-modal-box table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .admin-modal-box th, .admin-modal-box td { padding: 0.7rem 0.5rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
-        .admin-modal-box th { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
-        .admin-modal-box .delete-user-btn { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
-        .loading-spinner-full { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top: 4px solid #0066cc; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
-        .loading-box p { color: #333; font-size: 1rem; font-weight: 500; margin: 0; }
+        .admin-modal-box th, .admin-modal-box td { padding: 0.7rem 0.5rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); }
+        .admin-modal-box th { color: rgba(255,255,255,0.4); font-weight: 500; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .admin-modal-box .delete-user-btn { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #f87171; padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
+        .loading-spinner-full { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #ff6b35; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+        .loading-box p { color: rgba(255,255,255,0.6); font-size: 1rem; font-weight: 500; margin: 0; }
 
+        /* ===== 響應式 ===== */
         @media (max-width: 768px) {
-            .hero { padding: 40px 24px 32px; border-radius: 24px; }
-            .hero h1 { font-size: 2.2rem; }
-            .platform-btn { padding: 10px 18px; font-size: 0.85rem; gap: 6px; }
-            .site-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
-            .site-card { padding: 20px 14px 16px; }
-            .site-card .emoji { font-size: 1.8rem; }
-            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.5rem; margin: 1rem; }
-            .nav-right { gap: 0.8rem; }
+            .hero-title { font-size: 2.2rem; }
+            .hero-desc { font-size: 1rem; padding: 0 10px; }
+            .maintenance-grid { grid-template-columns: 1fr; max-width: 320px; }
+            .navbar { padding: 0 1rem; }
             .nav-links { gap: 1rem; }
-            .loading-spinner-full { width: 32px; height: 32px; }
-            .modal-box { padding: 24px 20px; max-width: 300px; }
+            .nav-links a { font-size: 0.85rem; }
+            .container { padding: 100px 16px 40px; }
+            .hero-gear { width: 90px; height: 90px; }
+            .gear-lg { width: 60px; height: 60px; }
+            .gear-sm { width: 38px; height: 38px; }
+            .modal-box, .auth-modal-box, .admin-modal-box, .loading-box { padding: 1.5rem; margin: 1rem; }
             .platform-grid-small { gap: 8px; }
             .platform-btn-small { padding: 10px 0; font-size: 0.85rem; }
-            .qq-number { font-size: 1.3rem; }
-            .qq-icon { width: 50px; height: 50px; }
         }
         @media (max-width: 480px) {
-            .hero h1 { font-size: 1.8rem; }
-            .platform-btn { padding: 8px 14px; font-size: 0.8rem; gap: 4px; }
-            .site-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-            .site-card { padding: 16px 10px 14px; border-radius: 16px; }
-            .site-card .emoji { font-size: 1.5rem; }
-            .site-card .name { font-size: 0.85rem; }
-            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.2rem; }
-            .loading-spinner-full { width: 28px; height: 28px; }
-            .loading-box p { font-size: 0.85rem; }
-            .platform-grid-small { gap: 6px; }
-            .platform-btn-small { padding: 8px 0; font-size: 0.8rem; }
-        }
-        /* ===== 維修頁面樣式 ===== */
-        .maintenance-banner {
-            background: linear-gradient(90deg, #ff6b35, #f7931e);
-            color: #fff;
-            text-align: center;
-            padding: 12px 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-        }
-        .maintenance-banner span { margin-right: 6px; }
-        .hero-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            padding: 80px 0 60px;
-        }
-        .hero-content { flex: 1; }
-        .hero-title { font-size: 3.5rem; font-weight: 700; color: #0b1b33; margin: 0 0 16px 0; line-height: 1.2; }
-        .title-line { display: block; }
-        .title-accent { color: #ff6b35; }
-        .hero-desc { font-size: 1.2rem; color: #4a6a8e; margin: 0 0 32px 0; }
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #fff3e0;
-            border: 1px solid #ffcc80;
-            color: #e65100;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #ff6b35;
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-        .maintenance-section { padding: 40px 0 60px; }
-        .maintenance-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 900px;
-        }
-        .maint-card {
-            background: #fff;
-            border: 1px solid #e0eaf5;
-            border-radius: 20px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .maint-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
-        .maint-icon { font-size: 2.5rem; margin-bottom: 16px; }
-        .maint-card h3 { font-size: 1.15rem; color: #0b1b33; margin: 0 0 8px 0; font-weight: 600; }
-        .maint-card p { font-size: 0.95rem; color: #4a6a8e; margin: 0; line-height: 1.6; }
-        .site-footer { text-align: center; padding: 32px 0 48px; color: #4a6a8e; font-size: 0.9rem; }
-        @media (max-width: 768px) {
-            .hero-inner { flex-direction: column; text-align: center; padding: 60px 0 40px; }
-            .hero-title { font-size: 2.5rem; }
-            .maintenance-grid { grid-template-columns: 1fr; max-width: 320px; }
+            .hero-title { font-size: 1.8rem; }
+            .navbar { height: 60px; }
+            .logo img { height: 36px; }
+            .nav-right { gap: 0.6rem; }
+            .nav-links { gap: 0.8rem; }
         }
     </style>
+
 </head>
 <body>
 
@@ -346,28 +328,33 @@
     </div>
 
     <!-- ===== 主要內容 - 維修中 ===== -->
+    <div class="bg-particles" id="bgParticles"></div>
     <div class="container">
         <!-- 維修橫幅 -->
         <div class="maintenance-banner">
             <span>🔧</span> 網站暫停營運
         </div>
 
+        <!-- 圖標 -->
+        <div class="hero-gear">
+            <svg class="gear gear-lg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.63c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.13-.22.07-.49-.12-.64l-2.01-1.63Z"/>
+            </svg>
+            <svg class="gear gear-sm" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.63c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.13-.22.07-.49-.12-.64l-2.01-1.63Z"/>
+            </svg>
+        </div>
+
         <!-- Hero 區 -->
-        <section class="hero">
-            <div class="hero-inner">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="title-line">網站暫停營運</span>
-                        <span class="title-line title-accent">維修中</span>
-                    </h1>
-                    <p class="hero-desc">我們正在進行網站維護和升級，敬請稍候</p>
-                </div>
-                <div class="hero-right">
-                    <div class="status-badge">
-                        <span class="status-dot"></span>
-                        暫停服務
-                    </div>
-                </div>
+        <section>
+            <h1 class="hero-title">
+                <span class="title-line">網站暫停營運</span>
+                <span class="title-line title-accent">維修中</span>
+            </h1>
+            <p class="hero-desc">我們正在進行網站維護和升級，敬請稍候</p>
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                暫停服務
             </div>
         </section>
 
@@ -375,17 +362,17 @@
         <section class="maintenance-section">
             <div class="maintenance-grid">
                 <div class="maint-card">
-                    <div class="maint-icon">🛠️</div>
+                    <span class="maint-icon">🛠️</span>
                     <h3>正在維修</h3>
                     <p>技術團隊正在進行系統升級和維護</p>
                 </div>
                 <div class="maint-card">
-                    <div class="maint-icon">⏰</div>
+                    <span class="maint-icon">⏰</span>
                     <h3>預計恢復</h3>
                     <p>敬請稍候，我們將盡快恢復服務</p>
                 </div>
                 <div class="maint-card">
-                    <div class="maint-icon">💬</div>
+                    <span class="maint-icon">💬</span>
                     <h3>聯繫我們</h3>
                     <p>如有急事請透過社交媒體聯繫</p>
                 </div>
@@ -887,6 +874,24 @@
             }
         });
         initAuth();
+    </script>
+
+    <script>
+        // 背景粒子
+        (function() {
+            const container = document.getElementById('bgParticles');
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 80 + 30;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        })();
     </script>
 </body>
 </html>
