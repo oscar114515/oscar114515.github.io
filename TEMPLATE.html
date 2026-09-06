@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易計算機 · 我的網站</title>
+    <title>網站名</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入 Firebase -->
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
@@ -12,25 +13,36 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background-color: #f0f2f5;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            flex-direction: column;
+            padding: 20px;
             padding-top: 80px;
         }
+
         .navbar-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             transform: translateY(-100%);
             animation: slideDown 0.5s ease-out forwards;
             z-index: 4000;
         }
-        @keyframes slideDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(0); } }
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
         .navbar {
-            background-color: #f8f9fa; padding: 0.5rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #ddd; width: 100%;
+            background-color: #f8f9fa;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
         }
         .logo a { display: flex; align-items: center; }
         .logo img { height: 50px; width: auto; display: block; }
@@ -38,9 +50,11 @@
         .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
         .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
         .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+
         .avatar-btn {
             width: 40px; height: 40px; border-radius: 50%;
-            border: 2px solid #e0e0e0; cursor: pointer; background: white; padding: 0; overflow: hidden;
+            border: 2px solid #e0e0e0;
+            cursor: pointer; background: white; padding: 0; overflow: hidden;
             transition: border-color 0.2s; flex-shrink: 0;
         }
         .avatar-btn:hover { border-color: #007bff; }
@@ -50,6 +64,7 @@
             justify-content: center; background: #e6edf8; color: #2c4a7a;
             font-weight: 600; font-size: 1.1rem;
         }
+
         .auth-link {
             text-decoration: none; color: #007bff; font-size: 1rem;
             cursor: pointer; padding: 6px 16px; border-radius: 40px;
@@ -59,92 +74,37 @@
         .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
         .auth-link.logout { border-color: #dc3545; color: #dc3545; }
         .auth-link.logout:hover { background: #dc3545; color: white; }
-        .content-wrapper { max-width: 400px; width: 95%; padding: 20px; }
-        .card {
-            background: white; border-radius: 20px; padding: 25px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08); border: 1px solid #eef2f7;
-        }
-        h1 { font-size: 1.5rem; color: #0b1b33; margin-bottom: 5px; text-align: center; }
-        h1 small { font-size: 0.85rem; color: #6a7e9b; font-weight: 400; }
-        .subhead { text-align: center; color: #4a6a8e; margin-bottom: 20px; font-size: 0.9rem; }
-        
-        .calculator {
-            background: #1c1c1c; border-radius: 16px; padding: 20px;
-        }
-        .display {
-            background: #000; border-radius: 12px; padding: 20px;
-            margin-bottom: 15px; text-align: right; min-height: 80px;
-            display: flex; flex-direction: column; justify-content: flex-end;
-        }
-        .display-history {
-            font-size: 0.9rem; color: #888; min-height: 20px;
-            word-break: break-all;
-        }
-        .display-current {
-            font-size: 2.5rem; color: #fff; font-weight: 300;
-            word-break: break-all;
-        }
-        .buttons {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-        }
-        .btn {
-            padding: 18px; border: none; border-radius: 12px;
-            font-size: 1.2rem; cursor: pointer; transition: all 0.15s;
-            font-weight: 500;
-        }
-        .btn:hover { transform: scale(1.05); }
-        .btn:active { transform: scale(0.95); }
-        .btn-number { background: #333; color: #fff; }
-        .btn-number:hover { background: #444; }
-        .btn-operator { background: #ff9f0a; color: #fff; }
-        .btn-operator:hover { background: #ffb340; }
-        .btn-function { background: #a5a5a5; color: #000; }
-        .btn-function:hover { background: #b8b8b8; }
-        .btn-scientific { background: #2c2c2c; color: #ff9f0a; }
-        .btn-scientific:hover { background: #3a3a3a; }
-        .btn-equals { background: #ff9f0a; color: #fff; grid-column: span 2; }
-        .btn-equals:hover { background: #ffb340; }
-        .btn-clear { background: #a5a5a5; color: #000; }
-        .btn-clear:hover { background: #b8b8b8; }
-        .btn-zero { grid-column: span 2; }
-        
-        .mode-toggle {
-            display: flex; justify-content: center; gap: 10px; margin-bottom: 15px;
-        }
-        .mode-btn {
-            padding: 8px 20px; border-radius: 20px; border: 2px solid #e0e0e0;
-            background: white; cursor: pointer; font-size: 0.85rem;
-            transition: all 0.2s;
-        }
-        .mode-btn.active { background: #007bff; border-color: #007bff; color: white; }
-        
-        .footer-note { text-align: center; margin-top: 15px; font-size: 0.8rem; color: #8a9bb0; }
-        
+
+        .container { max-width: 1200px; width: 100%; padding: 20px; }
+
         /* ===== 彈窗 ===== */
         .modal-overlay, .auth-modal-overlay, .admin-modal-overlay, .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
-            z-index: 3000; background-color: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px); cursor: pointer;
+            z-index: 3000; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            cursor: pointer;
         }
         .auth-modal-overlay { z-index: 5000; }
         .admin-modal-overlay { z-index: 6000; }
         .loading-overlay { z-index: 9999; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+
         .modal-box, .auth-modal-box, .admin-modal-box, .loading-box {
             background: white; border-radius: 24px; padding: 2rem;
-            width: 90%; max-width: 400px; cursor: default;
-            animation: fadeIn 0.3s ease;
+            width: 90%; max-width: 400px; cursor: default; animation: fadeIn 0.3s ease;
         }
         .admin-modal-box { max-width: 550px; max-height: 80vh; overflow-y: auto; }
         .loading-box { text-align: center; min-width: 180px; }
         .modal-box { max-width: 340px; padding: 30px 35px; }
+
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
         .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
         .modal-box .divider, .auth-modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
         .contact-info, .auth-modal-box .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
         .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
         .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
         .qq-label { font-size: 0.85rem; color: #888; }
+
         .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
         .platform-btn-small {
             display: block; width: 100%; padding: 12px 0;
@@ -158,43 +118,64 @@
         .platform-btn-small.xhs { color: #ff2442; }
         .platform-btn-small.douyin { color: #000000; }
         .platform-btn-small.yt { color: #ff0000; }
+
         .auth-modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
         .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: #5c5c5c; cursor: pointer; }
         .auth-modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
         .auth-modal-box .form-panel { display: block; }
         .auth-modal-box .form-panel.hidden { display: none; }
         .auth-modal-box .input-group { margin-bottom: 1rem; }
-        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
-        .auth-modal-box .input-field:focus { border-color: #007bff; }
-        .auth-modal-box .action-btn { width: 100%; padding: 0.9rem; border: none; border-radius: 1rem; background: #007bff; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .auth-modal-box .action-btn:hover { background: #0056b3; transform: translateY(-1px); }
+        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; }
+        .auth-modal-box .input-field:focus { border-color: #b0b0b0; }
+        .auth-modal-box .action-btn { width: 100%; background: #1a1a1a; color: white; border: none; padding: 0.8rem; border-radius: 1rem; font-weight: 500; font-size: 1rem; cursor: pointer; }
+        .auth-modal-box .action-btn:disabled { background: #999; cursor: not-allowed; }
         .auth-modal-box .action-btn.danger { background: #dc3545; }
-        .auth-modal-box .action-btn.danger:hover { background: #b02a37; }
-        .auth-modal-box .google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 0.9rem; border: 1px solid #e5e7eb; border-radius: 1rem; background: white; font-size: 0.95rem; font-weight: 500; color: #333; cursor: pointer; transition: all 0.2s; }
-        .auth-modal-box .google-btn:hover { background: #f8f9fa; }
-        .auth-modal-box .divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; color: #aaa; font-size: 0.85rem; }
-        .auth-modal-box .divider::before, .auth-modal-box .divider::after { content: ''; flex: 1; height: 1px; background: #e8ecf0; }
-        .auth-modal-box .message-box { min-height: 24px; font-size: 0.85rem; margin-bottom: 0.5rem; text-align: center; }
-        .auth-modal-box .message-box.success { color: #28a745; }
-        .auth-modal-box .message-box.error { color: #dc3545; }
-        .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
-        .admin-modal-box { position: relative; }
-        .admin-modal-box h3 { margin-bottom: 1rem; color: #333; }
-        .admin-modal-box table { width: 100%; border-collapse: collapse; }
-        .admin-modal-box th, .admin-modal-box td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #e8ecf0; font-size: 0.9rem; }
-        .admin-modal-box th { font-weight: 600; color: #333; }
-        .delete-user-btn { background: #dc3545; color: white; border: none; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
-        .loading-spinner-full { width: 40px; height: 40px; border: 3px solid #e8ecf0; border-top-color: #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+        .auth-modal-box .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; background: #fff; border: 1px solid #e5e7eb; padding: 0.8rem; border-radius: 1rem; font-weight: 500; color: #2d2d2d; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+        .auth-modal-box .google-btn:hover { background: #f5f5f5; }
+        .auth-modal-box .google-btn svg { flex-shrink: 0; }
+        .auth-modal-box .message-box { text-align: center; font-size: 0.85rem; padding: 0.5rem; border-radius: 2rem; margin-bottom: 1rem; display: none; }
+        .auth-modal-box .message-success { color: #065f46; background: #f0fdf6; border: 1px solid #d1fae5; display: block; }
+        .auth-modal-box .message-error { color: #991b1b; background: #fef2f2; border: 1px solid #fee2e2; display: block; }
+        .auth-modal-box .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ccc; border-top: 2px solid #1a1a1a; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; }
+        .auth-modal-box .admin-btn-small { margin-top: 0.8rem; background: transparent; border: 1px solid #e5e7eb; padding: 0.5rem; border-radius: 1rem; width: 100%; color: #6b7280; cursor: pointer; font-size: 0.85rem; display: none; }
+        .admin-modal-box .modal-close { float: right; background: #f5f5f5; border: none; width: 32px; height: 32px; border-radius: 0.8rem; cursor: pointer; font-size: 1rem; color: #6b7280; }
+        .admin-modal-box .modal-close:hover { background: #e5e7eb; }
+        .admin-modal-box table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .admin-modal-box th, .admin-modal-box td { padding: 0.7rem 0.5rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .admin-modal-box th { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
+        .admin-modal-box .delete-user-btn { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
+        .loading-spinner-full { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top: 4px solid #0066cc; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+        .loading-box p { color: #333; font-size: 1rem; font-weight: 500; margin: 0; }
+
         @keyframes spin { to { transform: rotate(360deg); } }
-        .admin-btn-small { display: block; width: 100%; margin-top: 0.8rem; padding: 0.6rem; border: 1px solid #6c757d; border-radius: 0.8rem; background: white; color: #6c757d; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
-        .admin-btn-small:hover { background: #f8f9fa; }
+
+        @media (max-width: 768px) {
+            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.5rem; margin: 1rem; }
+            .nav-right { gap: 0.8rem; }
+            .nav-links { gap: 1rem; }
+            .loading-spinner-full { width: 32px; height: 32px; }
+            .modal-box { padding: 24px 20px; max-width: 300px; }
+            .platform-grid-small { gap: 8px; }
+            .platform-btn-small { padding: 10px 0; font-size: 0.85rem; }
+            .qq-number { font-size: 1.3rem; }
+            .qq-icon { width: 50px; height: 50px; }
+        }
+        @media (max-width: 480px) {
+            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.2rem; }
+            .loading-spinner-full { width: 28px; height: 28px; }
+            .loading-box p { font-size: 0.85rem; }
+            .platform-grid-small { gap: 6px; }
+            .platform-btn-small { padding: 8px 0; font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- ===== 導航欄 ===== -->
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="#"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
@@ -211,87 +192,12 @@
         </nav>
     </div>
 
-    <div class="content-wrapper">
-        <div class="card">
-            <h1><i class="fas fa-calculator" style="color:#ff9f0a"></i> 簡易計算機</h1>
-            <div class="subhead">基本運算 + 科學計算功能</div>
-            
-            <div class="mode-toggle">
-                <button class="mode-btn active" data-mode="basic">基本模式</button>
-                <button class="mode-btn" data-mode="scientific">科學模式</button>
-            </div>
-            
-            <div class="calculator">
-                <div class="display">
-                    <div class="display-history" id="history"></div>
-                    <div class="display-current" id="display">0</div>
-                </div>
-                
-                <div class="buttons" id="basicButtons">
-                    <button class="btn btn-clear" data-action="clear">AC</button>
-                    <button class="btn btn-function" data-action="toggle">+/-</button>
-                    <button class="btn btn-function" data-action="percent">%</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="/">÷</button>
-                    
-                    <button class="btn btn-number" data-action="number" data-value="7">7</button>
-                    <button class="btn btn-number" data-action="number" data-value="8">8</button>
-                    <button class="btn btn-number" data-action="number" data-value="9">9</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="*">×</button>
-                    
-                    <button class="btn btn-number" data-action="number" data-value="4">4</button>
-                    <button class="btn btn-number" data-action="number" data-value="5">5</button>
-                    <button class="btn btn-number" data-action="number" data-value="6">6</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="-">−</button>
-                    
-                    <button class="btn btn-number" data-action="number" data-value="1">1</button>
-                    <button class="btn btn-number" data-action="number" data-value="2">2</button>
-                    <button class="btn btn-number" data-action="number" data-value="3">3</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="+">+</button>
-                    
-                    <button class="btn btn-number btn-zero" data-action="number" data-value="0">0</button>
-                    <button class="btn btn-number" data-action="decimal">.</button>
-                    <button class="btn btn-equals" data-action="equals">=</button>
-                </div>
-                
-                <div class="buttons" id="scientificButtons" style="display:none;">
-                    <button class="btn btn-clear" data-action="clear">AC</button>
-                    <button class="btn btn-function" data-action="toggle">+/-</button>
-                    <button class="btn btn-function" data-action="percent">%</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="/">÷</button>
-                    
-                    <button class="btn btn-scientific" data-action="scientific" data-value="sin">sin</button>
-                    <button class="btn btn-scientific" data-action="scientific" data-value="cos">cos</button>
-                    <button class="btn btn-scientific" data-action="scientific" data-value="tan">tan</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="*">×</button>
-                    
-                    <button class="btn btn-number" data-action="number" data-value="7">7</button>
-                    <button class="btn btn-number" data-action="number" data-value="8">8</button>
-                    <button class="btn btn-number" data-action="number" data-value="9">9</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="-">−</button>
-                    
-                    <button class="btn btn-scientific" data-action="scientific" data-value="sqrt">√</button>
-                    <button class="btn btn-number" data-action="number" data-value="4">4</button>
-                    <button class="btn btn-number" data-action="number" data-value="5">5</button>
-                    <button class="btn btn-number" data-action="number" data-value="6">6</button>
-                    <button class="btn btn-operator" data-action="operator" data-value="+">+</button>
-                    
-                    <button class="btn btn-scientific" data-action="scientific" data-value="pow">x^y</button>
-                    <button class="btn btn-number" data-action="number" data-value="1">1</button>
-                    <button class="btn btn-number" data-action="number" data-value="2">2</button>
-                    <button class="btn btn-number" data-action="number" data-value="3">3</button>
-                    <button class="btn btn-scientific" data-action="scientific" data-value="pi">π</button>
-                    
-                    <button class="btn btn-scientific" data-action="scientific" data-value="e">e</button>
-                    <button class="btn btn-number btn-zero" data-action="number" data-value="0">0</button>
-                    <button class="btn btn-number" data-action="decimal">.</button>
-                    <button class="btn btn-equals" data-action="equals">=</button>
-                </div>
-            </div>
-            
-            <div class="footer-note">🔢 基本運算 + 科學計算</div>
-        </div>
+    <!-- ===== 主要內容 ===== -->
+    <div class="container">
+        <!-- 你的工具內容 -->
     </div>
 
+    <!-- ===== 聯繫我們彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="contact-info">
@@ -310,6 +216,7 @@
         </div>
     </div>
 
+    <!-- ===== 登入彈窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
             <div class="brand"><h2>歡迎你的使用</h2></div>
@@ -362,6 +269,7 @@
         </div>
     </div>
 
+    <!-- ===== 用戶管理彈窗 ===== -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
@@ -370,6 +278,7 @@
         </div>
     </div>
 
+    <!-- ===== 加載中彈窗 ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
@@ -377,7 +286,12 @@
         </div>
     </div>
 
+    <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
+
     <script>
+        // ============================================================
+        // 1. Firebase 配置
+        // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
             authDomain: "oscar-io-log-in.firebaseapp.com",
@@ -390,11 +304,70 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
+        // ============================================================
+        // 2. 加載彈窗控制
+        // ============================================================
+        let loadingTimer = null;
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function hideLoading() {
+            if (loadingTimer) return;
+            loadingTimer = setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                loadingTimer = null;
+            }, 500);
+        }
+
+        // ============================================================
+        // 3. DOM 元素與管理員判斷
+        // ============================================================
+        const authNavLink = document.getElementById('authNavLink');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        const authModal = document.getElementById('authModal');
+        const authPanel = document.getElementById('authPanel');
+        const authLoggedInPanel = document.getElementById('authLoggedInPanel');
+        const authDisplayName = document.getElementById('authDisplayName');
+        const authDisplayEmail = document.getElementById('authDisplayEmail');
+        const authLogoutBtn = document.getElementById('authLogoutBtn');
+        const authAdminBtn = document.getElementById('authAdminBtn');
+
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        const loginName = document.getElementById('loginName');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginSubmit = document.getElementById('loginSubmitBtn');
+        const loginMessage = document.getElementById('loginMessage');
+        const regName = document.getElementById('regName');
+        const regPassword = document.getElementById('regPassword');
+        const regConfirmPassword = document.getElementById('regConfirmPassword');
+        const registerSubmit = document.getElementById('registerSubmitBtn');
+        const registerMessage = document.getElementById('registerMessage');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const userTableContainer = document.getElementById('userTableContainer');
+        const avatarCanvas = document.getElementById('avatarCanvas');
+        const avatarCtx = avatarCanvas.getContext('2d');
+
         function isAdmin(user) {
             if (!user) return false;
             return user.email === 'oscarmtr114514@gmail.com';
         }
 
+        // ============================================================
+        // 4. 頭像與 UI 控制函數
+        // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
             const encoder = new TextEncoder();
@@ -418,49 +391,77 @@
                         const b = bytes[bi] || 0;
                         bits.push(((b >> (7 - bj)) & 1) === 1);
                         bj++; if (bj >= 8) { bj = 0; bi++; }
-                    } else { bits.push(bits[4 - c]); }
+                    } else {
+                        bits.push(bits[r * 3 + (4 - c)] || false);
+                    }
                 }
             }
-            const size = 100, cell = size / 5;
-            let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 5 5">`;
-            svg += `<rect width="5" height="5" fill="hsl(${hue},${sat}%,${lig}%)" rx="1"/>`;
-            bits.forEach((b, i) => {
-                const col = i % 5, row = Math.floor(i / 5);
-                if (b) svg += `<rect x="${col}" y="${row}" width="1" height="1" fill="white"/>`;
-            });
-            svg += '</svg>';
-            return 'data:image/svg+xml;base64,' + btoa(svg);
+            avatarCtx.clearRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = '#f5f5f5';
+            avatarCtx.fillRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = `hsl(${hue}, ${sat}%, ${lig}%)`;
+            for (let r = 0; r < 5; r++)
+                for (let c = 0; c < 5; c++)
+                    if (bits[r * 5 + c]) avatarCtx.fillRect(c * 84, r * 84, 84, 84);
+            return avatarCanvas.toDataURL('image/png');
         }
 
-        function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '載入中...';
-            document.getElementById('loadingOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        function showMsg(el, text, type) {
+            el.textContent = text;
+            el.className = 'message-box message-' + type;
+            setTimeout(() => { el.className = 'message-box'; el.textContent = ''; }, 4000);
         }
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.display = 'none';
-            document.body.style.overflow = 'auto';
+
+        function switchToLogin() {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        }
+        function switchToRegister() {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        }
+
+        function updateAvatar(photoUrl, name) {
+            if (photoUrl && photoUrl.startsWith('http')) {
+                avatarImg.src = photoUrl;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.src = generateIdenticon(name || 'default');
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            }
         }
 
         function showUI(user) {
             authNavLink.textContent = '登出';
             authNavLink.className = 'auth-link logout';
             authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
             authNavLink.addEventListener('click', handleLogout);
             updateAvatar(user.photo, user.name);
             authPanel.style.display = 'none';
             authLoggedInPanel.style.display = 'block';
             authDisplayName.textContent = user.name || '使用者';
             authDisplayEmail.textContent = user.email || '';
-            if (isAdmin(user)) { authAdminBtn.style.display = 'block'; }
-            else { authAdminBtn.style.display = 'none'; }
+            if (isAdmin(user)) {
+                authAdminBtn.style.display = 'block';
+            } else {
+                authAdminBtn.style.display = 'none';
+            }
             localStorage.setItem('currentUser', JSON.stringify(user));
             hideLoading();
         }
+
         function hideUI() {
             authNavLink.textContent = '登入';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
             authNavLink.addEventListener('click', openAuthModal);
             avatarImg.style.display = 'none';
             avatarPlaceholder.style.display = 'flex';
@@ -469,22 +470,27 @@
             localStorage.removeItem('currentUser');
             hideLoading();
         }
-        function updateAvatar(url, name) {
-            if (url) {
-                avatarImg.src = url;
-                avatarImg.style.display = 'block';
-                avatarPlaceholder.style.display = 'none';
-            } else {
-                avatarImg.src = generateIdenticon(name);
-                avatarImg.style.display = 'block';
-                avatarPlaceholder.style.display = 'none';
-            }
-        }
-        function openAuthModal() { authModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-        function closeAuthModal() { authModal.style.display = 'none'; document.body.style.overflow = 'auto'; }
-        function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable(); }
-        function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openAdminModalFn() {
+            adminModal.classList.add('show');
+            loadUserTable();
+        }
+        function closeAdminModalFn() {
+            adminModal.classList.remove('show');
+        }
+
+        // ============================================================
+        // 5. Firebase 認證功能
+        // ============================================================
         async function googleLogin() {
             showLoading('Google 登入中...');
             const provider = new firebase.auth.GoogleAuthProvider();
@@ -502,6 +508,7 @@
                 }
             }
         }
+
         async function handleRegister() {
             const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
             if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
@@ -509,11 +516,11 @@
             if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
             showLoading('註冊中...');
-            registerSubmitBtn.disabled = true;
-            registerSubmitBtn.innerHTML = '<span class="spinner"></span>註冊中...';
+            registerSubmit.disabled = true;
+            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; return; }
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmit.disabled = false; registerSubmit.textContent = '註冊'; return; }
                 const avatar = generateIdenticon(name);
                 const ref = db.ref('users').push();
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
@@ -522,17 +529,18 @@
                 closeAuthModal();
                 regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
             } catch (e) { showMsg(registerMessage, '註冊失敗', 'error'); hideLoading(); }
-            finally { registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; }
+            finally { registerSubmit.disabled = false; registerSubmit.textContent = '註冊'; }
         }
+
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
             showLoading('登入中...');
-            loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmit.disabled = true;
+            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmit.disabled = false; loginSubmit.textContent = '登入'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -548,18 +556,34 @@
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+            finally { loginSubmit.disabled = false; loginSubmit.textContent = '登入'; }
         }
-        function handleLogout() { showLoading('登出中...'); auth.signOut().catch(() => {}); hideUI(); }
-        function showMsg(el, msg, type) { el.textContent = msg; el.className = 'message-box ' + type; setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000); }
+
+        function handleLogout() {
+            showLoading('登出中...');
+            auth.signOut().catch(() => {});
+            hideUI();
+        }
+
+        // ============================================================
+        // 6. 用戶管理
+        // ============================================================
         let allUsers = [];
         async function loadUserTable() {
             userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
-                if (snap.exists()) { snap.forEach(c => { const d = c.val(); if (d.name) allUsers.push({ key: c.key, ...d }); }); }
-                if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>'; return; }
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const d = c.val();
+                        if (d.name) allUsers.push({ key: c.key, ...d });
+                    });
+                }
+                if (allUsers.length === 0) {
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    return;
+                }
                 let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
@@ -568,8 +592,11 @@
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
-            } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>'; }
+            } catch (e) {
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+            }
         }
+
         window._deleteUser = async function(key, name) {
             if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
             try {
@@ -580,210 +607,85 @@
             } catch (e) { alert('刪除失敗：' + e.message); }
         };
 
-        // ===== 計算機功能 =====
-        let currentInput = '0';
-        let previousInput = '';
-        let operation = null;
-        let shouldResetDisplay = false;
-        let isScientific = false;
+        // ============================================================
+        // 7. 事件綁定
+        // ============================================================
+        loginTabBtn.addEventListener('click', switchToLogin);
+        registerTabBtn.addEventListener('click', switchToRegister);
+        loginSubmit.addEventListener('click', handleLogin);
+        registerSubmit.addEventListener('click', handleRegister);
+        googleLoginBtn.addEventListener('click', googleLogin);
+        googleRegisterBtn.addEventListener('click', googleLogin);
+        authLogoutBtn.addEventListener('click', function() { handleLogout(); closeAuthModal(); });
 
-        function updateDisplay() {
-            document.getElementById('display').textContent = currentInput;
-        }
+        authNavLink.addEventListener('click', openAuthModal);
 
-        function calculate(a, op, b) {
-            a = parseFloat(a);
-            b = parseFloat(b);
-            switch(op) {
-                case '+': return a + b;
-                case '-': return a - b;
-                case '*': return a * b;
-                case '/': return b !== 0 ? a / b : 'Error';
-                default: return b;
-            }
-        }
-
-        function handleNumber(num) {
-            if (shouldResetDisplay) {
-                currentInput = num;
-                shouldResetDisplay = false;
+        avatarBtn.addEventListener('click', function() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                openAuthModal();
+                authPanel.style.display = 'none';
+                authLoggedInPanel.style.display = 'block';
+                const user = JSON.parse(local);
+                authDisplayName.textContent = user.name || '使用者';
+                authDisplayEmail.textContent = user.email || '';
+                if (isAdmin(user)) {
+                    authAdminBtn.style.display = 'block';
+                } else {
+                    authAdminBtn.style.display = 'none';
+                }
             } else {
-                currentInput = currentInput === '0' ? num : currentInput + num;
-            }
-            updateDisplay();
-        }
-
-        function handleDecimal() {
-            if (shouldResetDisplay) {
-                currentInput = '0.';
-                shouldResetDisplay = false;
-            } else if (!currentInput.includes('.')) {
-                currentInput += '.';
-            }
-            updateDisplay();
-        }
-
-        function handleOperator(op) {
-            if (operation !== null && !shouldResetDisplay) {
-                const result = calculate(previousInput, operation, currentInput);
-                currentInput = String(result);
-                previousInput = currentInput;
-                updateDisplay();
-            } else {
-                previousInput = currentInput;
-            }
-            operation = op;
-            shouldResetDisplay = true;
-            
-            const ops = { '+': '+', '-': '−', '*': '×', '/': '÷' };
-            document.getElementById('history').textContent = previousInput + ' ' + (ops[op] || op);
-        }
-
-        function handleEquals() {
-            if (operation === null) return;
-            const result = calculate(previousInput, operation, currentInput);
-            document.getElementById('history').textContent = previousInput + ' ' + { '+': '+', '-': '−', '*': '×', '/': '÷' }[operation] + ' ' + currentInput + ' =';
-            currentInput = String(result);
-            operation = null;
-            shouldResetDisplay = true;
-            updateDisplay();
-        }
-
-        function handleClear() {
-            currentInput = '0';
-            previousInput = '';
-            operation = null;
-            shouldResetDisplay = false;
-            document.getElementById('history').textContent = '';
-            updateDisplay();
-        }
-
-        function handleToggle() {
-            if (currentInput !== '0') {
-                currentInput = String(-parseFloat(currentInput));
-                updateDisplay();
-            }
-        }
-
-        function handlePercent() {
-            currentInput = String(parseFloat(currentInput) / 100);
-            updateDisplay();
-        }
-
-        function handleScientific(func) {
-            const num = parseFloat(currentInput);
-            let result;
-            switch(func) {
-                case 'sin': result = Math.sin(num * Math.PI / 180); break;
-                case 'cos': result = Math.cos(num * Math.PI / 180); break;
-                case 'tan': result = Math.tan(num * Math.PI / 180); break;
-                case 'sqrt': result = Math.sqrt(num); break;
-                case 'pow': 
-                    handleOperator('^');
-                    operation = '^';
-                    shouldResetDisplay = true;
-                    return;
-                case 'pi': result = Math.PI; break;
-                case 'e': result = Math.E; break;
-                default: return;
-            }
-            currentInput = String(result);
-            shouldResetDisplay = true;
-            updateDisplay();
-        }
-
-        // 處理 ^ 運算
-        const originalCalculate = calculate;
-        window.calculate = function(a, op, b) {
-            if (op === '^') return Math.pow(parseFloat(a), parseFloat(b));
-            return originalCalculate(a, op, b);
-        };
-
-        document.querySelector('.buttons').addEventListener('click', (e) => {
-            const btn = e.target.closest('.btn');
-            if (!btn) return;
-            
-            const action = btn.dataset.action;
-            const value = btn.dataset.value;
-            
-            switch(action) {
-                case 'number': handleNumber(value); break;
-                case 'decimal': handleDecimal(); break;
-                case 'operator': handleOperator(value); break;
-                case 'equals': handleEquals(); break;
-                case 'clear': handleClear(); break;
-                case 'toggle': handleToggle(); break;
-                case 'percent': handlePercent(); break;
-                case 'scientific': handleScientific(value); break;
+                openAuthModal();
             }
         });
 
-        // 模式切換
-        document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                isScientific = btn.dataset.mode === 'scientific';
-                document.getElementById('basicButtons').style.display = isScientific ? 'none' : 'grid';
-                document.getElementById('scientificButtons').style.display = isScientific ? 'grid' : 'none';
-            });
+        authAdminBtn.addEventListener('click', function() { closeAuthModal(); setTimeout(openAdminModalFn, 300); });
+        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+        closeAdminModal.addEventListener('click', closeAdminModalFn);
+        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('show')) closeAdminModalFn();
+                if (authModal.style.display === 'flex') closeAuthModal();
+            }
         });
 
-        // 鍵盤支持
-        document.addEventListener('keydown', (e) => {
-            if (e.key >= '0' && e.key <= '9') handleNumber(e.key);
-            else if (e.key === '.') handleDecimal();
-            else if (e.key === '+') handleOperator('+');
-            else if (e.key === '-') handleOperator('-');
-            else if (e.key === '*') handleOperator('*');
-            else if (e.key === '/') { e.preventDefault(); handleOperator('/'); }
-            else if (e.key === 'Enter' || e.key === '=') handleEquals();
-            else if (e.key === 'Escape') handleClear();
-            else if (e.key === '%') handlePercent();
+        // ============================================================
+        // 8. 聯繫我們
+        // ============================================================
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         });
 
-        // ===== 初始化 =====
+        // ============================================================
+        // 9. 初始化
+        // ============================================================
+        function initAuth() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                try { const user = JSON.parse(local); showUI(user); } catch (e) { hideUI(); }
+            } else { hideUI(); }
+        }
         auth.onAuthStateChanged(user => {
             if (user) {
                 const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
                 localStorage.setItem('currentUser', JSON.stringify(ud));
                 showUI(ud);
-            } else {
-                hideUI();
             }
         });
-
-        const contactBtn = document.getElementById('contactBtn');
-        const contactModal = document.getElementById('contactModal');
-        contactBtn.addEventListener('click', function(e) { e.preventDefault(); contactModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; });
-        contactModal.addEventListener('click', function(e) { if (e.target === contactModal) { contactModal.style.display = 'none'; document.body.style.overflow = 'auto'; } });
-        authNavLink.addEventListener('click', openAuthModal);
-        authLogoutBtn.addEventListener('click', handleLogout);
-        authAdminBtn.addEventListener('click', function() { closeAuthModal(); setTimeout(openAdminModalFn, 300); });
-        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
-        closeAdminModal.addEventListener('click', closeAdminModalFn);
-        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                if (adminModal.classList.contains('show')) closeAdminModalFn();
-                if (authModal.style.display === 'flex') closeAuthModal();
-                if (contactModal.style.display === 'flex') { contactModal.style.display = 'none'; document.body.style.overflow = 'auto'; }
-            }
-        });
-        const loginTabBtn = document.getElementById('loginTabBtn');
-        const registerTabBtn = document.getElementById('registerTabBtn');
-        const loginPanel = document.getElementById('loginPanel');
-        const registerPanel = document.getElementById('registerPanel');
-        loginTabBtn.addEventListener('click', () => { loginPanel.classList.remove('hidden'); registerPanel.classList.add('hidden'); loginTabBtn.classList.add('active'); registerTabBtn.classList.remove('active'); });
-        registerTabBtn.addEventListener('click', () => { registerPanel.classList.remove('hidden'); loginPanel.classList.add('hidden'); registerTabBtn.classList.add('active'); loginTabBtn.classList.remove('active'); });
-        loginSubmitBtn.addEventListener('click', handleLogin);
-        registerSubmitBtn.addEventListener('click', handleRegister);
-        googleLoginBtn.addEventListener('click', googleLogin);
-        googleRegisterBtn.addEventListener('click', googleLogin);
+        initAuth();
     </script>
-    <!-- 工具內容區域 -->
-    <div class="content-wrapper">
-        <!-- 你的工具內容 -->
-    </div>
-
+</body>
 </html>
