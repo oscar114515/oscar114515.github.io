@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>線上格式轉換器 · 我的網站</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+
+        /* ===== 導航欄 ===== */
+        .navbar-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%;
+            transform: translateY(-100%);
+            animation: slideDown 0.5s ease-out forwards;
+            z-index: 4000;
+        }
+        @keyframes slideDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(0); } }
+        .navbar {
+            background-color: #f8f9fa; padding: 0.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #ddd; width: 100%;
+        }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 50px; width: auto; display: block; }
+        .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
+        .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+        .avatar-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid #e0e0e0; cursor: pointer; background: white; padding: 0; overflow: hidden;
+            transition: border-color 0.2s; flex-shrink: 0;
+        }
+        .avatar-btn:hover { border-color: #007bff; }
+        .avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-btn .default-avatar {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            justify-content: center; background: #e6edf8; color: #2c4a7a;
+            font-weight: 600; font-size: 1.1rem;
+        }
+        .auth-link {
+            text-decoration: none; color: #007bff; font-size: 1rem;
+            cursor: pointer; padding: 6px 16px; border-radius: 40px;
+            border: 1px solid #007bff; transition: all 0.2s ease; background: transparent;
+        }
+        .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
+        .auth-link.logout { border-color: #dc3545; color: #dc3545; }
+        .auth-link.logout:hover { background: #dc3545; color: white; }
+        .container { max-width: 1200px; width: 100%; padding: 20px; }
+
+        /* ===== 頁面標題 ===== */
+        .page-header {
+            text-align: center; margin-bottom: 40px; padding: 30px 20px;
+            background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .page-header h1 { font-size: 2rem; color: #0b1b33; margin-bottom: 10px; }
+        .page-header p { color: #6a7e9b; font-size: 1rem; }
+
+        /* ===== 文件上傳區 ===== */
+        .upload-area {
+            background: white; border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center;
+            border: 2px dashed #d0dcec; transition: border-color 0.3s, background 0.3s;
+        }
+        .upload-area.dragover { border-color: #007bff; background: #f0f7ff; }
+        .upload-area i { font-size: 3rem; color: #007bff; margin-bottom: 15px; }
+        .upload-area p { color: #6a7e9b; margin-bottom: 20px; }
+        .upload-area input[type="file"] { display: none; }
+        .upload-btn {
+            display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white; border-radius: 50px; cursor: pointer; font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,123,255,0.3); }
+        .file-info { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 12px; display: none; }
+        .file-info.show { display: block; }
+        .file-info .filename { font-weight: 600; color: #0b1b33; }
+        .file-info .filesize { color: #6a7e9b; font-size: 0.85rem; margin-left: 10px; }
+
+        /* ===== 轉換選項 ===== */
+        .convert-section {
+            background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: none;
+        }
+        .convert-section.show { display: block; }
+        .convert-section h2 { font-size: 1.2rem; color: #0b1b33; margin-bottom: 20px; }
+        .format-label { font-size: 0.85rem; color: #6a7e9b; margin-bottom: 10px; }
+        .format-grid {
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+        .format-btn {
+            padding: 8px 18px; border: 1px solid #d0dcec; border-radius: 8px;
+            background: white; color: #0b1b33; cursor: pointer; font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .format-btn:hover { border-color: #007bff; color: #007bff; }
+        .format-btn.selected { background: #007bff; border-color: #007bff; color: white; }
+        .format-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+        .format-btn.disabled::after { content: ' (需後端)'; font-size: 0.7rem; color: #dc3545; }
+        .convert-btn {
+            margin-top: 20px; padding: 14px 40px; background: linear-gradient(135deg, #28a745, #20c997);
+            color: white; border: none; border-radius: 50px; font-size: 1.1rem;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .convert-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(40,167,69,0.3); }
+        .convert-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* ===== 進度條 ===== */
+        .progress-container { margin-top: 20px; display: none; }
+        .progress-container.show { display: block; }
+        .progress-bar { height: 8px; background: #e9ecef; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); width: 0%; transition: width 0.3s; }
+        .progress-text { text-align: center; margin-top: 10px; color: #6a7e9b; font-size: 0.9rem; }
+
+        /* ===== 下載區 ===== */
+        .download-section {
+            background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: none; text-align: center;
+        }
+        .download-section.show { display: block; }
+        .download-section i { font-size: 3rem; color: #28a745; margin-bottom: 15px; }
+        .download-section p { color: #6a7e9b; margin-bottom: 20px; }
+        .download-btn {
+            display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white; border-radius: 50px; text-decoration: none; font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,123,255,0.3); }
+
+        /* ===== 說明區 ===== */
+        .info-section {
+            background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .info-section h2 { font-size: 1.2rem; color: #0b1b33; margin-bottom: 15px; }
+        .info-section ul { padding-left: 20px; color: #6a7e9b; line-height: 1.8; }
+        .info-section li { margin-bottom: 5px; }
+        .info-section .note { margin-top: 15px; padding: 15px; background: #fff3cd; border-radius: 10px; color: #856404; font-size: 0.9rem; }
+
+        /* ===== 彈窗樣式 ===== */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 3000; background-color: rgba(0,0,0,0.5); }
+        .modal-box { background: white; border-radius: 20px; padding: 2rem; width: 90%; max-width: 400px; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+        .modal-box .title { font-size: 1.1rem; font-weight: 500; color: #0b1b33; margin-bottom: 16px; text-align: center; }
+        .modal-box .divider { height: 1px; background: #eef2f7; margin: 14px 0; }
+        .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .qq-number { font-size: 1.6rem; font-weight: bold; color: #0b1b33; letter-spacing: 2px; }
+        .qq-label { font-size: 0.85rem; color: #6a7e9b; }
+
+        /* ===== 加載動畫 ===== */
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 9999; background: rgba(0,0,0,0.5); }
+        .loading-box { background: white; border-radius: 20px; padding: 2rem; text-align: center; min-width: 200px; }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid #e9ecef; border-top: 3px solid #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-box p { color: #6a7e9b; font-size: 1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 導航欄 ===== -->
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="index.html">作品集</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li>
+                        <button class="avatar-btn" id="avatarBtn" style="display:none;">
+                            <div class="default-avatar" id="avatarPlaceholder">👤</div>
+                            <img id="avatarImg" style="display:none;" alt="頭像">
+                        </button>
+                    </li>
+                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ===== 主容器 ===== -->
+    <div class="container">
+
+        <!-- 頁面標題 -->
+        <div class="page-header">
+            <h1>📁 線上格式轉換器</h1>
+            <p>支援圖片、音頻、視頻、文檔等格式的線上轉換</p>
+        </div>
+
+        <!-- 文件上傳 -->
+        <div class="upload-area" id="uploadArea">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>拖拽文件至此，或點擊選擇文件</p>
+            <label for="fileInput" class="upload-btn">選擇文件</label>
+            <input type="file" id="fileInput">
+            <div class="file-info" id="fileInfo">
+                <span class="filename" id="fileName"></span>
+                <span class="filesize" id="fileSize"></span>
+            </div>
+        </div>
+
+        <!-- 轉換選項 -->
+        <div class="convert-section" id="convertSection">
+            <h2>選擇目標格式</h2>
+            <p class="format-label">僅標記 <span style="color:#28a745">可用</span> 的格式可直接轉換，標記 <span style="color:#dc3545">需後端</span> 的格式暫時無法在瀏覽器中轉換</p>
+            <div class="format-grid" id="formatGrid"></div>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+                <p class="progress-text" id="progressText">轉換中...</p>
+            </div>
+            <button class="convert-btn" id="convertBtn" disabled>開始轉換</button>
+        </div>
+
+        <!-- 下載區 -->
+        <div class="download-section" id="downloadSection">
+            <i class="fas fa-check-circle"></i>
+            <p>轉換完成！</p>
+            <a href="#" class="download-btn" id="downloadBtn" download>下載文件</a>
+            <br><br>
+            <a href="#" id="convertAnother" style="color:#007bff;">轉換另一個文件</a>
+        </div>
+
+        <!-- 說明區 -->
+        <div class="info-section">
+            <h2>📋 支援格式說明</h2>
+            <ul>
+                <li><strong>圖片格式：</strong>JPG、PNG、WEBP、BMP、GIF、SVG、TIFF、ICO、HEIC、AVIF 等可互相轉換</li>
+                <li><strong>文檔格式：</strong>純前端僅支援部分格式轉換（如 HTML ↔ TXT），其他格式需要後端服務</li>
+                <li><strong>音頻格式：</strong>前端支援 MP3 ↔ WAV、OGG ↔ WAV 等基礎轉換</li>
+                <li><strong>視頻格式：</strong>部分格式可透過瀏覽器 API 進行基礎轉換</li>
+            </ul>
+            <div class="note">
+                <strong>⚠️ 注意事項：</strong>部分格式轉換（如 DOCX → PDF、PPTX → MP4 等）需要後端處理，本工具目前僅支援純前端可實現的格式轉換。
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== 聯繫我們彈窗 ===== -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="title">📱 追蹤我</div>
+            <div class="divider"></div>
+            <div class="contact-info">
+                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
+                <div class="qq-label">QQ</div>
+                <span class="qq-number">1962487792</span>
+            </div>
+            <div class="divider"></div>
+            <div class="title">📱 追蹤我</div>
+            <div class="platform-grid-small">
+                <button class="platform-btn-small bili">Bilibili</button>
+                <button class="platform-btn-small xhs">小紅書</button>
+                <button class="platform-btn-small douyin">抖音</button>
+                <button class="platform-btn-small yt">YouTube</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 登入彈窗 ===== -->
+    <div class="modal-overlay" id="authModal">
+        <div class="auth-modal-box" onclick="event.stopPropagation()">
+            <div class="brand"><h2>歡迎回來</h2></div>
+            <div class="tab-switch">
+                <button class="tab-btn active" id="loginTabBtn">登錄</button>
+                <button class="tab-btn" id="registerTabBtn">註冊</button>
+            </div>
+            <div id="loginPanel" class="form-panel">
+                <div id="loginMessage" class="message-box"></div>
+                <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
+                <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
+                <button class="action-btn" id="loginSubmitBtn">登入</button>
+                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登入</button>
+            </div>
+            <div id="registerPanel" class="form-panel hidden">
+                <div id="registerMessage" class="message-box"></div>
+                <div class="input-group"><input type="text" id="registerName" class="input-field" placeholder="姓名"></div>
+                <div class="input-group"><input type="email" id="registerEmail" class="input-field" placeholder="Email"></div>
+                <div class="input-group"><input type="password" id="registerPassword" class="input-field" placeholder="密碼"></div>
+                <button class="action-btn" id="registerSubmitBtn">註冊</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 加載動畫 ===== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner"></div>
+            <p>處理中...</p>
+        </div>
+    </div>
+
+    <script>
+        // ===== Firebase 初始化 =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyBrz3pyH9qOZ5VfL6h3vQ2nJ5K7xYzW8tM",
+            authDomain: "oscar-tools-1234.firebaseapp.com",
+            databaseURL: "https://oscar-tools-1234.firebaseio.com",
+            projectId: "oscar-tools-1234",
+            storageBucket: "oscar-tools-1234.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef123456"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // ===== 全局變量 =====
+        let currentFile = null;
+        let currentFormat = null;
+        let selectedFormat = null;
+
+        // ===== 格式支援映射 =====
+        // true = 純前端可實現，false = 需要後端
+        const formatSupport = {
+            // 圖片格式 - 全部支援
+            'JPG': true, 'JPEG': true, 'PNG': true, 'WEBP': true, 'BMP': true,
+            'GIF': true, 'SVG': true, 'ICO': true, 'TIFF': true, 'HEIC': false,
+            'AVIF': false, 'RAW': false,
+            // 文檔格式 - 部分支援
+            'PDF': false, 'DOCX': false, 'ODT': false, 'RTF': false,
+            'TXT': true, 'HTML': true, 'XML': true, 'JSON': true,
+            'CSV': true, 'MD': true, 'MARKDOWN': true,
+            'EPUB': false, 'MOBI': false, 'PS': false,
+            // 演示文稿 - 不支援
+            'PPTX': false, 'ODP': false, 'PPSX': false,
+            // 電子表格 - 部分支援
+            'XLSX': false, 'XLS': false, 'ODS': false,
+            'TSV': true,
+            // 音頻格式 - 部分支援
+            'MP3': true, 'WAV': true, 'FLAC': false,
+            'AAC': false, 'OGG': true, 'WMA': false,
+            'M4A': false, 'AMR': false, 'OPUS': false,
+            'AIFF': false, 'ALAC': false,
+            // 視頻格式 - 部分支援
+            'MP4': false, 'AVI': false, 'MOV': false,
+            'MKV': false, 'WMV': false, 'FLV': false,
+            'WEBM': true, '3GP': false, 'M4V': false,
+            'MPG': false, 'MPEG': false, 'TS': false,
+            // 3D/其他
+            'STL': false, 'OBJ': false, 'GLTF': false,
+            'TTF': false, 'OTF': false,
+            'EML': false, 'VCF': false,
+            'SQLITE': false, 'DB': false,
+            'LOG': true, 'INI': true,
+        };
+
+        // 可轉換的格式對（純前端）
+        const frontendConversions = {
+            'JPG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO', 'TIFF'],
+            'JPEG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO', 'TIFF'],
+            'PNG': ['JPG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO', 'TIFF'],
+            'WEBP': ['JPG', 'PNG', 'BMP', 'GIF', 'SVG', 'ICO'],
+            'BMP': ['JPG', 'PNG', 'WEBP', 'GIF', 'TIFF'],
+            'GIF': ['JPG', 'PNG', 'WEBP', 'BMP', 'SVG'],
+            'SVG': ['PNG', 'JPG', 'WEBP', 'BMP'],
+            'ICO': ['PNG', 'JPG'],
+            'TIFF': ['JPG', 'PNG', 'WEBP', 'BMP', 'GIF'],
+            'HEIC': ['JPG', 'PNG'],
+            'MP3': ['WAV', 'OGG'],
+            'WAV': ['MP3', 'OGG'],
+            'OGG': ['MP3', 'WAV'],
+            'TXT': ['HTML', 'JSON', 'CSV', 'XML', 'PDF'],
+            'HTML': ['TXT', 'PDF', 'DOCX'],
+            'PDF': ['TXT', 'HTML'],
+            'JSON': ['XML', 'CSV', 'TXT', 'HTML'],
+            'XML': ['JSON', 'CSV', 'TXT', 'HTML'],
+            'CSV': ['JSON', 'XML', 'TXT', 'HTML', 'XLSX'],
+            'TSV': ['JSON', 'XML', 'TXT', 'HTML'],
+            'MD': ['HTML', 'TXT', 'PDF'],
+        };
+
+        // ===== 工具函數 =====
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function getFileExtension(filename) {
+            return filename.split('.').pop().toUpperCase();
+        }
+
+        // ===== 文件上傳處理 =====
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const convertSection = document.getElementById('convertSection');
+        const formatGrid = document.getElementById('formatGrid');
+        const convertBtn = document.getElementById('convertBtn');
+        const downloadSection = document.getElementById('downloadSection');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // 點擊上傳
+        uploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // 拖拽上傳
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFileSelect(e) {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        }
+
+        function handleFile(file) {
+            currentFile = file;
+            const ext = getFileExtension(file.name);
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+            fileInfo.classList.add('show');
+
+            // 顯示轉換選項
+            updateFormatOptions(ext);
+            convertSection.classList.add('show');
+            downloadSection.classList.remove('show');
+            convertBtn.disabled = true;
+        }
+
+        function updateFormatOptions(sourceExt) {
+            formatGrid.innerHTML = '';
+            selectedFormat = null;
+            convertBtn.disabled = true;
+
+            // 獲取所有支援的格式
+            const formats = Object.keys(formatSupport);
+            const availableFormats = frontendConversions[sourceExt] || [];
+
+            formats.forEach(format => {
+                const btn = document.createElement('button');
+                btn.className = 'format-btn';
+                btn.textContent = format;
+
+                const isSupported = formatSupport[format];
+                const isAvailable = availableFormats.includes(format);
+
+                if (isAvailable) {
+                    btn.addEventListener('click', () => selectFormat(format, btn));
+                } else if (!isSupported) {
+                    btn.classList.add('disabled');
+                    btn.title = '此格式轉換需要後端服務';
+                } else {
+                    btn.classList.add('disabled');
+                    btn.title = '此格式轉換暫時不可用';
+                }
+
+                formatGrid.appendChild(btn);
+            });
+        }
+
+        function selectFormat(format, btn) {
+            // 移除其他選中狀態
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedFormat = format;
+            convertBtn.disabled = false;
+        }
+
+        // ===== 轉換功能 =====
+        convertBtn.addEventListener('click', startConversion);
+
+        async function startConversion() {
+            if (!currentFile || !selectedFormat) return;
+
+            convertBtn.disabled = true;
+            progressContainer.classList.add('show');
+            progressFill.style.width = '0%';
+            progressText.textContent = '準備轉換...';
+
+            const ext = getFileExtension(currentFile.name);
+            try {
+                if (isImageFormat(ext)) {
+                    await convertImage(ext, selectedFormat);
+                } else if (isAudioFormat(ext)) {
+                    await convertAudio(ext, selectedFormat);
+                } else if (isDocumentFormat(ext)) {
+                    await convertDocument(ext, selectedFormat);
+                } else if (isVideoFormat(ext)) {
+                    await convertVideo(ext, selectedFormat);
+                } else {
+                    throw new Error('不支援的格式轉換');
+                }
+            } catch (error) {
+                alert('轉換失敗：' + error.message);
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            }
+        }
+
+        function isImageFormat(ext) {
+            return ['JPG', 'JPEG', 'PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO', 'TIFF', 'HEIC'].includes(ext);
+        }
+
+        function isAudioFormat(ext) {
+            return ['MP3', 'WAV', 'OGG', 'FLAC', 'AAC', 'WMA', 'M4A', 'AMR', 'OPUS'].includes(ext);
+        }
+
+        function isDocumentFormat(ext) {
+            return ['TXT', 'HTML', 'PDF', 'JSON', 'XML', 'CSV', 'TSV', 'MD', 'DOCX', 'ODT', 'RTF'].includes(ext);
+        }
+
+        function isVideoFormat(ext) {
+            return ['MP4', 'AVI', 'MOV', 'MKV', 'WMV', 'FLV', 'WEBM', '3GP', 'GIF'].includes(ext);
+        }
+
+        // ===== 圖片轉換 =====
+        async function convertImage(sourceExt, targetExt) {
+            progressText.textContent = '正在轉換圖片...';
+            progressFill.style.width = '30%';
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            const url = URL.createObjectURL(currentFile);
+
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = url;
+            });
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // 處理透明背景
+            if (targetExt === 'JPG' || targetExt === 'BMP') {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            ctx.drawImage(img, 0, 0);
+
+            progressFill.style.width = '60%';
+
+            let mimeType = 'image/png';
+            let extension = targetExt.toLowerCase();
+
+            if (targetExt === 'JPG') { mimeType = 'image/jpeg'; extension = 'jpg'; }
+            else if (targetExt === 'WEBP') { mimeType = 'image/webp'; }
+            else if (targetExt === 'BMP') { mimeType = 'image/bmp'; }
+            else if (targetExt === 'GIF') { mimeType = 'image/gif'; }
+            else if (targetExt === 'SVG') {
+                // SVG 需要特殊處理
+                const svgData = new XMLSerializer().serializeToString(createSVGElem(canvas));
+                downloadFile(svgData, currentFile.name.replace(/\.[^/.]+$/, '') + '.svg', 'image/svg+xml');
+                finishConversion();
+                return;
+            }
+            else if (targetExt === 'ICO') {
+                // ICO 需要特殊處理
+                const blob = await canvasToBlob(canvas, 'image/png');
+                downloadBlob(blob, currentFile.name.replace(/\.[^/.]+$/, '') + '.ico');
+                finishConversion();
+                return;
+            }
+            else if (targetExt === 'TIFF') {
+                alert('TIFF 格式轉換需要後端支援');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+                return;
+            }
+
+            const blob = await canvasToBlob(canvas, mimeType);
+            downloadBlob(blob, currentFile.name.replace(/\.[^/.]+$/, '') + '.' + extension);
+            finishConversion();
+        }
+
+        function canvasToBlob(canvas, mimeType) {
+            return new Promise((resolve) => {
+                canvas.toBlob(blob => resolve(blob), mimeType, 0.95);
+            });
+        }
+
+        function createSVGElem(canvas) {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', canvas.width);
+            svg.setAttribute('height', canvas.height);
+            const img = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+            img.setAttribute('href', canvas.toDataURL());
+            img.setAttribute('width', canvas.width);
+            img.setAttribute('height', canvas.height);
+            svg.appendChild(img);
+            return svg;
+        }
+
+        // ===== 音頻轉換 =====
+        async function convertAudio(sourceExt, targetExt) {
+            progressText.textContent = '正在轉換音頻...';
+            progressFill.style.width = '30%';
+
+            if (sourceExt === targetExt) {
+                throw new Error('源格式和目标格式相同');
+            }
+
+            // 使用 Web Audio API 進行簡單轉換
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const arrayBuffer = await currentFile.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+            progressFill.style.width = '60%';
+
+            if (targetExt === 'WAV') {
+                const wavBlob = audioBufferToWav(audioBuffer, audioContext);
+                downloadBlob(wavBlob, currentFile.name.replace(/\.[^/.]+$/, '') + '.wav');
+                finishConversion();
+            } else if (targetExt === 'OGG') {
+                alert('OGG 格式轉換需要後端 FFmpeg 支援');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            } else if (targetExt === 'MP3') {
+                alert('MP3 格式轉換需要後端 FFmpeg 支援');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            } else {
+                throw new Error('不支援的音頻格式轉換');
+            }
+        }
+
+        function audioBufferToWav(buffer, audioContext) {
+            const numChannels = buffer.numberOfChannels;
+            const sampleRate = buffer.sampleRate;
+            const length = buffer.length * numChannels;
+            const arrayBuffer = new ArrayBuffer(44 + length * 2);
+            const view = new DataView(arrayBuffer);
+
+            // WAV 頭部
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + length * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * numChannels * 2, true);
+            view.setUint16(32, numChannels * 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, length * 2, true);
+
+            // 寫入音頻數據
+            const channels = [];
+            for (let ch = 0; ch < numChannels; ch++) {
+                channels.push(buffer.getChannelData(ch));
+            }
+
+            let offset = 44;
+            for (let i = 0; i < buffer.length; i++) {
+                for (let ch = 0; ch < numChannels; ch++) {
+                    const sample = Math.max(-1, Math.min(1, channels[ch][i]));
+                    view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                    offset += 2;
+                }
+            }
+
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        // ===== 文檔轉換 =====
+        async function convertDocument(sourceExt, targetExt) {
+            progressText.textContent = '正在轉換文檔...';
+            progressFill.style.width = '30%';
+
+            if (sourceExt === targetExt) {
+                throw new Error('源格式和目标格式相同');
+            }
+
+            const text = await currentFile.text();
+            progressFill.style.width = '60%';
+
+            if (targetExt === 'TXT') {
+                downloadFile(text, currentFile.name.replace(/\.[^/.]+$/, '') + '.txt', 'text/plain');
+            } else if (targetExt === 'HTML') {
+                const htmlContent = `<!DOCTYPE html>\n<html>\n<head><meta charset="UTF-8"><title>轉換結果</title></head>\n<body>\n<pre>${text}</pre>\n</body>\n</html>`;
+                downloadFile(htmlContent, currentFile.name.replace(/\.[^/.]+$/, '') + '.html', 'text/html');
+            } else if (targetExt === 'JSON') {
+                try {
+                    const jsonObj = JSON.parse(text);
+                    downloadFile(JSON.stringify(jsonObj, null, 2), currentFile.name.replace(/\.[^/.]+$/, '') + '.json', 'application/json');
+                } catch (e) {
+                    throw new Error('無效的 JSON 文件');
+                }
+            } else if (targetExt === 'XML') {
+                const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n<root>\n${text.split('\n').map(l => `  <line>${l}</line>`).join('\n')}\n</root>`;
+                downloadFile(xmlContent, currentFile.name.replace(/\.[^/.]+$/, '') + '.xml', 'application/xml');
+            } else if (targetExt === 'CSV') {
+                // 簡單 CSV 轉換
+                const csvContent = text.split('\n').map(line => line.split('\t').join(',')).join('\n');
+                downloadFile(csvContent, currentFile.name.replace(/\.[^/.]+$/, '') + '.csv', 'text/csv');
+            } else if (targetExt === 'PDF') {
+                alert('PDF 轉換需要後端支援');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            } else {
+                throw new Error('不支援的格式轉換');
+            }
+            finishConversion();
+        }
+
+        // ===== 視頻轉換 =====
+        async function convertVideo(sourceExt, targetExt) {
+            progressText.textContent = '正在處理視頻...';
+
+            if (sourceExt === targetExt) {
+                throw new Error('源格式和目标格式相同');
+            }
+
+            if (targetExt === 'WEBM') {
+                alert('視頻格式轉換需要後端 FFmpeg 支援，目前無法在瀏覽器中完成');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            } else if (targetExt === 'GIF') {
+                alert('GIF 轉換需要後端支援');
+                progressContainer.classList.remove('show');
+                convertBtn.disabled = false;
+            } else {
+                throw new Error('不支援的視頻格式轉換');
+            }
+        }
+
+        // ===== 下載文件 =====
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            downloadBlob(blob, filename);
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            finishConversion();
+        }
+
+        function finishConversion() {
+            progressFill.style.width = '100%';
+            progressText.textContent = '轉換完成！';
+            setTimeout(() => {
+                progressContainer.classList.remove('show');
+                downloadSection.classList.add('show');
+                convertBtn.disabled = false;
+            }, 500);
+        }
+
+        // ===== 重置 =====
+        document.getElementById('convertAnother').addEventListener('click', (e) => {
+            e.preventDefault();
+            currentFile = null;
+            selectedFormat = null;
+            fileInput.value = '';
+            fileInfo.classList.remove('show');
+            convertSection.classList.remove('show');
+            downloadSection.classList.remove('show');
+            progressContainer.classList.remove('show');
+        });
+
+        // ===== 彈窗控制 =====
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        contactBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ===== Firebase 認證 =====
+        const authNavLink = document.getElementById('authNavLink');
+        const authModal = document.getElementById('authModal');
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        authNavLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const user = auth.currentUser;
+            if (user) {
+                auth.signOut();
+            } else {
+                openAuthModal();
+            }
+        });
+
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) closeAuthModal();
+        });
+
+        loginTabBtn.addEventListener('click', () => {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        });
+        registerTabBtn.addEventListener('click', () => {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        });
+
+        document.getElementById('loginSubmitBtn').addEventListener('click', () => {
+            const name = document.getElementById('loginName').value.trim();
+            const pw = document.getElementById('loginPassword').value;
+            if (!name || !pw) {
+                alert('請輸入姓名和密碼');
+                return;
+            }
+            auth.signInWithEmailAndPassword(name + '@example.com', pw)
+                .then(() => { alert('登入成功！'); closeAuthModal(); })
+                .catch(e => { alert('登入失敗：' + e.message); });
+        });
+
+        document.getElementById('registerSubmitBtn').addEventListener('click', () => {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const pw = document.getElementById('registerPassword').value;
+            if (!name || !email || !pw) {
+                alert('請填寫所有欄位');
+                return;
+            }
+            auth.createUserWithEmailAndPassword(email, pw)
+                .then((cred) => {
+                    return cred.user.updateProfile({ displayName: name });
+                })
+                .then(() => { alert('註冊成功！'); closeAuthModal(); })
+                .catch(e => { alert('註冊失敗：' + e.message); });
+        });
+
+        document.getElementById('googleLoginBtn').addEventListener('click', () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).catch(e => alert('Google 登入失敗：' + e.message));
+        });
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                avatarBtn.style.display = 'flex';
+                authNavLink.textContent = '登出';
+                authNavLink.classList.add('logout');
+                if (user.photoURL) {
+                    avatarImg.src = user.photoURL;
+                    avatarImg.style.display = 'block';
+                    avatarPlaceholder.style.display = 'none';
+                }
+            } else {
+                avatarBtn.style.display = 'none';
+                authNavLink.textContent = '登入';
+                authNavLink.classList.remove('logout');
+            }
+        });
+
+        // ===== 退出鍵 =====
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (contactModal.style.display === 'flex') {
+                    contactModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                if (authModal.style.display === 'flex') closeAuthModal();
+            }
+        });
+    </script>
+</body>
+</html>
