@@ -249,6 +249,77 @@
             .platform-grid-small { gap: 6px; }
             .platform-btn-small { padding: 8px 0; font-size: 0.8rem; }
         }
+        /* ===== 維修頁面樣式 ===== */
+        .maintenance-banner {
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            color: #fff;
+            text-align: center;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+        .maintenance-banner span { margin-right: 6px; }
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 80px 0 60px;
+        }
+        .hero-content { flex: 1; }
+        .hero-title { font-size: 3.5rem; font-weight: 700; color: #0b1b33; margin: 0 0 16px 0; line-height: 1.2; }
+        .title-line { display: block; }
+        .title-accent { color: #ff6b35; }
+        .hero-desc { font-size: 1.2rem; color: #4a6a8e; margin: 0 0 32px 0; }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff3e0;
+            border: 1px solid #ffcc80;
+            color: #e65100;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff6b35;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .maintenance-section { padding: 40px 0 60px; }
+        .maintenance-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 900px;
+        }
+        .maint-card {
+            background: #fff;
+            border: 1px solid #e0eaf5;
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .maint-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+        .maint-icon { font-size: 2.5rem; margin-bottom: 16px; }
+        .maint-card h3 { font-size: 1.15rem; color: #0b1b33; margin: 0 0 8px 0; font-weight: 600; }
+        .maint-card p { font-size: 0.95rem; color: #4a6a8e; margin: 0; line-height: 1.6; }
+        .site-footer { text-align: center; padding: 32px 0 48px; color: #4a6a8e; font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .hero-inner { flex-direction: column; text-align: center; padding: 60px 0 40px; }
+            .hero-title { font-size: 2.5rem; }
+            .maintenance-grid { grid-template-columns: 1fr; max-width: 320px; }
+        }
     </style>
 </head>
 <body>
