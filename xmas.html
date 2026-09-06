@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聖誕樹 · 手勢控制</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        /* ===== 導航欄（修正：確保動畫正常） ===== */
+        .navbar-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(-100%);
+            animation: slideDown 0.5s ease-out forwards;
+            z-index: 4000;
+        }
+
+        @keyframes slideDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(0); }
+        }
+
+        .navbar {
+            background-color: #f8f9fa;
+            padding: 0.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            width: 100%;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .avatar-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            background: white;
+            padding: 0;
+            overflow: hidden;
+            transition: border-color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .avatar-btn:hover {
+            border-color: #007bff;
+        }
+
+        .avatar-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .avatar-btn .default-avatar {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e6edf8;
+            color: #2c4a7a;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .auth-link {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 6px 16px;
+            border-radius: 40px;
+            border: 1px solid #007bff;
+            transition: all 0.2s ease;
+            background: transparent;
+        }
+
+        .auth-link:hover {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .auth-link.logout {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+        .auth-link.logout:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            height: calc(100vh - 80px);
+            position: relative;
+        }
+
+        #gl-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #hand-preview {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 180px;
+            height: 135px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            z-index: 10;
+            background: #000;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #hand-preview:hover {
+            width: 240px;
+            height: 180px;
+            box-shadow: 0 0 30px gold;
+        }
+
+        .video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #video-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scaleX(-1);
+        }
+
+        #skeleton-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #photo-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 1px solid #D4AF37;
+            color: #D4AF37;
+            font-size: 14px;
+            z-index: 10;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #photo-bar:hover {
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 15px gold;
+        }
+
+        #photo-count {
+            background: #D4AF37;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        #gesture-tip {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            color: #D4AF37;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            border: 1px solid #D4AF37;
+            z-index: 10;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: #D4AF37;
+            font-size: 1.2rem;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-top: 2px solid #D4AF37;
+            border-radius: 50%;
+            animation: spin 1s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== 彈窗 ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            cursor: pointer;
+        }
+
+        .modal-box {
+            background-color: white;
+            padding: 30px 35px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 340px;
+            width: 90%;
+            cursor: default;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-box .title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .modal-box .divider {
+            height: 1px;
+            background: #e8ecf0;
+            margin: 14px 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qq-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .qq-number {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 2px;
+        }
+
+        .qq-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 4px;
+        }
+
+        .platform-grid-small {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .platform-btn-small {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            border: 1px solid #dce3ed;
+            border-radius: 40px;
+            background: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.15s;
+            font-family: sans-serif;
+        }
+
+        .platform-btn-small:active {
+            background: #f0f0f0;
+            transform: scale(0.97);
+        }
+
+        .platform-btn-small.bili {
+            color: #00a1d6;
+        }
+        .platform-btn-small.xhs {
+            color: #ff2442;
+        }
+        .platform-btn-small.douyin {
+            color: #000000;
+        }
+        .platform-btn-small.yt {
+            color: #ff0000;
+        }
+
+        /* ===== 登入彈窗 ===== */
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 5000;
+        }
+
+        .auth-modal-box {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .auth-modal-box .brand {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-modal-box .brand h2 {
+            font-weight: 500;
+            font-size: 1.8rem;
+            color: #111;
+        }
+
+        .auth-modal-box .tab-switch {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 3rem;
+            padding: 0.3rem;
+            margin-bottom: 1.5rem;
+            gap: 0.25rem;
+        }
+
+        .auth-modal-box .tab-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 2.5rem;
+            background: transparent;
+            border: none;
+            color: #5c5c5c;
+            cursor: pointer;
+        }
+
+        .auth-modal-box .tab-btn.active {
+            background: #ffffff;
+            color: #0a0a0a;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .auth-modal-box .form-panel {
+            display: block;
+        }
+
+        .auth-modal-box .form-panel.hidden {
+            display: none;
+        }
+
+        .auth-modal-box .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .auth-modal-box .input-field {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .auth-modal-box .input-field:focus {
+            border-color: #b0b0b0;
+        }
+
+        .auth-modal-box .action-btn {
+            width: 100%;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .auth-modal-box .action-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+
+        .auth-modal-box .action-btn.danger {
+            background: #dc3545;
+        }
+
+        .auth-modal-box .action-btn.danger:hover {
+            background: #c82333;
+        }
+
+        .auth-modal-box .google-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            color: #2d2d2d;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .auth-modal-box .google-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .auth-modal-box .google-btn svg {
+            flex-shrink: 0;
+        }
+
+        .auth-modal-box .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.2rem 0;
+            color: #9ca3af;
+            font-size: 0.8rem;
+        }
+
+        .auth-modal-box .divider::before,
+        .auth-modal-box .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+
+        .auth-modal-box .divider span {
+            margin: 0 1rem;
+        }
+
+        .auth-modal-box .message-box {
+            text-align: center;
+            font-size: 0.85rem;
+            padding: 0.5rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .auth-modal-box .message-success {
+            color: #065f46;
+            background: #f0fdf6;
+            border: 1px solid #d1fae5;
+            display: block;
+        }
+
+        .auth-modal-box .message-error {
+            color: #991b1b;
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            display: block;
+        }
+
+        .auth-modal-box .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ccc;
+            border-top: 2px solid #1a1a1a;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 6px;
+        }
+
+        .auth-modal-box .admin-btn-small {
+            margin-top: 0.8rem;
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            width: 100%;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .auth-modal-box .admin-btn-small:hover {
+            background: #f5f5f5;
+        }
+
+        /* ===== 用戶管理彈窗 ===== */
+        .admin-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 6000;
+        }
+
+        .admin-modal-overlay.show {
+            display: flex;
+        }
+
+        .admin-modal-box {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 550px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-modal-box h3 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .admin-modal-box .modal-close {
+            float: right;
+            background: #f5f5f5;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #6b7280;
+        }
+
+        .admin-modal-box .modal-close:hover {
+            background: #e5e7eb;
+        }
+
+        .admin-modal-box table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .admin-modal-box th,
+        .admin-modal-box td {
+            padding: 0.7rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .admin-modal-box th {
+            color: #6b7280;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .admin-modal-box .delete-user-btn {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 0.3rem 0.7rem;
+            border-radius: 0.6rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .admin-modal-box .delete-user-btn:hover {
+            background: #fee2e2;
+        }
+
+        /* ===== 加載中彈窗 ===== */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-box {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.25s ease;
+            min-width: 180px;
+        }
+
+        .loading-spinner-full {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e0e0e0;
+            border-top: 4px solid #0066cc;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        .loading-box p {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .modal-box {
+                padding: 24px 20px;
+                max-width: 300px;
+            }
+            .platform-grid-small {
+                gap: 8px;
+            }
+            .platform-btn-small {
+                padding: 10px 0;
+                font-size: 0.85rem;
+            }
+            .qq-number {
+                font-size: 1.3rem;
+            }
+            .qq-icon {
+                width: 50px;
+                height: 50px;
+            }
+            .auth-modal-box {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .nav-right {
+                gap: 0.8rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .loading-box {
+                padding: 1.5rem 1.5rem;
+                min-width: 140px;
+            }
+            .loading-spinner-full {
+                width: 32px;
+                height: 32px;
+            }
+            #hand-preview {
+                width: 130px;
+                height: 98px;
+            }
+            #photo-bar {
+                font-size: 12px;
+                padding: 6px 14px;
+            }
+            #gesture-tip {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+        }
+        @media (max-width: 480px) {
+            .loading-box {
+                padding: 1.2rem 1.2rem;
+                min-width: 120px;
+            }
+            .loading-spinner-full {
+                width: 28px;
+                height: 28px;
+            }
+            .loading-box p {
+                font-size: 0.85rem;
+            }
+            #hand-preview {
+                width: 100px;
+                height: 75px;
+            }
+            #photo-bar {
+                font-size: 10px;
+                padding: 4px 10px;
+                gap: 8px;
+            }
+            #gesture-tip {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <div>聖誕樹準備中...</div>
+    </div>
+
+    <!-- ===== 導航欄 ===== -->
+    <div class="navbar-wrapper">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li>
+                        <button class="avatar-btn" id="avatarBtn">
+                            <div class="default-avatar" id="avatarPlaceholder">👤</div>
+                            <img id="avatarImg" style="display:none;" alt="頭像">
+                        </button>
+                    </li>
+                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- ===== 主要內容 ===== -->
+    <div class="content-wrapper">
+        <canvas id="gl-canvas"></canvas>
+
+        <div id="gesture-tip">✊ 握拳 🖐 張手 👌 捏合 ✌️ 勝利</div>
+
+        <div id="hand-preview">
+            <div class="video-container">
+                <video id="video-feed" playsinline autoplay></video>
+                <canvas id="skeleton-canvas"></canvas>
+            </div>
+        </div>
+
+        <div id="photo-bar" onclick="document.getElementById('file-input').click()">
+            <span>📸 上傳照片</span>
+            <span id="photo-count">0</span>
+        </div>
+        <input type="file" id="file-input" multiple accept="image/*">
+    </div>
+
+    <!-- ===== 聯繫我們彈窗 ===== -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="contact-info">
+                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
+                <div class="qq-label">QQ</div>
+                <span class="qq-number">1962487792</span>
+            </div>
+            <div class="divider"></div>
+            <div class="title">📱 追蹤我</div>
+            <div class="platform-grid-small">
+                <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')">嗶哩嗶哩</button>
+                <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')">小紅書</button>
+                <button class="platform-btn-small douyin" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')">抖音</button>
+                <button class="platform-btn-small yt" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')">YouTube</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 登入彈窗 ===== -->
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-box">
+            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
+                <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
+                <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
+                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+            </div>
+            <div id="authPanel">
+                <div class="tab-switch">
+                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
+                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                </div>
+                <div id="loginPanel" class="form-panel">
+                    <div id="loginMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleLoginBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 登入
+                    </button>
+                </div>
+                <div id="registerPanel" class="form-panel hidden">
+                    <div id="registerMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleRegisterBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 註冊
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top:0.8rem;font-size:0.7rem;color:#aaa;text-align:center;">☁️ Firebase 雲端 · 跨設備同步</div>
+        </div>
+    </div>
+
+    <!-- ===== 用戶管理彈窗 ===== -->
+    <div class="admin-modal-overlay" id="adminModal">
+        <div class="admin-modal-box">
+            <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+        </div>
+    </div>
+
+    <!-- ===== 加載中彈窗 ===== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner-full"></div>
+            <p id="loadingText">載入中...</p>
+        </div>
+    </div>
+
+    <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
+
+    <script>
+        // ===== Firebase 配置 =====
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
+            projectId: "oscar-io-log-in",
+            storageBucket: "oscar-io-log-in.firebasestorage.app",
+            messagingSenderId: "51821788083",
+            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        // ===== 加載彈窗控制 =====
+        let loadingTimer = null;
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideLoading() {
+            if (loadingTimer) return;
+            loadingTimer = setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                loadingTimer = null;
+            }, 500);
+        }
+
+        // ===== DOM 元素 =====
+        const authNavLink = document.getElementById('authNavLink');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        const authModal = document.getElementById('authModal');
+        const authPanel = document.getElementById('authPanel');
+        const authLoggedInPanel = document.getElementById('authLoggedInPanel');
+        const authDisplayName = document.getElementById('authDisplayName');
+        const authDisplayEmail = document.getElementById('authDisplayEmail');
+        const authLogoutBtn = document.getElementById('authLogoutBtn');
+        const authAdminBtn = document.getElementById('authAdminBtn');
+
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        const loginName = document.getElementById('loginName');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginSubmit = document.getElementById('loginSubmitBtn');
+        const loginMessage = document.getElementById('loginMessage');
+        const regName = document.getElementById('regName');
+        const regPassword = document.getElementById('regPassword');
+        const regConfirmPassword = document.getElementById('regConfirmPassword');
+        const registerSubmit = document.getElementById('registerSubmitBtn');
+        const registerMessage = document.getElementById('registerMessage');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const userTableContainer = document.getElementById('userTableContainer');
+        const avatarCanvas = document.getElementById('avatarCanvas');
+        const avatarCtx = avatarCanvas.getContext('2d');
+
+        // ===== 管理員判斷 =====
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.email === 'oscarmtr114514@gmail.com';
+        }
+
+        // ===== 頭像生成器 =====
+        function generateIdenticon(name) {
+            const seed = name || 'default';
+            const encoder = new TextEncoder();
+            const data = encoder.encode(seed);
+            let hash = BigInt('0xcbf29ce484222325');
+            const prime = BigInt('0x100000001b3');
+            for (let i = 0; i < data.length; i++) {
+                hash ^= BigInt(data[i]);
+                hash = (hash * prime) & BigInt('0xffffffffffffffff');
+            }
+            const bytes = new Uint8Array(8);
+            for (let i = 0; i < 8; i++) bytes[7 - i] = Number((hash >> BigInt(i * 8)) & BigInt(0xff));
+            const hue = (bytes[0] * 256 + bytes[1]) % 360;
+            const sat = 70 + (bytes[2] % 20);
+            const lig = 55 + (bytes[0] % 20);
+            const bits = [];
+            let bi = 3,
+                bj = 0;
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (c < 3) {
+                        const b = bytes[bi] || 0;
+                        bits.push(((b >> (7 - bj)) & 1) === 1);
+                        bj++;
+                        if (bj >= 8) { bj = 0;
+                            bi++; }
+                    } else {
+                        bits.push(bits[r * 3 + (4 - c)] || false);
+                    }
+                }
+            }
+            avatarCtx.clearRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = '#f5f5f5';
+            avatarCtx.fillRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = `hsl(${hue}, ${sat}%, ${lig}%)`;
+            for (let r = 0; r < 5; r++)
+                for (let c = 0; c < 5; c++)
+                    if (bits[r * 5 + c]) avatarCtx.fillRect(c * 84, r * 84, 84, 84);
+            return avatarCanvas.toDataURL('image/png');
+        }
+
+        // ===== UI 控制 =====
+        function showMsg(el, text, type) {
+            el.textContent = text;
+            el.className = 'message-box message-' + type;
+            setTimeout(() => { el.className = 'message-box';
+                el.textContent = ''; }, 4000);
+        }
+
+        function switchToLogin() {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        }
+
+        function switchToRegister() {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        }
+
+        function updateAvatar(photoUrl, name) {
+            if (photoUrl && photoUrl.startsWith('http')) {
+                avatarImg.src = photoUrl;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.src = generateIdenticon(name || 'default');
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            }
+        }
+
+        function showUI(user) {
+            authNavLink.textContent = '登出';
+            authNavLink.className = 'auth-link logout';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', handleLogout);
+            updateAvatar(user.photo, user.name);
+            authPanel.style.display = 'none';
+            authLoggedInPanel.style.display = 'block';
+            authDisplayName.textContent = user.name || '使用者';
+            authDisplayEmail.textContent = user.email || '';
+            if (isAdmin(user)) {
+                authAdminBtn.style.display = 'block';
+            } else {
+                authAdminBtn.style.display = 'none';
+            }
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            hideLoading();
+        }
+
+        function hideUI() {
+            authNavLink.textContent = '登入';
+            authNavLink.className = 'auth-link';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', openAuthModal);
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            authPanel.style.display = 'block';
+            authLoggedInPanel.style.display = 'none';
+            localStorage.removeItem('currentUser');
+            hideLoading();
+        }
+
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openAdminModalFn() {
+            adminModal.classList.add('show');
+            loadUserTable();
+        }
+
+        function closeAdminModalFn() {
+            adminModal.classList.remove('show');
+        }
+
+        // ===== Firebase 認證 =====
+        async function googleLogin() {
+            showLoading('Google 登入中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const u = result.user;
+                const userData = { name: u.displayName, email: u.email, photo: u.photoURL, uid: u.uid };
+                await db.ref('users/' + u.uid).set({ name: u.displayName, email: u.email, photo: u.photoURL,
+                    lastLogin: Date.now() });
+                showUI(userData);
+                closeAuthModal();
+            } catch (e) {
+                hideLoading();
+                if (e.code !== 'auth/popup-closed-by-user') {
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                }
+            }
+        }
+
+        async function handleRegister() {
+            const name = regName.value.trim(),
+                pw = regPassword.value,
+                cf = regConfirmPassword.value;
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            showLoading('註冊中...');
+            registerSubmit.disabled = true;
+            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error');
+                    hideLoading();
+                    registerSubmit.disabled = false;
+                    registerSubmit.textContent = '註冊'; return; }
+                const avatar = generateIdenticon(name);
+                const ref = db.ref('users').push();
+                await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
+                const ud = { name, email: '', photo: avatar, uid: ref.key };
+                showUI(ud);
+                closeAuthModal();
+                regName.value = '';
+                regPassword.value = '';
+                regConfirmPassword.value = '';
+            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error');
+                hideLoading(); } finally { registerSubmit.disabled = false;
+                registerSubmit.textContent = '註冊'; }
+        }
+
+        async function handleLogin() {
+            const name = loginName.value.trim(),
+                pw = loginPassword.value;
+            if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+            showLoading('登入中...');
+            loginSubmit.disabled = true;
+            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                    hideLoading();
+                    loginSubmit.disabled = false;
+                    loginSubmit.textContent = '登入'; return; }
+                let found = false;
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.password === pw) {
+                        found = true;
+                        const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: c.key };
+                        showUI(ud);
+                        closeAuthModal();
+                        db.ref('users/' + c.key + '/lastLogin').set(Date.now());
+                        loginName.value = '';
+                        loginPassword.value = '';
+                    }
+                });
+                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading();
+            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading(); } finally { loginSubmit.disabled = false;
+                loginSubmit.textContent = '登入'; }
+        }
+
+        function handleLogout() {
+            showLoading('登出中...');
+            auth.signOut().catch(() => {});
+            hideUI();
+        }
+
+        // ===== 用戶管理 =====
+        let allUsers = [];
+
+        async function loadUserTable() {
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            try {
+                const snap = await db.ref('users').once('value');
+                allUsers = [];
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const d = c.val();
+                        if (d.name) allUsers.push({ key: c.key, ...d });
+                    });
+                }
+                if (allUsers.length === 0) {
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    return;
+                }
+                let html =
+                    `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                allUsers.forEach((u) => {
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const pwDisplay = u.password ? u.password : 'Google';
+                    html +=
+                        `<tr><td>${u.name}</td><td>${u.email || '-'}</td><td>${pwDisplay}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${u.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                });
+                html += '</tbody></table>';
+                userTableContainer.innerHTML = html;
+            } catch (e) {
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+            }
+        }
+
+        window._deleteUser = async function(key, name) {
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            try {
+                await db.ref('users/' + key).remove();
+                const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (local && local.uid === key) { hideUI(); }
+                loadUserTable();
+            } catch (e) { alert('刪除失敗：' + e.message); }
+        };
+
+        // ===== 事件綁定 =====
+        loginTabBtn.addEventListener('click', switchToLogin);
+        registerTabBtn.addEventListener('click', switchToRegister);
+        loginSubmit.addEventListener('click', handleLogin);
+        registerSubmit.addEventListener('click', handleRegister);
+        googleLoginBtn.addEventListener('click', googleLogin);
+        googleRegisterBtn.addEventListener('click', googleLogin);
+        authLogoutBtn.addEventListener('click', function() { handleLogout();
+            closeAuthModal(); });
+
+        authNavLink.addEventListener('click', openAuthModal);
+
+        avatarBtn.addEventListener('click', function() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                openAuthModal();
+                authPanel.style.display = 'none';
+                authLoggedInPanel.style.display = 'block';
+                const user = JSON.parse(local);
+                authDisplayName.textContent = user.name || '使用者';
+                authDisplayEmail.textContent = user.email || '';
+                if (isAdmin(user)) {
+                    authAdminBtn.style.display = 'block';
+                } else {
+                    authAdminBtn.style.display = 'none';
+                }
+            } else {
+                openAuthModal();
+            }
+        });
+
+        authAdminBtn.addEventListener('click', function() {
+            closeAuthModal();
+            setTimeout(openAdminModalFn, 300);
+        });
+
+        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+        closeAdminModal.addEventListener('click', closeAdminModalFn);
+        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('show')) closeAdminModalFn();
+                if (authModal.style.display === 'flex') closeAuthModal();
+            }
+        });
+
+        // ===== 聯繫我們 =====
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ===== 初始化 =====
+        function initAuth() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                try { const user = JSON.parse(local);
+                    showUI(user); } catch (e) { hideUI(); }
+            } else { hideUI(); }
+        }
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
+                localStorage.setItem('currentUser', JSON.stringify(ud));
+                showUI(ud);
+            }
+        });
+        initAuth();
+    </script>
+
+    <!-- ===== Three.js 聖誕樹 + 手勢控制（完整版） ===== -->
+    <script type="module">
+        // 1. 匯入 Three.js 和相關模組
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        // 2. 取得 DOM 元素
+        const video = document.getElementById('video-feed');
+        const canvas = document.getElementById('skeleton-canvas');
+        const ctx = canvas.getContext('2d');
+        const loadingEl = document.getElementById('loading');
+        const photoCountSpan = document.getElementById('photo-count');
+
+        // 3. Three.js 變數
+        let scene, camera, renderer, composer, controls;
+        let particles, particleGeo;
+        let photoMeshes = [];
+        let time = 0;
+
+        const STATE = {
+            mode: 'SCATTER',
+            targetPhotoIndex: 0
+        };
+
+        const PARTICLE_COUNT = 2500;
+        const GOLD = '#D4AF37';
+
+        // 4. 初始化 Three.js
+        function initThree() {
+            const glCanvas = document.querySelector('#gl-canvas');
+            renderer = new THREE.WebGLRenderer({ canvas: glCanvas, antialias: true, alpha: false });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setClearColor(0x050505, 1);
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x050505);
+            scene.fog = new THREE.FogExp2(0x050505, 0.015);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(8, 5, 18);
+            camera.lookAt(0, 2, 0);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.6;
+            controls.target.set(0, 2, 0);
+            controls.enableZoom = true;
+            controls.maxPolarAngle = Math.PI / 2.2;
+        }
+
+        // 5. 後期處理（Bloom 光暈）
+        function initPostProcessing() {
+            const renderScene = new RenderPass(scene, camera);
+            const bloomPass = new UnrealBloomPass(
+                new THREE.Vector2(window.innerWidth, window.innerHeight),
+                1.2, 0.3, 0.85
+            );
+            bloomPass.threshold = 0.1;
+            bloomPass.strength = 0.9;
+            bloomPass.radius = 0.4;
+
+            composer = new EffectComposer(renderer);
+            composer.addPass(renderScene);
+            composer.addPass(bloomPass);
+        }
+
+        // 6. 建立粒子系統（聖誕樹）
+        function createParticles() {
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+            const randomTargets = [];
+            const treeTargets = [];
+
+            const gold = new THREE.Color(0xD4AF37);
+            const green = new THREE.Color(0x2E7D32);
+            const white = new THREE.Color(0xFFFFFF);
+            const red = new THREE.Color(0xC62828);
+            const colorOptions = [gold, green, white, red];
+
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const x = (Math.random() - 0.5) * 30;
+                const y = (Math.random() - 0.5) * 20 + 2;
+                const z = (Math.random() - 0.5) * 30;
+                positions.push(x, y, z);
+                randomTargets.push(x, y, z);
+
+                const t = i / PARTICLE_COUNT;
+                const angle = i * 0.25;
+                const radius = 5.5 * (1 - t * 0.8);
+                const h = t * 14 - 4;
+                const tx = Math.cos(angle) * radius;
+                const tz = Math.sin(angle) * radius;
+                const ty = h;
+                treeTargets.push(tx, ty, tz);
+
+                const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+                colors.push(color.r, color.g, color.b);
+            }
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+            geometry.userData = { randomTargets, treeTargets };
+
+            const spriteMap = new THREE.TextureLoader().load('https://threejs.org/examples/textures/sprites/spark1.png');
+            const material = new THREE.PointsMaterial({
+                size: 0.4,
+                map: spriteMap,
+                vertexColors: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                transparent: true,
+                sizeAttenuation: true
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+            particleGeo = geometry;
+        }
+
+        // 7. 燈光
+        function createLighting() {
+            const ambient = new THREE.AmbientLight(0x404060);
+            scene.add(ambient);
+            const spot = new THREE.SpotLight(0xffaa33, 20);
+            spot.position.set(5, 15, 10);
+            scene.add(spot);
+            const point = new THREE.PointLight(0xff6600, 10, 20);
+            point.position.set(0, 5, 0);
+            scene.add(point);
+        }
+
+        // 8. 手勢識別
+        let mirrorMode = true;
+        let currentGesture = 'unknown';
+
+        const HAND_CONNECTIONS = [
+            [0, 1], [1, 2], [2, 3], [3, 4], [0, 5], [5, 6], [6, 7], [7, 8],
+            [0, 9], [9, 10], [10, 11], [11, 12], [0, 13], [13, 14], [14, 15], [15, 16],
+            [0, 17], [17, 18], [18, 19], [19, 20], [5, 9], [9, 13], [13, 17]
+        ];
+
+        const FINGER_TIPS = [4, 8, 12, 16, 20];
+
+        function recognizeGesture(landmarks) {
+            if (!landmarks) return 'unknown';
+
+            const indexTip = landmarks[8];
+            const indexPip = landmarks[6];
+            const middleTip = landmarks[12];
+            const middlePip = landmarks[10];
+            const ringTip = landmarks[16];
+            const ringPip = landmarks[14];
+            const pinkyTip = landmarks[20];
+            const pinkyPip = landmarks[18];
+            const thumbTip = landmarks[4];
+
+            const indexStraight = indexTip.y < indexPip.y;
+            const middleStraight = middleTip.y < middlePip.y;
+            const ringStraight = ringTip.y < ringPip.y;
+            const pinkyStraight = pinkyTip.y < pinkyPip.y;
+
+            const curledCount = [indexTip.y > indexPip.y, middleTip.y > middlePip.y,
+                ringTip.y > ringPip.y, pinkyTip.y > pinkyPip.y
+            ].filter(Boolean).length;
+
+            const thumbIndexDist = Math.sqrt(
+                Math.pow(thumbTip.x - indexTip.x, 2) +
+                Math.pow(thumbTip.y - indexTip.y, 2)
+            );
+
+            if (curledCount >= 3) return 'fist';
+            if (indexStraight && middleStraight && ringStraight && pinkyStraight) return 'open';
+            if (indexStraight && middleStraight && !ringStraight && !pinkyStraight) return 'victory';
+            if (thumbIndexDist < 0.1) return 'pinch';
+
+            return 'unknown';
+        }
+
+        function handleGesture(gesture) {
+            if (gesture === currentGesture) return;
+            currentGesture = gesture;
+
+            switch (gesture) {
+                case 'fist':
+                    STATE.mode = 'TREE';
+                    controls.autoRotate = true;
+                    break;
+                case 'open':
+                    STATE.mode = 'SCATTER';
+                    controls.autoRotate = false;
+                    break;
+                case 'victory':
+                    STATE.mode = 'GALLERY';
+                    controls.autoRotate = true;
+                    break;
+                case 'pinch':
+                    STATE.mode = 'FOCUS';
+                    if (photoMeshes.length > 0) {
+                        STATE.targetPhotoIndex = (STATE.targetPhotoIndex + 1) % photoMeshes.length;
+                    }
+                    break;
+            }
+        }
+
+        function drawHand(landmarks) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (!landmarks) return;
+
+            const points = landmarks.map(p => ({
+                x: p.x * canvas.width,
+                y: p.y * canvas.height
+            }));
+
+            let minX = canvas.width,
+                minY = canvas.height,
+                maxX = 0,
+                maxY = 0;
+            points.forEach(p => {
+                minX = Math.min(minX, p.x);
+                minY = Math.min(minY, p.y);
+                maxX = Math.max(maxX, p.x);
+                maxY = Math.max(maxY, p.y);
+            });
+
+            const padding = 10;
+            minX = Math.max(0, minX - padding);
+            minY = Math.max(0, minY - padding);
+            maxX = Math.min(canvas.width, maxX + padding);
+            maxY = Math.min(canvas.height, maxY + padding);
+
+            ctx.beginPath();
+            ctx.strokeStyle = GOLD;
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'gold';
+
+            HAND_CONNECTIONS.forEach(([start, end]) => {
+                const p1 = points[start];
+                const p2 = points[end];
+                if (p1 && p2) {
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                }
+            });
+            ctx.stroke();
+
+            points.forEach((point, index) => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, FINGER_TIPS.includes(index) ? 5 : 3, 0, 2 * Math.PI);
+                ctx.fillStyle = GOLD;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            });
+
+            ctx.shadowBlur = 10;
+            ctx.strokeStyle = GOLD;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
+
+            ctx.shadowBlur = 0;
+        }
+
+        async function initHandTracking() {
+            const hands = new Hands({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+            });
+
+            hands.setOptions({
+                selfieMode: true,
+                maxNumHands: 1,
+                modelComplexity: 1,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5
+            });
+
+            hands.onResults((results) => {
+                if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                    const landmarks = results.multiHandLandmarks[0];
+                    drawHand(landmarks);
+                    const gesture = recognizeGesture(landmarks);
+                    handleGesture(gesture);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            });
+
+            const cameraObj = new Camera(video, {
+                onFrame: async () => {
+                    await hands.send({ image: video });
+                },
+                width: 320,
+                height: 240
+            });
+
+            await cameraObj.start();
+
+            canvas.width = video.videoWidth || 320;
+            canvas.height = video.videoHeight || 240;
+
+            loadingEl.classList.add('hidden');
+        }
+
+        // 9. 上傳照片
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const files = e.target.files;
+            if (!files.length) return;
+
+            photoMeshes.forEach(m => scene.remove(m));
+            photoMeshes = [];
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    const tex = new THREE.TextureLoader().load(evt.target.result);
+                    const img = new Image();
+                    img.src = evt.target.result;
+                    img.onload = () => {
+                        const aspect = img.width / img.height;
+                        const geo = new THREE.PlaneGeometry(2.2, 2.2 / aspect);
+                        const mat = new THREE.MeshBasicMaterial({
+                            map: tex,
+                            side: THREE.DoubleSide,
+                            transparent: true
+                        });
+                        const mesh = new THREE.Mesh(geo, mat);
+                        mesh.position.set(
+                            (Math.random() - 0.5) * 10,
+                            Math.random() * 6,
+                            (Math.random() - 0.5) * 10
+                        );
+                        scene.add(mesh);
+                        photoMeshes.push(mesh);
+                        photoCountSpan.textContent = photoMeshes.length;
+                    };
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // 10. 動畫循環
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.012;
+
+            if (particleGeo) {
+                const positions = particleGeo.attributes.position.array;
+                const { randomTargets, treeTargets } = particleGeo.userData;
+
+                for (let i = 0; i < positions.length; i += 3) {
+                    let tx, ty, tz;
+                    const idx = i / 3;
+
+                    if (STATE.mode === 'TREE' || STATE.mode === 'GALLERY') {
+                        tx = treeTargets[idx * 3];
+                        ty = treeTargets[idx * 3 + 1];
+                        tz = treeTargets[idx * 3 + 2];
+                        ty += Math.sin(time * 2 + tx) * 0.1;
+                    } else {
+                        tx = randomTargets[idx * 3];
+                        ty = randomTargets[idx * 3 + 1];
+                        tz = randomTargets[idx * 3 + 2];
+                        ty += Math.sin(time + idx) * 0.05;
+                    }
+
+                    positions[i] += (tx - positions[i]) * 0.04;
+                    positions[i + 1] += (ty - positions[i + 1]) * 0.04;
+                    positions[i + 2] += (tz - positions[i + 2]) * 0.04;
+                }
+                particleGeo.attributes.position.needsUpdate = true;
+            }
+
+            if (STATE.mode === 'FOCUS' && photoMeshes.length > 0) {
+                photoMeshes.forEach((mesh, i) => {
+                    if (i === STATE.targetPhotoIndex) {
+                        const dir = new THREE.Vector3();
+                        camera.getWorldDirection(dir);
+                        mesh.position.lerp(camera.position.clone().add(dir.multiplyScalar(4)), 0.1);
+                        mesh.quaternion.copy(camera.quaternion);
+                    }
+                });
+            }
+
+            controls.update();
+            composer.render();
+        }
+
+        // 11. 啟動
+        async function start() {
+            initThree();
+            initPostProcessing();
+            createParticles();
+            createLighting();
+
+            try {
+                await initHandTracking();
+            } catch (err) {
+                console.warn('手勢啟動失敗', err);
+                loadingEl.classList.add('hidden');
+            }
+
+            animate();
+        }
+
+        start();
+
+        // 12. 視窗大小調整
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
