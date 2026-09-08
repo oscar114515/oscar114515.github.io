@@ -448,72 +448,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -585,72 +520,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -663,72 +533,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -742,72 +547,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -924,72 +664,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -1072,72 +747,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -1150,72 +760,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -1229,72 +774,7 @@
 
     
 
-    <!-- 語言翻譯功能 -->
-    <script>
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-        let isTranslating = false;
-        let originalTexts = new Map();
-
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
-
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
-            });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-    </script>
+    
 
 </body>\n    
 
@@ -1422,6 +902,12 @@
 
     
 
+    
+
+</body>
+    
+
+</html>
     <!-- 語言翻譯功能 -->
     <script>
         const langCodeMap = {
@@ -1489,7 +975,3 @@
         })();
     </script>
 
-</body>
-    
-
-</html>
