@@ -11,13 +11,93 @@
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
     <!-- Google Translate -->
     <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
+        var currentGoogleTranslate = null;
+
+        function initGoogleTranslate() {
+            if (typeof google === 'undefined' || !google.translate) return;
+
+            // 如果已有翻译实例，先移除
+            if (currentGoogleTranslate) {
+                currentGoogleTranslate = null;
+            }
+
+            // 创建新的翻译实例
+            currentGoogleTranslate = new google.translate.TranslateElement({
                 pageLanguage: 'zh-TW',
                 includedLanguages: 'zh-CN,en,ko,ja',
-                autoDisplay: false,
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                autoDisplay: false
             }, 'google_translate_element');
+        }
+
+        function translateTo(lang) {
+            // 保存语言选择
+            localStorage.setItem('selectedLang', lang);
+
+            // 更新按钮显示
+            const langNames = {
+                'zh-TW': '中文(繁)',
+                'zh-CN': '中文(简)',
+                'en': 'English',
+                'ko': '한국어',
+                'ja': '日本語'
+            };
+            const currentLang = document.getElementById('currentLang');
+            if (currentLang) {
+                currentLang.textContent = langNames[lang] || lang;
+            }
+
+            // 使用 Google Translate 翻译
+            if (typeof google !== 'undefined' && google.translate) {
+                // 清除之前的翻译 iframe
+                const oldIframe = document.querySelector('iframe[src*="google.com"]');
+                if (oldIframe) oldIframe.remove();
+
+                // 翻译到目标语言
+                google.translate.TranslateElement({
+                    pageLanguage: 'zh-TW',
+                    includedLanguages: 'zh-CN,en,ko,ja',
+                    autoDisplay: false
+                }, 'google_translate_element');
+
+                // 找到翻译下拉框并点击对应的语言
+                setTimeout(function() {
+                    var langMap = {
+                        'zh-TW': 'zh-TW',
+                        'zh-CN': 'zh-CN',
+                        'en': 'en',
+                        'ko': 'ko',
+                        'ja': 'ja'
+                    };
+
+                    // 查找 Google Translate 的下拉选项并点击
+                    var selects = document.querySelectorAll('select');
+                    selects.forEach(function(select) {
+                        if (select.style.display !== 'none' && select.options.length > 0) {
+                            // 尝试找到对应的语言选项
+                            for (var i = 0; i < select.options.length; i++) {
+                                if (select.options[i].value === langMap[lang]) {
+                                    select.selectedIndex = i;
+                                    select.dispatchEvent(new Event('change'));
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+                    // 如果上面没找到，尝试点击翻译栏中的语言按钮
+                    var langButtons = document.querySelectorAll('.goog-te-menu-item span[style*="visibility: visible"], .goog-te-menu2-item span');
+                    langButtons.forEach(function(btn, idx) {
+                        var langCodes = ['zh-CN', 'en', 'ko', 'ja'];
+                        if (langCodes[idx] === lang) {
+                            btn.click();
+                        }
+                    });
+                }, 500);
+            }
+        }
+
+        function googleTranslateElementInit() {
+            initGoogleTranslate();
         }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
@@ -932,38 +1012,7 @@
 
         // 翻譯頁面
         function translatePage(lang) {
-            // 保存當前語言到 localStorage
-            localStorage.setItem('selectedLang', lang);
-
-            // 使用 Google Translate widget
-            if (lang === 'zh-TW') {
-                // 繁體中文 - 不需要翻譯
-                if (typeof google !== 'undefined' && google.translate) {
-                    google.translate.TranslateElement({pageLanguage: 'zh-TW', autoDisplay: false}, 'google_translate_element');
-                }
-            } else {
-                // 其他語言 - 使用 Google Translate
-                const googleTranslateElement = document.getElementById('google_translate_element');
-                if (googleTranslateElement) {
-                    // 清除此前的翻譯
-                    const oldIframe = document.querySelector('iframe[src*="google.com"]');
-                    if (oldIframe) oldIframe.remove();
-
-                    // 創建新的翻譯
-                    const script = document.createElement('script');
-                    script.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
-                    document.body.appendChild(script);
-
-                    window.googleTranslateElementInit = function() {
-                        new google.translate.TranslateElement({
-                            pageLanguage: 'zh-TW',
-                            includedLanguages: 'zh-CN,en,ko,ja',
-                            autoDisplay: false,
-                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                        }, 'google_translate_element');
-                    };
-                }
-            }
+            translateTo(lang);
         }
 
         // 頁面加載時恢復語言選擇
