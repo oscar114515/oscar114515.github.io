@@ -85,46 +85,6 @@
         let originalTexts = new Map();
 
         // 翻译页面
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-
-            // 获取所有可翻译的文本元素
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-
-            // 保存原文
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-
-            // 逐个翻译
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
 
         // 恢复原文
         function restoreOriginal() {
@@ -150,46 +110,6 @@
         let originalTexts = new Map();
 
         // 翻译页面
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-
-            // 获取所有可翻译的文本元素
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-
-            // 保存原文
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-
-            // 逐个翻译
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
 
         // 恢复原文
         function restoreOriginal() {
@@ -217,46 +137,6 @@
         let originalTexts = new Map();
 
         // 翻译页面
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
-
-            // 获取所有可翻译的文本元素
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
-
-            // 保存原文
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
-
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
-
-            // 逐个翻译
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
-                }
-            }
-            isTranslating = false;
-        }
 
         // 恢复原文
         function restoreOriginal() {
