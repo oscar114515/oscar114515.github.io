@@ -5,15 +5,463 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR 传输助手 · 我的网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
-    <!-- Google Translate -->
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
         }
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
+    <!-- Google Translate -->
+        }
+    
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
+    <script src="https://unpkg.com/html5-qrcode">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js">
+        // 语言代码映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻译状态
+        let isTranslating = false;
+        let originalTexts = new Map();
+
+        // 翻译页面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+            localStorage.setItem('selectedLang', targetLang);
+            originalTexts.clear();
+
+            // 获取所有可翻译的文本元素
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    if (el.closest(excludeSelectors)) return false;
+                    if (!el.textContent.trim()) return false;
+                    if (el.children.length > 0) return false;
+                    return true;
+                });
+
+            // 保存原文
+            elements.forEach(el => {
+                originalTexts.set(el, el.textContent.trim());
+            });
+
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            // 逐个翻译
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+                try {
+                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const data = await response.json();
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+            isTranslating = false;
+        }
+
+        // 恢复原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            originalTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -816,445 +1264,7 @@
         </div>
     </div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
-            authDomain: "oscar-io-log-in.firebaseapp.com",
-            projectId: "oscar-io-log-in",
-            storageBucket: "oscar-io-log-in.firebasestorage.app",
-            messagingSenderId: "51821788083",
-            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // ===== QR 工具状态 =====
-        let state = {
-            isSending: false,
-            isPaused: false,
-            frameIdx: 0,
-            chunks: [],
-            fileName: "",
-            fps: 12,
-            chunkSize: 350,
-            timer: null,
-            tid: "",
-            rawData: null,
-            qr: null
-        };
-
-        let recv = {
-            active: false,
-            scanner: null,
-            received: {},
-            total: 0,
-            tid: "",
-            startTime: 0,
-            fileName: "",
-            stream: null,
-            mode: null
-        };
-
-        // ===== 初始化 =====
-        window.onload = () => {
-            state.qr = new QRious({
-                element: document.getElementById('qrCanvas'),
-                size: 350,
-                level: 'L'
-            });
-            checkAuth();
-        };
-
-        function checkAuth() {
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    showLoggedIn(user);
-                } else {
-                    showLoggedOut();
-                }
-            });
-        }
-
-        function showLoggedIn(user) {
-            document.getElementById('authNavLink').textContent = '登出';
-            document.getElementById('authNavLink').className = 'auth-link logout';
-            document.getElementById('authNavLink').onclick = handleLogout;
-            document.getElementById('avatarImg').style.display = 'block';
-            document.getElementById('avatarPlaceholder').style.display = 'none';
-        }
-
-        function showLoggedOut() {
-            document.getElementById('authNavLink').textContent = '登入';
-            document.getElementById('authNavLink').className = 'auth-link';
-            document.getElementById('authNavLink').onclick = () => {
-                document.getElementById('authModal').style.display = 'flex';
-            };
-            document.getElementById('avatarImg').style.display = 'none';
-            document.getElementById('avatarPlaceholder').style.display = 'flex';
-        }
-
-        function handleLogout() {
-            auth.signOut();
-        }
-
-        // ===== Tab 切换 =====
-        function switchTab(tab) {
-            const sendPanel = document.getElementById('panelSend');
-            const receivePanel = document.getElementById('panelReceive');
-            const tabSend = document.getElementById('tabSend');
-            const tabReceive = document.getElementById('tabReceive');
-
-            if (tab === 'send') {
-                sendPanel.style.display = 'block';
-                receivePanel.style.display = 'none';
-                tabSend.className = 'tab-btn active';
-                tabReceive.className = 'tab-btn';
-            } else {
-                sendPanel.style.display = 'none';
-                receivePanel.style.display = 'block';
-                tabSend.className = 'tab-btn';
-                tabReceive.className = 'tab-btn active';
-            }
-        }
-
-        // ===== 发送端逻辑 =====
-        function updateFPS(val) {
-            state.fps = parseInt(val);
-            document.getElementById('fpsVal').textContent = val;
-            if (state.isSending) restartTimer();
-        }
-
-        function updateSize(val) {
-            state.chunkSize = parseInt(val);
-            document.getElementById('sizeVal').textContent = val;
-            if (state.isSending) prepareSending(true);
-        }
-
-        function handleFile(file) {
-            if (!file) return;
-            state.fileName = file.name;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                let bin = new Uint8Array(e.target.result);
-                let s = '';
-                for (let i = 0; i < bin.length; i++) {
-                    s += String.fromCharCode(bin[i]);
-                }
-                state.rawData = btoa(s);
-                document.getElementById('fileName').textContent = file.name;
-                document.getElementById('fileInfo').style.display = 'flex';
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function removeFile() {
-            state.rawData = null;
-            state.fileName = '';
-            document.getElementById('fileInfo').style.display = 'none';
-            document.getElementById('fileInput').value = '';
-        }
-
-        function prepareSending(isAuto = false) {
-            if (!isAuto) clearInterval(state.timer);
-
-            const text = document.getElementById('inputText').value;
-            let b64 = state.rawData || (text ? btoa(unescape(encodeURIComponent(text))) : '');
-
-            if (!b64) {
-                alert('请先输入内容或选择文件');
-                return;
-            }
-
-            if (!isAuto) {
-                state.tid = Math.random().toString(36).substring(2, 5).toUpperCase();
-                state.frameIdx = 0;
-            }
-
-            state.fileName = state.fileName || 'unnamed_file.txt';
-            state.chunks = [];
-
-            const size = parseInt(state.chunkSize);
-            for (let i = 0; i < b64.length; i += size) {
-                state.chunks.push(b64.substring(i, i + size));
-            }
-
-            state.isSending = true;
-            document.getElementById('playerBox').style.display = 'block';
-            renderFrame();
-
-            if (!isAuto) restartTimer();
-        }
-
-        function renderFrame() {
-            if (state.chunks.length === 0) return;
-            const cur = state.frameIdx;
-            document.getElementById('curFrame').textContent = cur + 1;
-            document.getElementById('totalFrames').textContent = state.chunks.length;
-            document.getElementById('frameSlider').max = state.chunks.length - 1;
-            document.getElementById('frameSlider').value = cur;
-
-            const payload = [state.tid, state.fileName, state.chunks.length, cur, state.chunks[cur]].join('|');
-            state.qr.value = payload;
-        }
-
-        function restartTimer() {
-            clearInterval(state.timer);
-            state.timer = setInterval(() => {
-                if (state.isPaused) return;
-                state.frameIdx = (state.frameIdx + 1) % state.chunks.length;
-                renderFrame();
-            }, 1000 / state.fps);
-        }
-
-        function manualSeek(val) {
-            state.frameIdx = parseInt(val);
-            state.isPaused = true;
-            renderFrame();
-        }
-
-        function step(d) {
-            state.isPaused = true;
-            state.frameIdx = (state.frameIdx + d + state.chunks.length) % state.chunks.length;
-            renderFrame();
-        }
-
-        function togglePause() {
-            state.isPaused = !state.isPaused;
-            document.getElementById('pauseBtn').textContent = state.isPaused ? '▶' : '⏸';
-        }
-
-        // ===== 接收端逻辑 =====
-        async function toggleCamera() {
-            if (recv.active) {
-                await stopScanning();
-                return;
-            }
-
-            try {
-                recv.scanner = new Html5Qrcode('scannerArea');
-                await recv.scanner.start(
-                    { facingMode: 'environment' },
-                    { fps: 25 },
-                    handleDecoded
-                );
-                recv.active = true;
-                recv.mode = 'camera';
-                document.getElementById('btnCamera').textContent = '停止扫描';
-            } catch (err) {
-                alert('摄像头启动失败: ' + err);
-            }
-        }
-
-        async function toggleScreen() {
-            if (recv.active) {
-                await stopScanning();
-                return;
-            }
-
-            try {
-                recv.stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 20 } });
-                recv.active = true;
-                recv.mode = 'screen';
-                document.getElementById('btnScreen').textContent = '停止录屏';
-
-                const video = document.createElement('video');
-                video.srcObject = recv.stream;
-                video.muted = true;
-                await video.play();
-
-                const scannerArea = document.getElementById('scannerArea');
-                scannerArea.innerHTML = '';
-                scannerArea.appendChild(video);
-
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-                const loop = () => {
-                    if (!recv.active || recv.mode !== 'screen') return;
-                    if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        ctx.drawImage(video, 0, 0);
-                        let img = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                        let code = jsQR(img.data, img.width, img.height);
-                        if (code?.data) handleDecoded(code.data);
-                    }
-                    requestAnimationFrame(loop);
-                };
-                loop();
-
-                recv.stream.getVideoTracks()[0].onended = () => stopScanning();
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function stopScanning() {
-            if (recv.scanner) {
-                await recv.scanner.stop();
-                recv.scanner = null;
-            }
-            if (recv.stream) {
-                recv.stream.getTracks().forEach(t => t.stop());
-                recv.stream = null;
-            }
-            recv.active = false;
-            recv.mode = null;
-            document.getElementById('btnCamera').textContent = '📷 摄像头';
-            document.getElementById('btnScreen').textContent = '🖥️ 屏幕录制';
-            document.getElementById('scannerArea').innerHTML = '<p class="scanner-placeholder">等待启动扫描...</p>';
-        }
-
-        function handleDecoded(text) {
-            const p = text.split('|');
-            if (p.length < 5) return;
-
-            const [tid, fullFileName, total, idx, data] = [p[0], p[1], parseInt(p[2]), parseInt(p[3]), p[4]];
-
-            if (tid !== recv.tid) {
-                recv.tid = tid;
-                recv.total = total;
-                recv.received = {};
-                recv.startTime = Date.now();
-                recv.fileName = fullFileName;
-
-                document.getElementById('taskInfo').classList.add('show');
-                document.getElementById('taskFileName').textContent = fullFileName;
-                document.getElementById('dotGrid').innerHTML = '';
-
-                for (let i = 0; i < total; i++) {
-                    const d = document.createElement('div');
-                    d.id = `dot-${i}`;
-                    d.className = 'dot';
-                    document.getElementById('dotGrid').appendChild(d);
-                }
-            }
-
-            if (!recv.received[idx]) {
-                recv.received[idx] = data;
-                const dot = document.getElementById(`dot-${idx}`);
-                if (dot) dot.classList.add('received');
-                updateProgress();
-
-                if (Object.keys(recv.received).length === total) {
-                    finalize();
-                }
-            }
-        }
-
-        function updateProgress() {
-            const received = Object.keys(recv.received).length;
-            document.getElementById('progressStats').textContent = `${received}/${recv.total}`;
-
-            const missing = [];
-            for (let i = 0; i < recv.total; i++) {
-                if (!recv.received[i]) missing.push(i + 1);
-            }
-
-            const missingList = document.getElementById('missingList');
-            if (missing.length === 0) {
-                missingList.innerHTML = '<span style="color:#10b981;font-weight:600;">同步完成！</span>';
-            } else {
-                missingList.innerHTML = missing.map(m =>
-                    `<span class="missing-chip" onclick="requestFrame(${m - 1})">${m}</span>`
-                ).join('');
-            }
-        }
-
-        function finalize() {
-            stopScanning();
-            let b64 = '';
-            for (let i = 0; i < recv.total; i++) {
-                b64 += recv.received[i];
-            }
-
-            const bytes = new Uint8Array(atob(b64).split('').map(c => c.charCodeAt(0)));
-            const blob = new Blob([bytes]);
-
-            document.getElementById('successCard').classList.add('show');
-            document.getElementById('successLabel').textContent = '传输成功: ' + recv.fileName;
-            document.getElementById('downloadBtn').onclick = () => {
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = recv.fileName;
-                a.click();
-            };
-        }
-
-        function requestFrame(i) {
-            if (state.isSending) {
-                state.frameIdx = i;
-                state.isPaused = true;
-                renderFrame();
-            }
-        }
-
-        // ===== 弹框逻辑 =====
-        document.getElementById('contactBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('contactModal').style.display = 'flex';
-        });
-
-        document.getElementById('contactModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('contactModal')) {
-                document.getElementById('contactModal').style.display = 'none';
-            }
-        });
-
-        // 語言翻譯功能
-        const langDropdown = document.getElementById('langDropdown');
-        const langBtn = document.getElementById('langBtn');
-        const currentLang = document.getElementById('currentLang');
-        const langOptions = document.querySelectorAll('.lang-option');
-
-        langBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            langDropdown.classList.toggle('show');
-        });
-
-        langOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                const lang = this.dataset.lang;
-                langOptions.forEach(opt => opt.classList.remove('active'));
-                this.classList.add('active');
-                currentLang.textContent = this.querySelector('span:last-child').textContent;
-                langDropdown.classList.remove('show');
-                const gadget = document.querySelector('.goog-te-gadget');
-                if (gadget) gadget.style.display = 'none';
-            });
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.lang-selector')) {
-                langDropdown.classList.remove('show');
-            }
-        });
-
-        (function() {
-            const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang) {
-                langOptions.forEach(option => {
-                    if (option.dataset.lang === savedLang) {
-                        option.click();
-                    }
-                });
-            }
-        })();
-
-    </script>
-    <!-- translate.js 自动翻译 -->
-    <script src="https://cdn.jsdelivr.net/npm/translate.js@2.0.2/translate.min.js"></script>
-    <script>
-        // 初始化 translate.js
-        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
-        translate.language.setLocal('zh-TW');
-        translate.selectLanguageTag.show = false;
-    </script>
-    <script>
-        // 初始化 translate.js
-        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
-        translate.language.setLocal('zh-TW');
-        translate.selectLanguageTag.show = false;
-    </script>
+    
+    
 </body>
 </html>
