@@ -1221,7 +1221,7 @@
                 currentLang.textContent = this.querySelector('span:last-child').textContent;
                 langDropdown.classList.remove('show');
                 if (typeof google !== 'undefined' && google.translate) {
-                    google.translate.TranslateElement({pageLanguage: 'zh-TW', // translate.js 自动翻译}, 'google_translate_element');
+                    google.translate.TranslateElement({pageLanguage: 'zh-TW',
                 }
                 const gadget = document.querySelector('.goog-te-gadget');
                 if (gadget) gadget.style.display = 'none';
