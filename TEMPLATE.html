@@ -346,7 +346,35 @@
                     </li>
                     <li><a href="#" id="contactBtn">聯繫我們</a></li>
                     <li>
-                        <div id="google_translate_element"></div>
+                        <div class="lang-selector">
+                            <button class="lang-btn" id="langBtn">
+                                <span>🌐</span>
+                                <span id="currentLang">中文(繁)</span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                            </button>
+                            <div class="lang-dropdown" id="langDropdown">
+                                <div class="lang-option active" data-lang="zh-TW" data-flag="🇹🇼">
+                                    <span>🇹🇼</span>
+                                    <span>中文(繁)</span>
+                                </div>
+                                <div class="lang-option" data-lang="zh-CN" data-flag="🇨🇳">
+                                    <span>🇨🇳</span>
+                                    <span>中文(简)</span>
+                                </div>
+                                <div class="lang-option" data-lang="en" data-flag="🇺🇸">
+                                    <span>🇺🇸</span>
+                                    <span>English</span>
+                                </div>
+                                <div class="lang-option" data-lang="ko" data-flag="🇰🇷">
+                                    <span>🇰🇷</span>
+                                    <span>한국어</span>
+                                </div>
+                                <div class="lang-option" data-lang="ja" data-flag="🇯🇵">
+                                    <span>🇯🇵</span>
+                                    <span>日本語</span>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -849,18 +877,74 @@
         initAuth();
 
         // ============================================================
-        // 語言翻譯功能 (使用 Google Translate 原生下拉条)
+        // 語言翻譯功能 (使用 translate.js 自動翻譯)
         // ============================================================
-        // 页面加载时初始化 Google Translate
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'zh-TW',
-                includedLanguages: 'zh-CN,en,ko,ja',
-                autoDisplay: true,
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-        }
+        const langDropdown = document.getElementById('langDropdown');
+        const langBtn = document.getElementById('langBtn');
+        const currentLang = document.getElementById('currentLang');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        // 語言名稱
+        const langNames = {
+            'zh-TW': '中文(繁)',
+            'zh-CN': '中文(简)',
+            'en': 'English',
+            'ko': '한국어',
+            'ja': '日本語'
+        };
+
+        // 點擊語言按鈕切換下拉
+        langBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+        });
+
+        // 點擊選項切換語言
+        langOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+
+                // 更新激活狀態
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                // 更新按鈕顯示
+                currentLang.textContent = langNames[lang];
+
+                // 關閉下拉
+                langDropdown.classList.remove('show');
+
+                // 使用 translate.js 翻譯
+                translate.language.setLocal(lang);
+                translate.execute();
+            });
+        });
+
+        // 點擊外部關閉下拉
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                langDropdown.classList.remove('show');
+            }
+        });
+
+        // 初始化 translate.js
+        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
+        translate.language.setLocal('zh-TW');
+        translate.selectLanguageTag.show = false;
+
+        // 頁面加載時恢復語言選擇
+        (function() {
+            const savedLang = localStorage.getItem('selectedLang');
+            if (savedLang && savedLang !== 'zh-TW') {
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === savedLang) {
+                        option.click();
+                    }
+                });
+            }
+        })();
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <!-- translate.js 自動翻譯 -->
+    <script src="https://cdn.jsdelivr.net/npm/translate.js@2.0.2/translate.min.js"></script>
 </body>
 </html>
