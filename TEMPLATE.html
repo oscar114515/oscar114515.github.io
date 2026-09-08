@@ -877,7 +877,7 @@
         initAuth();
 
         // ============================================================
-        // 語言翻譯功能 (使用 translate.js 自動翻譯)
+        // 語言翻譯功能 (使用 MyMemory API)
         // ============================================================
         const langDropdown = document.getElementById('langDropdown');
         const langBtn = document.getElementById('langBtn');
@@ -892,6 +892,20 @@
             'ko': '한국어',
             'ja': '日本語'
         };
+
+        // 語言代碼映射 (MyMemory API)
+        const langCodeMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 翻譯狀態
+        let isTranslating = false;
+        let originalTexts = new Map();
+        let translatedTexts = new Map();
 
         // 點擊語言按鈕切換下拉
         langBtn.addEventListener('click', function(e) {
@@ -914,9 +928,12 @@
                 // 關閉下拉
                 langDropdown.classList.remove('show');
 
-                // 使用 translate.js 翻譯
-                translate.language.setLocal(lang);
-                translate.execute();
+                // 執行翻譯
+                if (lang === 'zh-TW') {
+                    restoreOriginal();
+                } else {
+                    translatePage(lang);
+                }
             });
         });
 
@@ -927,10 +944,73 @@
             }
         });
 
-        // 初始化 translate.js
-        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
-        translate.language.setLocal('zh-TW');
-        translate.selectLanguageTag.show = false;
+        // 翻譯頁面
+        async function translatePage(targetLang) {
+            if (isTranslating) return;
+            isTranslating = true;
+
+            // 保存語言選擇
+            localStorage.setItem('selectedLang', targetLang);
+
+            // 清除之前的翻譯
+            translatedTexts.clear();
+
+            // 獲取所有可翻譯的元素（排除導航欄、按鈕、輸入框等）
+            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select, .nav-link, .auth-link';
+            const elements = Array.from(document.querySelectorAll('*'))
+                .filter(el => {
+                    // 排除特定元素
+                    if (el.closest(excludeSelectors)) return false;
+                    // 只選擇有文本內容的元素
+                    const text = el.textContent.trim();
+                    return text.length > 0 && el.children.length === 0;
+                });
+
+            if (elements.length === 0) {
+                isTranslating = false;
+                return;
+            }
+
+            // 保存原文
+            elements.forEach(el => {
+                const text = el.textContent.trim();
+                if (!originalTexts.has(el)) {
+                    originalTexts.set(el, text);
+                }
+            });
+
+            // 使用 MyMemory API 翻譯
+            const sourceLang = 'zh-TW';
+            const targetCode = langCodeMap[targetLang];
+
+            for (const el of elements) {
+                const text = originalTexts.get(el);
+                if (!text) continue;
+
+                try {
+                    const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceLang}|${targetCode}`);
+                    const data = await response.json();
+
+                    if (data.responseStatus === 200 && data.responseData.translatedText) {
+                        translatedTexts.set(el, data.responseData.translatedText);
+                        el.textContent = data.responseData.translatedText;
+                    }
+                } catch (e) {
+                    console.error('Translation error:', e);
+                }
+            }
+
+            isTranslating = false;
+        }
+
+        // 恢復原文
+        function restoreOriginal() {
+            originalTexts.forEach((text, el) => {
+                el.textContent = text;
+            });
+            translatedTexts.clear();
+            localStorage.removeItem('selectedLang');
+        }
 
         // 頁面加載時恢復語言選擇
         (function() {
@@ -943,14 +1023,6 @@
                 });
             }
         })();
-    </script>
-    <!-- translate.js 自動翻譯 -->
-    <script src="https://cdn.jsdelivr.net/npm/translate.js@2.0.2/translate.min.js"></script>
-    <script>
-        // 初始化 translate.js
-        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
-        translate.language.setLocal('zh-TW');
-        translate.selectLanguageTag.show = false;
     </script>
 </body>
 </html>
