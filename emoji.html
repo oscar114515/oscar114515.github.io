@@ -9,17 +9,9 @@
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
     <!-- Google Translate -->
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'zh-TW',
-                includedLanguages: 'zh-CN,en,ko,ja,fr,de,es,pt,ru,ar,hi',
-                autoDisplay: true,
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
+    <script type="text/javascript">, 'google_translate_element');
         }
     </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -1292,7 +1284,7 @@
                 currentLang.textContent = this.querySelector('span:last-child').textContent;
                 langDropdown.classList.remove('show');
                 if (typeof google !== 'undefined' && google.translate) {
-                    google.translate.TranslateElement({pageLanguage: 'zh-TW', autoDisplay: true}, 'google_translate_element');
+                    google.translate.TranslateElement({pageLanguage: 'zh-TW', // translate.js 自动翻译}, 'google_translate_element');
                 }
                 const gadget = document.querySelector('.goog-te-gadget');
                 if (gadget) gadget.style.display = 'none';
@@ -1317,5 +1309,11 @@
         })();
 
     </script>
+    <!-- translate.js 自动翻译 -->
+    <script src="https://cdn.jsdelivr.net/npm/translate.js@2.0.2/translate.min.js">
+        // 初始化 translate.js
+        translate.selectLanguageTag.languages = 'zh-TW,zh-CN,ko,ja,en';
+        translate.language.setLocal('zh-TW');
+        translate.selectLanguageTag.show = false;</script>
 </body>
 </html>
