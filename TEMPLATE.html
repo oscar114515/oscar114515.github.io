@@ -877,21 +877,12 @@
         initAuth();
 
         // ============================================================
-        // 語言翻譯功能 (使用 LibreTranslate API)
+        // 語言翻譯功能 (使用 Google Translate 原生下拉条)
         // ============================================================
         const langDropdown = document.getElementById('langDropdown');
         const langBtn = document.getElementById('langBtn');
         const currentLang = document.getElementById('currentLang');
         const langOptions = document.querySelectorAll('.lang-option');
-
-        // 語言映射 (LibreTranslate 代碼)
-        const langMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
 
         // 語言名稱
         const langNames = {
@@ -902,17 +893,25 @@
             'ja': '日本語'
         };
 
-        // 翻譯狀態
-        let isTranslating = false;
-        let translatedTexts = new Map(); // 存储翻译结果
-
-        // 點擊語言按鈕切換下拉
+        // 點擊語言按鈕顯示 Google Translate 下拉条
         langBtn.addEventListener('click', function(e) {
             e.stopPropagation();
-            langDropdown.classList.toggle('show');
+
+            // 如果 Google Translate 已加载，直接显示下拉条
+            if (typeof google !== 'undefined' && google.translate && google.translate.TranslateElement) {
+                // 查找 Google Translate 的下拉按钮并点击
+                const googleToggle = document.querySelector('.goog-te-menu2-item span[style*="visibility: visible"]');
+                if (googleToggle) {
+                    googleToggle.click();
+                    return;
+                }
+            }
+
+            // 否则先初始化 Google Translate
+            initGoogleTranslate();
         });
 
-        // 點擊選項切換語言
+        // 點擊選項切換語言（使用 Google Translate）
         langOptions.forEach(option => {
             option.addEventListener('click', function() {
                 const lang = this.dataset.lang;
@@ -927,14 +926,8 @@
                 // 關閉下拉
                 langDropdown.classList.remove('show');
 
-                // 執行翻譯
-                if (lang === 'zh-TW') {
-                    // 繁體中文 - 恢復原文
-                    restoreOriginal();
-                } else {
-                    // 翻譯到目標語言
-                    translatePage(lang);
-                }
+                // 初始化 Google Translate 并翻译
+                initGoogleTranslate(lang);
             });
         });
 
@@ -945,112 +938,77 @@
             }
         });
 
-        // 翻譯頁面
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-
-            // 保存語言選擇
-            localStorage.setItem('selectedLang', targetLang);
-
-            // 清除之前的翻譯
-            translatedTexts.clear();
-
-            // 獲取所有需要翻譯的文本元素（排除導航欄、按鈕、輸入框等）
-            const selectors = [
-                'h1, h2, h3, h4, h5, h6',
-                'p',
-                'span:not([class*="lang"])',
-                'a:not(.nav-link):not(.auth-link)',
-                'label',
-                'button:not(.lang-btn):not(.lang-option):not([id*="Btn"]):not([id*="btn"])',
-                '.title',
-                '.desc',
-                '.qq-label',
-                '.qq-number',
-                '.platform-btn-small',
-                '.tab-btn',
-                '.message-box',
-                '.input-field::placeholder'
-            ];
-
-            const elements = [];
-            selectors.forEach(sel => {
-                document.querySelectorAll(sel).forEach(el => {
-                    if (!elements.includes(el) && el.textContent.trim() && el.offsetParent !== null) {
-                        elements.push(el);
-                    }
-                });
-            });
-
-            if (elements.length === 0) {
-                isTranslating = false;
-                return;
+        // 初始化 Google Translate
+        function initGoogleTranslate(targetLang) {
+            if (typeof google === 'undefined' || !google.translate) {
+                // 加载 Google Translate 脚本
+                var script = document.createElement('script');
+                script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                document.body.appendChild(script);
             }
 
-            // 收集所有文本
-            const texts = new Set();
-            elements.forEach(el => {
-                const text = el.textContent.trim();
-                if (text && !el.dataset.original) {
-                    texts.add(text);
-                }
-            });
+            // 保存语言选择
+            localStorage.setItem('selectedLang', targetLang || 'zh-TW');
 
-            // 保存原文
-            elements.forEach(el => {
-                if (el.textContent.trim() && !el.dataset.original) {
-                    el.dataset.original = el.textContent.trim();
-                }
-            });
+            // 显示 Google Translate 下拉条
+            showGoogleTranslateBar(targetLang);
+        }
 
-            // 使用 LibreTranslate API 翻譯
-            const sourceLang = 'zh-TW';
-            const targetCode = langMap[targetLang];
+        // 显示 Google Translate 下拉条
+        function showGoogleTranslateBar(targetLang) {
+            // 清除之前的翻译 iframe
+            const oldIframe = document.querySelector('iframe[src*="google.com"]');
+            if (oldIframe) oldIframe.remove();
 
-            for (const text of texts) {
-                try {
-                    const response = await fetch('https://libretranslate.de/translate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            q: text,
-                            source: sourceLang,
-                            target: targetCode,
-                            format: 'text'
-                        })
-                    });
+            // 创建 Google Translate 元素
+            var container = document.getElementById('google_translate_element');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'google_translate_element';
+                document.body.appendChild(container);
+            }
 
-                    const data = await response.json();
+            // 初始化翻译
+            if (typeof google !== 'undefined' && google.translate) {
+                google.translate.TranslateElement({
+                    pageLanguage: 'zh-TW',
+                    includedLanguages: 'zh-CN,en,ko,ja',
+                    autoDisplay: false,
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                }, 'google_translate_element');
 
-                    if (data.translatedText) {
-                        translatedTexts.set(text, data.translatedText);
-                        elements.forEach(el => {
-                            if (el.dataset.original === text) {
-                                el.textContent = data.translatedText;
+                // 如果指定了目标语言，自动选择
+                if (targetLang && targetLang !== 'zh-TW') {
+                    setTimeout(function() {
+                        var selects = document.querySelectorAll('.goog-te-menu2-item');
+                        selects.forEach(function(item) {
+                            var span = item.querySelector('span');
+                            if (span && span.textContent) {
+                                var langMap = {
+                                    'zh-CN': '中文',
+                                    'en': 'English',
+                                    'ko': '한국어',
+                                    'ja': '日本語'
+                                };
+                                if (span.textContent === langMap[targetLang]) {
+                                    item.click();
+                                }
                             }
                         });
-                    }
-                } catch (e) {
-                    console.error('Translation error:', e);
+                    }, 1000);
                 }
             }
-
-            isTranslating = false;
         }
 
-        // 恢復原文
-        function restoreOriginal() {
-            const elements = document.querySelectorAll('[data-original]');
-            elements.forEach(el => {
-                el.textContent = el.dataset.original;
-                delete el.dataset.original;
-            });
-            translatedTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
+        // Google Translate 初始化回调
+        window.googleTranslateElementInit = function() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'zh-TW',
+                includedLanguages: 'zh-CN,en,ko,ja',
+                autoDisplay: false,
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        };
 
         // 頁面加載時恢復語言選擇
         (function() {
@@ -1064,5 +1022,8 @@
             }
         })();
     </script>
+
+    <!-- Google Translate 容器（隱藏） -->
+    <div id="google_translate_element" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 8px;"></div>
 </body>
 </html>
