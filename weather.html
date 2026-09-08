@@ -6,12 +6,20 @@
     <title>天文台數據看板 · 我的網站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
-
+    <!-- Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'zh-TW',
+                includedLanguages: 'zh-CN,en,ko,ja,fr,de,es,pt,ru,ar,hi',
+                autoDisplay: false,
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -1178,76 +1186,932 @@
 
     <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
 
-    
-    
-    <!-- 語言翻譯功能 -->
     <script>
-        // 語言代碼映射 (MyMemory API)
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
+        // ============================================================
+        // 1. Firebase 配置
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
+            projectId: "oscar-io-log-in",
+            storageBucket: "oscar-io-log-in.firebasestorage.app",
+            messagingSenderId: "51821788083",
+            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
         };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-        // 翻譯狀態
-        let isTranslating = false;
-        let originalTexts = new Map();
+        // ============================================================
+        // 2. 加載彈窗控制
+        // ============================================================
+        let loadingTimer = null;
 
-        // 翻譯頁面
-        async function translatePage(targetLang) {
-            if (isTranslating) return;
-            isTranslating = true;
-            localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
 
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    if (!el.textContent.trim()) return false;
-                    if (el.children.length > 0) return false;
-                    return true;
-                });
+        function hideLoading() {
+            if (loadingTimer) return;
+            loadingTimer = setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                loadingTimer = null;
+            }, 500);
+        }
 
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
-            });
+        // ============================================================
+        // 3. DOM 元素
+        // ============================================================
+        const authNavLink = document.getElementById('authNavLink');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
 
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
+        const authModal = document.getElementById('authModal');
+        const authPanel = document.getElementById('authPanel');
+        const authLoggedInPanel = document.getElementById('authLoggedInPanel');
+        const authDisplayName = document.getElementById('authDisplayName');
+        const authDisplayEmail = document.getElementById('authDisplayEmail');
+        const authLogoutBtn = document.getElementById('authLogoutBtn');
+        const authAdminBtn = document.getElementById('authAdminBtn');
 
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
-                try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
-                    const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        const loginName = document.getElementById('loginName');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginSubmit = document.getElementById('loginSubmitBtn');
+        const loginMessage = document.getElementById('loginMessage');
+        const regName = document.getElementById('regName');
+        const regPassword = document.getElementById('regPassword');
+        const regConfirmPassword = document.getElementById('regConfirmPassword');
+        const registerSubmit = document.getElementById('registerSubmitBtn');
+        const registerMessage = document.getElementById('registerMessage');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const userTableContainer = document.getElementById('userTableContainer');
+        const avatarCanvas = document.getElementById('avatarCanvas');
+        const avatarCtx = avatarCanvas.getContext('2d');
+
+        // ============================================================
+        // 4. 管理員判斷
+        // ============================================================
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.email === 'oscarmtr114514@gmail.com';
+        }
+
+        // ============================================================
+        // 5. 頭像生成器
+        // ============================================================
+        function generateIdenticon(name) {
+            const seed = name || 'default';
+            const encoder = new TextEncoder();
+            const data = encoder.encode(seed);
+            let hash = BigInt('0xcbf29ce484222325');
+            const prime = BigInt('0x100000001b3');
+            for (let i = 0; i < data.length; i++) {
+                hash ^= BigInt(data[i]);
+                hash = (hash * prime) & BigInt('0xffffffffffffffff');
+            }
+            const bytes = new Uint8Array(8);
+            for (let i = 0; i < 8; i++) bytes[7 - i] = Number((hash >> BigInt(i * 8)) & BigInt(0xff));
+            const hue = (bytes[0] * 256 + bytes[1]) % 360;
+            const sat = 70 + (bytes[2] % 20);
+            const lig = 55 + (bytes[0] % 20);
+            const bits = [];
+            let bi = 3,
+                bj = 0;
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (c < 3) {
+                        const b = bytes[bi] || 0;
+                        bits.push(((b >> (7 - bj)) & 1) === 1);
+                        bj++;
+                        if (bj >= 8) { bj = 0;
+                            bi++; }
+                    } else {
+                        bits.push(bits[r * 3 + (4 - c)] || false);
                     }
-                } catch (e) {
-                    console.error('Translation error:', e);
                 }
             }
-            isTranslating = false;
+            avatarCtx.clearRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = '#f5f5f5';
+            avatarCtx.fillRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = `hsl(${hue}, ${sat}%, ${lig}%)`;
+            for (let r = 0; r < 5; r++)
+                for (let c = 0; c < 5; c++)
+                    if (bits[r * 5 + c]) avatarCtx.fillRect(c * 84, r * 84, 84, 84);
+            return avatarCanvas.toDataURL('image/png');
         }
 
-        // 恢復原文
-        function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
+        // ============================================================
+        // 6. UI 控制
+        // ============================================================
+        function showMsg(el, text, type) {
+            el.textContent = text;
+            el.className = 'message-box message-' + type;
+            setTimeout(() => { el.className = 'message-box';
+                el.textContent = ''; }, 4000);
+        }
+
+        function switchToLogin() {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        }
+
+        function switchToRegister() {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        }
+
+        function updateAvatar(photoUrl, name) {
+            if (photoUrl && photoUrl.startsWith('http')) {
+                avatarImg.src = photoUrl;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.src = generateIdenticon(name || 'default');
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            }
+        }
+
+        function showUI(user) {
+            authNavLink.textContent = '登出';
+            authNavLink.className = 'auth-link logout';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', handleLogout);
+            updateAvatar(user.photo, user.name);
+            authPanel.style.display = 'none';
+            authLoggedInPanel.style.display = 'block';
+            authDisplayName.textContent = user.name || '使用者';
+            authDisplayEmail.textContent = user.email || '';
+            if (isAdmin(user)) {
+                authAdminBtn.style.display = 'block';
+            } else {
+                authAdminBtn.style.display = 'none';
+            }
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            hideLoading();
+        }
+
+        function hideUI() {
+            authNavLink.textContent = '登入';
+            authNavLink.className = 'auth-link';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', openAuthModal);
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            authPanel.style.display = 'block';
+            authLoggedInPanel.style.display = 'none';
+            localStorage.removeItem('currentUser');
+            hideLoading();
+        }
+
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openAdminModalFn() {
+            adminModal.classList.add('show');
+            loadUserTable();
+        }
+
+        function closeAdminModalFn() {
+            adminModal.classList.remove('show');
+        }
+
+        // ============================================================
+        // 7. Firebase 認證
+        // ============================================================
+        async function googleLogin() {
+            showLoading('Google 登入中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const u = result.user;
+                const userData = { name: u.displayName, email: u.email, photo: u.photoURL, uid: u.uid };
+                await db.ref('users/' + u.uid).set({ name: u.displayName, email: u.email, photo: u.photoURL,
+                    lastLogin: Date.now() });
+                showUI(userData);
+                closeAuthModal();
+            } catch (e) {
+                hideLoading();
+                if (e.code !== 'auth/popup-closed-by-user') {
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                }
+            }
+        }
+
+        async function handleRegister() {
+            const name = regName.value.trim(),
+                pw = regPassword.value,
+                cf = regConfirmPassword.value;
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            showLoading('註冊中...');
+            registerSubmit.disabled = true;
+            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error');
+                    hideLoading();
+                    registerSubmit.disabled = false;
+                    registerSubmit.textContent = '註冊'; return; }
+                const avatar = generateIdenticon(name);
+                const ref = db.ref('users').push();
+                await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
+                const ud = { name, email: '', photo: avatar, uid: ref.key };
+                showUI(ud);
+                closeAuthModal();
+                regName.value = '';
+                regPassword.value = '';
+                regConfirmPassword.value = '';
+            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error');
+                hideLoading(); } finally { registerSubmit.disabled = false;
+                registerSubmit.textContent = '註冊'; }
+        }
+
+        async function handleLogin() {
+            const name = loginName.value.trim(),
+                pw = loginPassword.value;
+            if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+            showLoading('登入中...');
+            loginSubmit.disabled = true;
+            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                    hideLoading();
+                    loginSubmit.disabled = false;
+                    loginSubmit.textContent = '登入'; return; }
+                let found = false;
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.password === pw) {
+                        found = true;
+                        const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: c.key };
+                        showUI(ud);
+                        closeAuthModal();
+                        db.ref('users/' + c.key + '/lastLogin').set(Date.now());
+                        loginName.value = '';
+                        loginPassword.value = '';
+                    }
+                });
+                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading();
+            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading(); } finally { loginSubmit.disabled = false;
+                loginSubmit.textContent = '登入'; }
+        }
+
+        function handleLogout() {
+            showLoading('登出中...');
+            auth.signOut().catch(() => {});
+            hideUI();
+        }
+
+        // ============================================================
+        // 8. 用戶管理
+        // ============================================================
+        let allUsers = [];
+
+        async function loadUserTable() {
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            try {
+                const snap = await db.ref('users').once('value');
+                allUsers = [];
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const d = c.val();
+                        if (d.name) allUsers.push({ key: c.key, ...d });
+                    });
+                }
+                if (allUsers.length === 0) {
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    return;
+                }
+                let html =
+                    `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                allUsers.forEach((u) => {
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const pwDisplay = u.password ? u.password : 'Google';
+                    html +=
+                        `<tr><td>${u.name}</td><td>${u.email || '-'}</td><td>${pwDisplay}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${u.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                });
+                html += '</tbody></table>';
+                userTableContainer.innerHTML = html;
+            } catch (e) {
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+            }
+        }
+
+        window._deleteUser = async function(key, name) {
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            try {
+                await db.ref('users/' + key).remove();
+                const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (local && local.uid === key) { hideUI(); }
+                loadUserTable();
+            } catch (e) { alert('刪除失敗：' + e.message); }
+        };
+
+        // ============================================================
+        // 9. 事件綁定
+        // ============================================================
+        loginTabBtn.addEventListener('click', switchToLogin);
+        registerTabBtn.addEventListener('click', switchToRegister);
+        loginSubmit.addEventListener('click', handleLogin);
+        registerSubmit.addEventListener('click', handleRegister);
+        googleLoginBtn.addEventListener('click', googleLogin);
+        googleRegisterBtn.addEventListener('click', googleLogin);
+        authLogoutBtn.addEventListener('click', function() { handleLogout();
+            closeAuthModal(); });
+
+        authNavLink.addEventListener('click', openAuthModal);
+
+        avatarBtn.addEventListener('click', function() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                openAuthModal();
+                authPanel.style.display = 'none';
+                authLoggedInPanel.style.display = 'block';
+                const user = JSON.parse(local);
+                authDisplayName.textContent = user.name || '使用者';
+                authDisplayEmail.textContent = user.email || '';
+                if (isAdmin(user)) {
+                    authAdminBtn.style.display = 'block';
+                } else {
+                    authAdminBtn.style.display = 'none';
+                }
+            } else {
+                openAuthModal();
+            }
+        });
+
+        authAdminBtn.addEventListener('click', function() {
+            closeAuthModal();
+            setTimeout(openAdminModalFn, 300);
+        });
+
+        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+        closeAdminModal.addEventListener('click', closeAdminModalFn);
+        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('show')) closeAdminModalFn();
+                if (authModal.style.display === 'flex') closeAuthModal();
+            }
+        });
+
+        // ============================================================
+        // 10. 聯繫我們
+        // ============================================================
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ============================================================
+        // 11. 初始化
+        // ============================================================
+        function initAuth() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                try { const user = JSON.parse(local);
+                    showUI(user); } catch (e) { hideUI(); }
+            } else { hideUI(); }
+        }
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
+                localStorage.setItem('currentUser', JSON.stringify(ud));
+                showUI(ud);
+            }
+        });
+        initAuth();
+
+        // ============================================================
+        // 12. 天文台數據功能
+        // ============================================================
+        const endpoints = [{
+            id: 'flw',
+            title: '本港地區天氣預報',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=flw&lang=tc',
+            type: 'json'
+        }, {
+            id: 'fnd',
+            title: '九天天氣預報',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=tc',
+            type: 'json'
+        }, {
+            id: 'warnsum',
+            title: '天氣警告一覽',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warnsum&lang=tc',
+            type: 'json'
+        }, {
+            id: 'rhrread',
+            title: '本地天氣報告',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc',
+            type: 'json'
+        }, {
+            id: 'qem',
+            title: '地震速報',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php?dataType=qem&lang=tc',
+            type: 'json'
+        }, {
+            id: 'feltearthquake',
+            title: '本地有感地震報告',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php?dataType=feltearthquake&lang=tc',
+            type: 'json'
+        }, {
+            id: 'hhot',
+            title: '天文潮汐高度',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=HOT&lang=tc&rformat=csv',
+            type: 'csv'
+        }, {
+            id: 'hlt',
+            title: '潮汐漲退時間',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=HLT&lang=tc&rformat=csv',
+            type: 'csv'
+        }, {
+            id: 'srs',
+            title: '日出日落時間',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=SRS&lang=tc&rformat=csv',
+            type: 'csv'
+        }, {
+            id: 'mrs',
+            title: '月出月落時間',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=MRS&lang=tc&rformat=csv',
+            type: 'csv'
+        }, {
+            id: 'lhl',
+            title: '閃電次數',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=LHL&lang=tc&rformat=json',
+            type: 'json'
+        }, {
+            id: 'ltmv',
+            title: '十分鐘平均能見度',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=LTMV&lang=tc&rformat=json',
+            type: 'json'
+        }, {
+            id: 'clmtemp',
+            title: '日平均氣溫',
+            url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=CLMTEMP&lang=tc&rformat=csv',
+            type: 'csv'
+        }];
+
+        const app = document.getElementById('app');
+
+        function csvToHtmlTable(csvText) {
+            if (csvText.startsWith('\uFEFF')) csvText = csvText.slice(1);
+
+            const lines = csvText.split('\n').filter(line => line.trim() !== '');
+            if (lines.length === 0) return '<div class="info-line">沒有數據</div>';
+
+            function parseCSVLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const ch = line[i];
+                    if (inQuotes) {
+                        if (ch === '"' && (i + 1 < line.length && line[i + 1] === '"')) {
+                            current += '"';
+                            i++;
+                        } else if (ch === '"') {
+                            inQuotes = false;
+                        } else {
+                            current += ch;
+                        }
+                    } else {
+                        if (ch === '"') {
+                            inQuotes = true;
+                        } else if (ch === ',') {
+                            result.push(current.trim());
+                            current = '';
+                        } else {
+                            current += ch;
+                        }
+                    }
+                }
+                result.push(current.trim());
+                return result;
+            }
+
+            const header = parseCSVLine(lines[0]);
+            const rows = [];
+            for (let i = 1; i < lines.length; i++) {
+                const parsed = parseCSVLine(lines[i]);
+                while (parsed.length < header.length) parsed.push('');
+                rows.push(parsed);
+            }
+
+            let html = `<table><thead><tr>`;
+            header.forEach(h => html += `<th>${h || '—'}</th>`);
+            html += `</tr></thead><tbody>`;
+
+            if (rows.length === 0) {
+                html += `<tr><td colspan="${header.length}">沒有數據行</td></tr>`;
+            } else {
+                rows.forEach(row => {
+                    html += `<tr>`;
+                    row.forEach(cell => html += `<td>${cell || '—'}</td>`);
+                    html += `</tr>`;
+                });
+            }
+            html += `</tbody></table>`;
+            html += `<div class="csv-note">數據來源：天文台開放數據</div>`;
+            return html;
+        }
+
+        function renderFLW(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.generalSituation) html += `<div class="info-line"><strong>概況</strong> ${data.generalSituation}</div>`;
+            if (data.tcInfo) html += `<div class="info-line"><strong>熱帶氣旋</strong> ${data.tcInfo}</div>`;
+            if (data.forecastPeriod) html += `<div class="info-line"><strong>預報時段</strong> ${data.forecastPeriod}</div>`;
+            if (data.forecastDesc) html += `<div class="info-line"><strong>預報內容</strong> ${data.forecastDesc}</div>`;
+            if (data.outlook) html += `<div class="info-line"><strong>展望</strong> ${data.outlook}</div>`;
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            return html;
+        }
+
+        function renderFND(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.generalSituation) html += `<div class="info-line"><strong>概況</strong> ${data.generalSituation}</div>`;
+            if (data.seaTemp) {
+                html +=
+                    `<div class="info-line"><strong>海水溫度（${data.seaTemp.place}）</strong> ${data.seaTemp.value}°C（記錄：${data.seaTemp.recordTime}）</div>`;
+            }
+            if (data.soilTemp && data.soilTemp.length) {
+                data.soilTemp.forEach(s => {
+                    html +=
+                        `<div class="info-line"><strong>土壤溫度（${s.place}，${s.depth.value}m）</strong> ${s.value}°C（記錄：${s.recordTime}）</div>`;
+                });
+            }
+            if (data.weatherForecast && data.weatherForecast.length) {
+                html += `<table><thead><tr>
+                    <th>日期</th><th>星期</th><th>天氣</th><th>氣溫</th><th>濕度</th><th>降雨機率</th>
+                </tr></thead><tbody>`;
+                data.weatherForecast.forEach(d => {
+                    const temp = `${d.forecastMintemp.value}°C ~ ${d.forecastMaxtemp.value}°C`;
+                    const rh = `${d.forecastMinrh.value}% ~ ${d.forecastMaxrh.value}%`;
+                    const psr = d.PSR || '—';
+                    html += `<tr>
+                        <td>${d.forecastDate}</td>
+                        <td>${d.week}</td>
+                        <td>${d.forecastWeather || ''}</td>
+                        <td>${temp}</td>
+                        <td>${rh}</td>
+                        <td>${psr}</td>
+                    </tr>`;
+                });
+                html += `</tbody></table>`;
+            }
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            return html;
+        }
+
+        // 天氣警告一覽
+        function renderWARNSUM(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+
+            const keys = Object.keys(data);
+            if (keys.length === 0) {
+                return '<div class="no-warning">目前沒有生效的天氣警告</div>';
+            }
+
+            const warnNameMap = {
+                'WHOT': '酷熱天氣警告',
+                'WCOL': '寒冷天氣警告',
+                'WRAIN': '暴雨警告',
+                'WSTORM': '雷暴警告',
+                'WTYPH': '熱帶氣旋警告',
+                'WFIRE': '火災危險警告',
+                'WFROST': '霜凍警告',
+                'WSTRONG': '強風警告',
+                'WFOG': '濃霧警告',
+                'WLAND': '山泥傾瀉警告',
+                'WTS': '海嘯警告'
+            };
+
+            const actionMap = {
+                'ISSUE': '發出',
+                'CANCEL': '取消',
+                'UPDATE': '更新'
+            };
+
+            let html = '';
+
+            for (const [code, warn] of Object.entries(data)) {
+                if (typeof warn === 'object' && warn !== null) {
+                    const name = warnNameMap[code] || warn.name || code;
+                    const action = actionMap[warn.actionCode] || warn.actionCode || '';
+                    const issueTime = warn.issueTime || '';
+                    const updateTime = warn.updateTime || '';
+
+                    html += `<div class="warning-item">`;
+                    html += `<div class="warn-name">${name}<span class="warn-code">${code}</span>`;
+                    if (action) {
+                        html += `<span class="warn-status">${action}</span>`;
+                    }
+                    html += `</div>`;
+                    html += `<div class="warn-detail">`;
+                    if (issueTime) {
+                        html += `<span><strong>發出時間：</strong>${issueTime}</span>`;
+                    }
+                    if (updateTime) {
+                        html += `<span><strong>更新時間：</strong>${updateTime}</span>`;
+                    }
+                    html += `</div>`;
+                    html += `</div>`;
+                } else {
+                    html += `<div class="warning-item">`;
+                    html += `<div class="warn-name">${code}</div>`;
+                    html += `<div class="warn-detail">${warn}</div>`;
+                    html += `</div>`;
+                }
+            }
+
+            if (data.updateTime) {
+                html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            }
+
+            return html;
+        }
+
+        function renderRHRREAD(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.updateTime) html += `<div class="info-line"><strong>更新時間</strong> ${data.updateTime}</div>`;
+            if (data.temperature && data.temperature.data) {
+                html +=
+                    `<div class="info-line"><strong>溫度（${data.temperature.recordTime}）</strong></div><div class="grid-2col">`;
+                data.temperature.data.forEach(t => {
+                    html +=
+                        `<div style="font-size:14px;">${t.place}：<span class="value-unit">${t.value}°C</span></div>`;
+                });
+                html += `</div>`;
+            }
+            if (data.humidity && data.humidity.data) {
+                html +=
+                    `<div class="info-line"><strong>濕度（${data.humidity.recordTime}）</strong></div><div class="grid-2col">`;
+                data.humidity.data.forEach(h => {
+                    html +=
+                        `<div style="font-size:14px;">${h.place}：<span class="value-unit">${h.value}%</span></div>`;
+                });
+                html += `</div>`;
+            }
+            if (data.rainfall && data.rainfall.data) {
+                html +=
+                    `<div class="info-line"><strong>降雨量（${data.rainfall.startTime} ~ ${data.rainfall.endTime}）</strong></div><div class="grid-2col">`;
+                data.rainfall.data.forEach(r => {
+                    const main = r.main === 'TRUE' ? ' *' : '';
+                    html +=
+                        `<div style="font-size:14px;">${r.place}：<span class="value-unit">${r.max} mm</span>${main}</div>`;
+                });
+                html += `</div>`;
+            }
+            if (data.icon) {
+                html +=
+                    `<div class="info-line"><strong>天氣圖示編號</strong> ${data.icon.join(', ')}（更新：${data.iconUpdateTime || '—'}）</div>`;
+            }
+            return html;
+        }
+
+        function renderQEM(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.region) html += `<div class="info-line"><strong>震央區域</strong> ${data.region}</div>`;
+            if (data.lat && data.lon) html +=
+                `<div class="info-line"><strong>位置</strong> 北緯 ${data.lat}°，東經 ${data.lon}°</div>`;
+            if (data.mag) html += `<div class="info-line"><strong>規模</strong> ${data.mag} 級</div>`;
+            if (data.ptime) html += `<div class="info-line"><strong>發生時間</strong> ${data.ptime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            return html;
+        }
+
+        function renderFELT(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            const keys = Object.keys(data);
+            if (keys.length === 0) return '<div class="no-warning">目前沒有本地有感地震報告</div>';
+            let html = '<ul style="padding-left:20px;">';
+            for (const [key, val] of Object.entries(data)) {
+                html +=
+                    `<li><strong>${key}</strong>：${typeof val === 'object' ? JSON.stringify(val) : val}</li>`;
+            }
+            html += '</ul>';
+            return html;
+        }
+
+        function renderLHL(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.fields && data.data) {
+                html += `<table><thead><tr>`;
+                data.fields.forEach(f => html += `<th>${f}</th>`);
+                html += `</tr></thead><tbody>`;
+                data.data.forEach(row => {
+                    html += `<tr>`;
+                    row.forEach(cell => html += `<td>${cell}</td>`);
+                    html += `</tr>`;
+                });
+                html += `</tbody></table>`;
+            } else {
+                html += `<div class="info-line">沒有閃電數據</div>`;
+            }
+            return html;
+        }
+
+        function renderLTMV(data) {
+            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            let html = '';
+            if (data.fields && data.data) {
+                html += `<table><thead><tr>`;
+                data.fields.forEach(f => html += `<th>${f}</th>`);
+                html += `</tr></thead><tbody>`;
+                data.data.forEach(row => {
+                    html += `<tr>`;
+                    row.forEach(cell => html += `<td>${cell}</td>`);
+                    html += `</tr>`;
+                });
+                html += `</tbody></table>`;
+            } else {
+                html += `<div class="info-line">沒有能見度數據</div>`;
+            }
+            return html;
+        }
+
+        function renderCSV(csvText) {
+            if (!csvText || typeof csvText !== 'string') {
+                return '<div class="status-fail">無法載入數據</div>';
+            }
+            return csvToHtmlTable(csvText);
+        }
+
+        const renderMap = {
+            flw: renderFLW,
+            fnd: renderFND,
+            warnsum: renderWARNSUM,
+            rhrread: renderRHRREAD,
+            qem: renderQEM,
+            feltearthquake: renderFELT,
+            hhot: renderCSV,
+            hlt: renderCSV,
+            srs: renderCSV,
+            mrs: renderCSV,
+            lhl: renderLHL,
+            ltmv: renderLTMV,
+            clmtemp: renderCSV
+        };
+
+        let isRefreshing = false;
+
+        async function fetchAll() {
+            if (isRefreshing) return;
+            isRefreshing = true;
+
+            const btn = document.getElementById('refreshBtn');
+            btn.classList.add('spinning');
+
+            app.innerHTML = '';
+            for (const ep of endpoints) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.id = `card-${ep.id}`;
+                card.innerHTML = `
+                    <h2>
+                        <span>${ep.title}</span>
+                        <small>載入中...</small>
+                    </h2>
+                    <div class="card-content" id="content-${ep.id}"></div>
+                `;
+                app.appendChild(card);
+
+                const contentEl = document.getElementById(`content-${ep.id}`);
+                try {
+                    const resp = await fetch(ep.url);
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+
+                    let result;
+                    if (ep.type === 'csv') {
+                        result = await resp.text();
+                    } else {
+                        result = await resp.json();
+                    }
+
+                    const renderFn = renderMap[ep.id] || ((d) =>
+                        `<pre style="font-size:13px;">${typeof d === 'string' ? d : JSON.stringify(d, null, 2)}</pre>`
+                    );
+                    contentEl.innerHTML = renderFn(result);
+                    const titleEl = card.querySelector('h2 small');
+                    titleEl.textContent = '已載入';
+                    titleEl.style.color = '#1e7e34';
+                } catch (err) {
+                    console.error(`載入失敗 ${ep.title}：`, err);
+                    contentEl.innerHTML =
+                        `<div class="status-fail">無法載入此數據：${err.message}</div>`;
+                    const titleEl = card.querySelector('h2 small');
+                    titleEl.textContent = '載入失敗';
+                    titleEl.style.color = '#b22234';
+                }
+            }
+
+            btn.classList.remove('spinning');
+            isRefreshing = false;
+
+            const tooltip = document.getElementById('refreshTooltip');
+            tooltip.textContent = '已更新！';
+            tooltip.classList.add('show');
+            setTimeout(() => {
+                tooltip.textContent = '點擊刷新所有數據';
+                tooltip.classList.remove('show');
+            }, 1500);
+        }
+
+        document.getElementById('refreshBtn').addEventListener('click', fetchAll);
+
+        const btn = document.getElementById('refreshBtn');
+        const tooltip = document.getElementById('refreshTooltip');
+        btn.addEventListener('mouseenter', () => {
+            if (!isRefreshing) tooltip.classList.add('show');
+        });
+        btn.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('show');
+        });
+
+        fetchAll();
+
+        // 語言翻譯功能
+        const langDropdown = document.getElementById('langDropdown');
+        const langBtn = document.getElementById('langBtn');
+        const currentLang = document.getElementById('currentLang');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        langBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentLang.textContent = this.querySelector('span:last-child').textContent;
+                langDropdown.classList.remove('show');
+                if (typeof google !== 'undefined' && google.translate) {
+                    google.translate.TranslateElement({pageLanguage: 'zh-TW', autoDisplay: false}, 'google_translate_element');
+                }
+                const gadget = document.querySelector('.goog-te-gadget');
+                if (gadget) gadget.style.display = 'none';
             });
-            originalTexts.clear();
-            localStorage.removeItem('selectedLang');
-        }
+        });
 
-        // 頁面加載時恢復語言選擇
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                langDropdown.classList.remove('show');
+            }
+        });
+
         (function() {
             const savedLang = localStorage.getItem('selectedLang');
-            if (savedLang && savedLang !== 'zh-TW') {
-                const langOptions = document.querySelectorAll('.lang-option');
+            if (savedLang) {
                 langOptions.forEach(option => {
                     if (option.dataset.lang === savedLang) {
                         option.click();
@@ -1255,7 +2119,7 @@
                 });
             }
         })();
-    </script>
 
+    </script>
 </body>
 </html>

@@ -42,67 +42,49 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
         }
-        .logo a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover {
-            color: #007bff;
-        }
+        .logo a { display: flex; align-items: center; }
+        .logo img { height: 50px; width: auto; display: block; }
+        .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
+        .nav-links a:hover { color: #0056b3; text-decoration: underline; }
+
+        /* ===== 語言選擇器 ===== */
         .lang-selector {
             position: relative;
+            display: inline-block;
         }
         .lang-btn {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background: white;
-            cursor: pointer;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            border-radius: 40px;
+            background: transparent;
+            color: #007bff;
             font-size: 0.9rem;
-            transition: all 0.3s;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         .lang-btn:hover {
-            border-color: #007bff;
+            background: #007bff;
+            color: white;
         }
         .lang-dropdown {
             display: none;
             position: absolute;
             top: 100%;
             right: 0;
+            margin-top: 8px;
             background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            min-width: 140px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 160px;
             z-index: 1000;
-            margin-top: 0.5rem;
+            overflow: hidden;
         }
         .lang-dropdown.show {
             display: block;
@@ -110,21 +92,238 @@
         .lang-option {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1rem;
+            gap: 10px;
+            padding: 10px 16px;
             cursor: pointer;
             transition: background 0.2s;
+            font-size: 0.9rem;
+            color: #333;
         }
         .lang-option:hover {
-            background: #f8f9fa;
+            background: #f0f8ff;
         }
         .lang-option.active {
-            background: #e3f2fd;
+            background: #e6f3ff;
             color: #007bff;
+            font-weight: 500;
         }
-        .container {
-            width: 100%;
-            max-width: 1200px;
+        .lang-option .flag {
+            font-size: 1.2rem;
+        }
+        /* 隱藏 Google 翻譯彈窗 */
+        .goog-te-gadget {
+            font-size: 0 !important;
+        }
+        .goog-te-gadget .goog-te-combo {
+            font-size: 12px;
+        }
+        #google_translate_element {
+            display: inline-block;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
+        }
+
+        /* ===== 語言選擇器 ===== */
+        .lang-selector {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            border-radius: 40px;
+            background: transparent;
+            color: #007bff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 160px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .lang-dropdown.show {
+            display: block;
+        }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .lang-option:hover {
+            background: #f0f8ff;
+        }
+        .lang-option.active {
+            background: #e6f3ff;
+            color: #007bff;
+            font-weight: 500;
+        }
+        .lang-option .flag {
+            font-size: 1.2rem;
+        }
+        /* 隱藏 Google 翻譯彈窗 */
+        .goog-te-gadget {
+            font-size: 0 !important;
+        }
+        .goog-te-gadget .goog-te-combo {
+            font-size: 12px;
+        }
+        #google_translate_element {
+            display: inline-block;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
+        }
+
+        .avatar-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            cursor: pointer; background: white; padding: 0; overflow: hidden;
+            transition: border-color 0.2s; flex-shrink: 0;
+        }
+        .avatar-btn:hover { border-color: #007bff; }
+        .avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .avatar-btn .default-avatar {
+            width: 100%; height: 100%; display: flex; align-items: center;
+            justify-content: center; background: #e6edf8; color: #2c4a7a;
+            font-weight: 600; font-size: 1.1rem;
+        }
+
+        .auth-link {
+            text-decoration: none; color: #007bff; font-size: 1rem;
+            cursor: pointer; padding: 6px 16px; border-radius: 40px;
+            border: 1px solid #007bff; transition: all 0.2s ease;
+            background: transparent;
+        }
+        .auth-link:hover { background: #007bff; color: white; text-decoration: none; }
+        .auth-link.logout { border-color: #dc3545; color: #dc3545; }
+        .auth-link.logout:hover { background: #dc3545; color: white; }
+
+        .container { max-width: 1200px; width: 100%; padding: 20px; }
+
+        /* ===== 彈窗 ===== */
+        .modal-overlay, .auth-modal-overlay, .admin-modal-overlay, .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; justify-content: center; align-items: center;
+            z-index: 3000; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
+        .auth-modal-overlay { z-index: 5000; }
+        .admin-modal-overlay { z-index: 6000; }
+        .loading-overlay { z-index: 9999; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+
+        .modal-box, .auth-modal-box, .admin-modal-box, .loading-box {
+            background: white; border-radius: 24px; padding: 2rem;
+            width: 90%; max-width: 400px; cursor: default; animation: fadeIn 0.3s ease;
+        }
+        .admin-modal-box { max-width: 550px; max-height: 80vh; overflow-y: auto; }
+        .loading-box { text-align: center; min-width: 180px; }
+        .modal-box { max-width: 340px; padding: 30px 35px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
+        .modal-box .divider, .auth-modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
+        .contact-info, .auth-modal-box .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
+        .qq-label { font-size: 0.85rem; color: #888; }
+
+        .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+        .platform-btn-small {
+            display: block; width: 100%; padding: 12px 0;
+            border: 1px solid #dce3ed; border-radius: 40px; background: #ffffff;
+            font-size: 0.95rem; font-weight: 500; color: #1a1a1a;
+            cursor: pointer; text-align: center; transition: 0.15s;
+            font-family: sans-serif;
+        }
+        .platform-btn-small:active { background: #f0f0f0; transform: scale(0.97); }
+        .platform-btn-small.bili { color: #00a1d6; }
+        .platform-btn-small.xhs { color: #ff2442; }
+        .platform-btn-small.douyin { color: #000000; }
+        .platform-btn-small.yt { color: #ff0000; }
+
+        .auth-modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
+        .auth-modal-box .tab-btn { flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem; font-weight: 500; border-radius: 2.5rem; background: transparent; border: none; color: #5c5c5c; cursor: pointer; }
+        .auth-modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .auth-modal-box .form-panel { display: block; }
+        .auth-modal-box .form-panel.hidden { display: none; }
+        .auth-modal-box .input-group { margin-bottom: 1rem; }
+        .auth-modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; }
+        .auth-modal-box .input-field:focus { border-color: #b0b0b0; }
+        .auth-modal-box .action-btn { width: 100%; background: #1a1a1a; color: white; border: none; padding: 0.8rem; border-radius: 1rem; font-weight: 500; font-size: 1rem; cursor: pointer; }
+        .auth-modal-box .action-btn:disabled { background: #999; cursor: not-allowed; }
+        .auth-modal-box .action-btn.danger { background: #dc3545; }
+        .auth-modal-box .google-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.7rem; background: #fff; border: 1px solid #e5e7eb; padding: 0.8rem; border-radius: 1rem; font-weight: 500; color: #2d2d2d; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+        .auth-modal-box .google-btn:hover { background: #f5f5f5; }
+        .auth-modal-box .google-btn svg { flex-shrink: 0; }
+        .auth-modal-box .message-box { text-align: center; font-size: 0.85rem; padding: 0.5rem; border-radius: 2rem; margin-bottom: 1rem; display: none; }
+        .auth-modal-box .message-success { color: #065f46; background: #f0fdf6; border: 1px solid #d1fae5; display: block; }
+        .auth-modal-box .message-error { color: #991b1b; background: #fef2f2; border: 1px solid #fee2e2; display: block; }
+        .auth-modal-box .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ccc; border-top: 2px solid #1a1a1a; border-radius: 50%; animation: spin 0.6s linear infinite; margin-right: 6px; }
+        .auth-modal-box .admin-btn-small { margin-top: 0.8rem; background: transparent; border: 1px solid #e5e7eb; padding: 0.5rem; border-radius: 1rem; width: 100%; color: #6b7280; cursor: pointer; font-size: 0.85rem; display: none; }
+        .admin-modal-box .modal-close { float: right; background: #f5f5f5; border: none; width: 32px; height: 32px; border-radius: 0.8rem; cursor: pointer; font-size: 1rem; color: #6b7280; }
+        .admin-modal-box .modal-close:hover { background: #e5e7eb; }
+        .admin-modal-box table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .admin-modal-box th, .admin-modal-box td { padding: 0.7rem 0.5rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .admin-modal-box th { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
+        .admin-modal-box .delete-user-btn { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
+        .loading-spinner-full { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top: 4px solid #0066cc; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
+        .loading-box p { color: #333; font-size: 1rem; font-weight: 500; margin: 0; }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.5rem; margin: 1rem; }
+            .nav-right { gap: 0.8rem; }
+            .nav-links { gap: 1rem; }
+            .loading-spinner-full { width: 32px; height: 32px; }
+            .modal-box { padding: 24px 20px; max-width: 300px; }
+            .platform-grid-small { gap: 8px; }
+            .platform-btn-small { padding: 10px 0; font-size: 0.85rem; }
+            .qq-number { font-size: 1.3rem; }
+            .qq-icon { width: 50px; height: 50px; }
+        }
+        @media (max-width: 480px) {
+            .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.2rem; }
+            .loading-spinner-full { width: 28px; height: 28px; }
+            .loading-box p { font-size: 0.85rem; }
+            .platform-grid-small { gap: 6px; }
+            .platform-btn-small { padding: 8px 0; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -187,13 +386,514 @@
         <!-- 你的工具內容 -->
     </div>
 
+    <!-- ===== 聯繫我們彈窗 ===== -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="contact-info">
+                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
+                <div class="qq-label">QQ</div>
+                <span class="qq-number">1962487792</span>
+            </div>
+            <div class="divider"></div>
+            <div class="title">📱 追蹤我</div>
+            <div class="platform-grid-small">
+                <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')">嗶哩嗶哩</button>
+                <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')">小紅書</button>
+                <button class="platform-btn-small douyin" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')">抖音</button>
+                <button class="platform-btn-small yt" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')">YouTube</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 登入彈窗 ===== -->
+    <div class="auth-modal-overlay" id="authModal">
+        <div class="auth-modal-box">
+            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
+                <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
+                <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
+                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+            </div>
+            <div id="authPanel">
+                <div class="tab-switch">
+                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
+                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                </div>
+                <div id="loginPanel" class="form-panel">
+                    <div id="loginMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleLoginBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 登入
+                    </button>
+                </div>
+                <div id="registerPanel" class="form-panel hidden">
+                    <div id="registerMessage" class="message-box"></div>
+                    <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <div class="divider"><span>或</span></div>
+                    <button class="google-btn" id="googleRegisterBtn">
+                        <svg width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        使用 Google 註冊
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top:0.8rem;font-size:0.7rem;color:#aaa;text-align:center;">☁️ Firebase 雲端 · 跨設備同步</div>
+        </div>
+    </div>
+
+    <!-- ===== 用戶管理彈窗 ===== -->
+    <div class="admin-modal-overlay" id="adminModal">
+        <div class="admin-modal-box">
+            <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+        </div>
+    </div>
+
+    <!-- ===== 加載中彈窗 ===== -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-box">
+            <div class="loading-spinner-full"></div>
+            <p id="loadingText">載入中...</p>
+        </div>
+    </div>
+
+    <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
+
     <script>
-        // 語言翻譯功能 (使用 MyMemory API)
+        // ============================================================
+        // 1. Firebase 配置
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
+            projectId: "oscar-io-log-in",
+            storageBucket: "oscar-io-log-in.firebasestorage.app",
+            messagingSenderId: "51821788083",
+            appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        // ============================================================
+        // 2. 加載彈窗控制
+        // ============================================================
+        let loadingTimer = null;
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function hideLoading() {
+            if (loadingTimer) return;
+            loadingTimer = setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                loadingTimer = null;
+            }, 500);
+        }
+
+        // ============================================================
+        // 3. DOM 元素與管理員判斷
+        // ============================================================
+        const authNavLink = document.getElementById('authNavLink');
+        const avatarBtn = document.getElementById('avatarBtn');
+        const avatarImg = document.getElementById('avatarImg');
+        const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+
+        const authModal = document.getElementById('authModal');
+        const authPanel = document.getElementById('authPanel');
+        const authLoggedInPanel = document.getElementById('authLoggedInPanel');
+        const authDisplayName = document.getElementById('authDisplayName');
+        const authDisplayEmail = document.getElementById('authDisplayEmail');
+        const authLogoutBtn = document.getElementById('authLogoutBtn');
+        const authAdminBtn = document.getElementById('authAdminBtn');
+
+        const loginTabBtn = document.getElementById('loginTabBtn');
+        const registerTabBtn = document.getElementById('registerTabBtn');
+        const loginPanel = document.getElementById('loginPanel');
+        const registerPanel = document.getElementById('registerPanel');
+        const loginName = document.getElementById('loginName');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginSubmit = document.getElementById('loginSubmitBtn');
+        const loginMessage = document.getElementById('loginMessage');
+        const regName = document.getElementById('regName');
+        const regPassword = document.getElementById('regPassword');
+        const regConfirmPassword = document.getElementById('regConfirmPassword');
+        const registerSubmit = document.getElementById('registerSubmitBtn');
+        const registerMessage = document.getElementById('registerMessage');
+        const googleLoginBtn = document.getElementById('googleLoginBtn');
+        const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const userTableContainer = document.getElementById('userTableContainer');
+        const avatarCanvas = document.getElementById('avatarCanvas');
+        const avatarCtx = avatarCanvas.getContext('2d');
+
+        function isAdmin(user) {
+            if (!user) return false;
+            return user.email === 'oscarmtr114514@gmail.com';
+        }
+
+        // ============================================================
+        // 4. 頭像與 UI 控制函數
+        // ============================================================
+        function generateIdenticon(name) {
+            const seed = name || 'default';
+            const encoder = new TextEncoder();
+            const data = encoder.encode(seed);
+            let hash = BigInt('0xcbf29ce484222325');
+            const prime = BigInt('0x100000001b3');
+            for (let i = 0; i < data.length; i++) {
+                hash ^= BigInt(data[i]);
+                hash = (hash * prime) & BigInt('0xffffffffffffffff');
+            }
+            const bytes = new Uint8Array(8);
+            for (let i = 0; i < 8; i++) bytes[7 - i] = Number((hash >> BigInt(i * 8)) & BigInt(0xff));
+            const hue = (bytes[0] * 256 + bytes[1]) % 360;
+            const sat = 70 + (bytes[2] % 20);
+            const lig = 55 + (bytes[0] % 20);
+            const bits = [];
+            let bi = 3, bj = 0;
+            for (let r = 0; r < 5; r++) {
+                for (let c = 0; c < 5; c++) {
+                    if (c < 3) {
+                        const b = bytes[bi] || 0;
+                        bits.push(((b >> (7 - bj)) & 1) === 1);
+                        bj++; if (bj >= 8) { bj = 0; bi++; }
+                    } else {
+                        bits.push(bits[r * 3 + (4 - c)] || false);
+                    }
+                }
+            }
+            avatarCtx.clearRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = '#f5f5f5';
+            avatarCtx.fillRect(0, 0, 420, 420);
+            avatarCtx.fillStyle = `hsl(${hue}, ${sat}%, ${lig}%)`;
+            for (let r = 0; r < 5; r++)
+                for (let c = 0; c < 5; c++)
+                    if (bits[r * 5 + c]) avatarCtx.fillRect(c * 84, r * 84, 84, 84);
+            return avatarCanvas.toDataURL('image/png');
+        }
+
+        function showMsg(el, text, type) {
+            el.textContent = text;
+            el.className = 'message-box message-' + type;
+            setTimeout(() => { el.className = 'message-box'; el.textContent = ''; }, 4000);
+        }
+
+        function switchToLogin() {
+            loginPanel.classList.remove('hidden');
+            registerPanel.classList.add('hidden');
+            loginTabBtn.classList.add('active');
+            registerTabBtn.classList.remove('active');
+        }
+        function switchToRegister() {
+            registerPanel.classList.remove('hidden');
+            loginPanel.classList.add('hidden');
+            registerTabBtn.classList.add('active');
+            loginTabBtn.classList.remove('active');
+        }
+
+        function updateAvatar(photoUrl, name) {
+            if (photoUrl && photoUrl.startsWith('http')) {
+                avatarImg.src = photoUrl;
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImg.src = generateIdenticon(name || 'default');
+                avatarImg.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            }
+        }
+
+        function showUI(user) {
+            authNavLink.textContent = '登出';
+            authNavLink.className = 'auth-link logout';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', handleLogout);
+            updateAvatar(user.photo, user.name);
+            authPanel.style.display = 'none';
+            authLoggedInPanel.style.display = 'block';
+            authDisplayName.textContent = user.name || '使用者';
+            authDisplayEmail.textContent = user.email || '';
+            if (isAdmin(user)) {
+                authAdminBtn.style.display = 'block';
+            } else {
+                authAdminBtn.style.display = 'none';
+            }
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            hideLoading();
+        }
+
+        function hideUI() {
+            authNavLink.textContent = '登入';
+            authNavLink.className = 'auth-link';
+            authNavLink.removeEventListener('click', openAuthModal);
+            authNavLink.removeEventListener('click', handleLogout);
+            authNavLink.addEventListener('click', openAuthModal);
+            avatarImg.style.display = 'none';
+            avatarPlaceholder.style.display = 'flex';
+            authPanel.style.display = 'block';
+            authLoggedInPanel.style.display = 'none';
+            localStorage.removeItem('currentUser');
+            hideLoading();
+        }
+
+        function openAuthModal() {
+            authModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeAuthModal() {
+            authModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function openAdminModalFn() {
+            adminModal.classList.add('show');
+            loadUserTable();
+        }
+        function closeAdminModalFn() {
+            adminModal.classList.remove('show');
+        }
+
+        // ============================================================
+        // 5. Firebase 認證功能
+        // ============================================================
+        async function googleLogin() {
+            showLoading('Google 登入中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const result = await auth.signInWithPopup(provider);
+                const u = result.user;
+                const userData = { name: u.displayName, email: u.email, photo: u.photoURL, uid: u.uid };
+                await db.ref('users/' + u.uid).set({ name: u.displayName, email: u.email, photo: u.photoURL, lastLogin: Date.now() });
+                showUI(userData);
+                closeAuthModal();
+            } catch (e) {
+                hideLoading();
+                if (e.code !== 'auth/popup-closed-by-user') {
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                }
+            }
+        }
+
+        async function handleRegister() {
+            const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            showLoading('註冊中...');
+            registerSubmit.disabled = true;
+            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmit.disabled = false; registerSubmit.textContent = '註冊'; return; }
+                const avatar = generateIdenticon(name);
+                const ref = db.ref('users').push();
+                await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
+                const ud = { name, email: '', photo: avatar, uid: ref.key };
+                showUI(ud);
+                closeAuthModal();
+                regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
+            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error'); hideLoading(); }
+            finally { registerSubmit.disabled = false; registerSubmit.textContent = '註冊'; }
+        }
+
+        async function handleLogin() {
+            const name = loginName.value.trim(), pw = loginPassword.value;
+            if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+            showLoading('登入中...');
+            loginSubmit.disabled = true;
+            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            try {
+                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmit.disabled = false; loginSubmit.textContent = '登入'; return; }
+                let found = false;
+                snap.forEach(c => {
+                    const d = c.val();
+                    if (d.password === pw) {
+                        found = true;
+                        const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: c.key };
+                        showUI(ud);
+                        closeAuthModal();
+                        db.ref('users/' + c.key + '/lastLogin').set(Date.now());
+                        loginName.value = ''; loginPassword.value = '';
+                    }
+                });
+                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                hideLoading();
+            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
+            finally { loginSubmit.disabled = false; loginSubmit.textContent = '登入'; }
+        }
+
+        function handleLogout() {
+            showLoading('登出中...');
+            auth.signOut().catch(() => {});
+            hideUI();
+        }
+
+        // ============================================================
+        // 6. 用戶管理
+        // ============================================================
+        let allUsers = [];
+        async function loadUserTable() {
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            try {
+                const snap = await db.ref('users').once('value');
+                allUsers = [];
+                if (snap.exists()) {
+                    snap.forEach(c => {
+                        const d = c.val();
+                        if (d.name) allUsers.push({ key: c.key, ...d });
+                    });
+                }
+                if (allUsers.length === 0) {
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    return;
+                }
+                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                allUsers.forEach((u) => {
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const pwDisplay = u.password ? u.password : 'Google';
+                    html += `<tr><td>${u.name}</td><td>${u.email || '-'}</td><td>${pwDisplay}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${u.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                });
+                html += '</tbody></table>';
+                userTableContainer.innerHTML = html;
+            } catch (e) {
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+            }
+        }
+
+        window._deleteUser = async function(key, name) {
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            try {
+                await db.ref('users/' + key).remove();
+                const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (local && local.uid === key) { hideUI(); }
+                loadUserTable();
+            } catch (e) { alert('刪除失敗：' + e.message); }
+        };
+
+        // ============================================================
+        // 7. 事件綁定
+        // ============================================================
+        loginTabBtn.addEventListener('click', switchToLogin);
+        registerTabBtn.addEventListener('click', switchToRegister);
+        loginSubmit.addEventListener('click', handleLogin);
+        registerSubmit.addEventListener('click', handleRegister);
+        googleLoginBtn.addEventListener('click', googleLogin);
+        googleRegisterBtn.addEventListener('click', googleLogin);
+        authLogoutBtn.addEventListener('click', function() { handleLogout(); closeAuthModal(); });
+
+        authNavLink.addEventListener('click', openAuthModal);
+
+        avatarBtn.addEventListener('click', function() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                openAuthModal();
+                authPanel.style.display = 'none';
+                authLoggedInPanel.style.display = 'block';
+                const user = JSON.parse(local);
+                authDisplayName.textContent = user.name || '使用者';
+                authDisplayEmail.textContent = user.email || '';
+                if (isAdmin(user)) {
+                    authAdminBtn.style.display = 'block';
+                } else {
+                    authAdminBtn.style.display = 'none';
+                }
+            } else {
+                openAuthModal();
+            }
+        });
+
+        authAdminBtn.addEventListener('click', function() { closeAuthModal(); setTimeout(openAdminModalFn, 300); });
+        authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+        closeAdminModal.addEventListener('click', closeAdminModalFn);
+        adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (adminModal.classList.contains('show')) closeAdminModalFn();
+                if (authModal.style.display === 'flex') closeAuthModal();
+            }
+        });
+
+        // ============================================================
+        // 8. 聯繫我們
+        // ============================================================
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ============================================================
+        // 9. 初始化
+        // ============================================================
+        function initAuth() {
+            const local = localStorage.getItem('currentUser');
+            if (local) {
+                try { const user = JSON.parse(local); showUI(user); } catch (e) { hideUI(); }
+            } else { hideUI(); }
+        }
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
+                localStorage.setItem('currentUser', JSON.stringify(ud));
+                showUI(ud);
+            }
+        });
+        initAuth();
+
+        // ============================================================
+        // 語言翻譯功能 (使用 LibreTranslate API)
+        // ============================================================
         const langDropdown = document.getElementById('langDropdown');
         const langBtn = document.getElementById('langBtn');
         const currentLang = document.getElementById('currentLang');
         const langOptions = document.querySelectorAll('.lang-option');
 
+        // 語言映射 (LibreTranslate 代碼)
+        const langMap = {
+            'zh-TW': 'zh-TW',
+            'zh-CN': 'zh',
+            'en': 'en',
+            'ko': 'ko',
+            'ja': 'ja'
+        };
+
+        // 語言名稱
         const langNames = {
             'zh-TW': '中文(繁)',
             'zh-CN': '中文(简)',
@@ -202,86 +902,153 @@
             'ja': '日本語'
         };
 
-        const langCodeMap = {
-            'zh-TW': 'zh-TW',
-            'zh-CN': 'zh',
-            'en': 'en',
-            'ko': 'ko',
-            'ja': 'ja'
-        };
-
+        // 翻譯狀態
         let isTranslating = false;
-        let originalTexts = new Map();
+        let translatedTexts = new Map(); // 存储翻译结果
 
+        // 點擊語言按鈕切換下拉
         langBtn.addEventListener('click', function(e) {
             e.stopPropagation();
             langDropdown.classList.toggle('show');
         });
 
+        // 點擊選項切換語言
         langOptions.forEach(option => {
             option.addEventListener('click', function() {
                 const lang = this.dataset.lang;
+
+                // 更新激活狀態
                 langOptions.forEach(opt => opt.classList.remove('active'));
                 this.classList.add('active');
+
+                // 更新按鈕顯示
                 currentLang.textContent = langNames[lang];
+
+                // 關閉下拉
                 langDropdown.classList.remove('show');
 
+                // 執行翻譯
                 if (lang === 'zh-TW') {
+                    // 繁體中文 - 恢復原文
                     restoreOriginal();
                 } else {
+                    // 翻譯到目標語言
                     translatePage(lang);
                 }
             });
         });
 
+        // 點擊外部關閉下拉
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.lang-selector')) {
                 langDropdown.classList.remove('show');
             }
         });
 
+        // 翻譯頁面
         async function translatePage(targetLang) {
             if (isTranslating) return;
             isTranslating = true;
+
+            // 保存語言選擇
             localStorage.setItem('selectedLang', targetLang);
-            originalTexts.clear();
 
-            const excludeSelectors = '.lang-selector, .lang-btn, .lang-option, #langBtn, #langDropdown, #currentLang, button, input, textarea, select';
-            const elements = Array.from(document.querySelectorAll('*'))
-                .filter(el => {
-                    if (el.closest(excludeSelectors)) return false;
-                    const text = el.textContent.trim();
-                    return text.length > 0 && el.children.length === 0;
+            // 清除之前的翻譯
+            translatedTexts.clear();
+
+            // 獲取所有需要翻譯的文本元素（排除導航欄、按鈕、輸入框等）
+            const selectors = [
+                'h1, h2, h3, h4, h5, h6',
+                'p',
+                'span:not([class*="lang"])',
+                'a:not(.nav-link):not(.auth-link)',
+                'label',
+                'button:not(.lang-btn):not(.lang-option):not([id*="Btn"]):not([id*="btn"])',
+                '.title',
+                '.desc',
+                '.qq-label',
+                '.qq-number',
+                '.platform-btn-small',
+                '.tab-btn',
+                '.message-box',
+                '.input-field::placeholder'
+            ];
+
+            const elements = [];
+            selectors.forEach(sel => {
+                document.querySelectorAll(sel).forEach(el => {
+                    if (!elements.includes(el) && el.textContent.trim() && el.offsetParent !== null) {
+                        elements.push(el);
+                    }
                 });
-
-            elements.forEach(el => {
-                originalTexts.set(el, el.textContent.trim());
             });
 
-            const sourceLang = 'zh-TW';
-            const targetCode = langCodeMap[targetLang];
+            if (elements.length === 0) {
+                isTranslating = false;
+                return;
+            }
 
-            for (const el of elements) {
-                const text = originalTexts.get(el);
-                if (!text) continue;
+            // 收集所有文本
+            const texts = new Set();
+            elements.forEach(el => {
+                const text = el.textContent.trim();
+                if (text && !el.dataset.original) {
+                    texts.add(text);
+                }
+            });
+
+            // 保存原文
+            elements.forEach(el => {
+                if (el.textContent.trim() && !el.dataset.original) {
+                    el.dataset.original = el.textContent.trim();
+                }
+            });
+
+            // 使用 LibreTranslate API 翻譯
+            const sourceLang = 'zh-TW';
+            const targetCode = langMap[targetLang];
+
+            for (const text of texts) {
                 try {
-                    const response = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + sourceLang + '|' + targetCode);
+                    const response = await fetch('https://libretranslate.de/translate', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            q: text,
+                            source: sourceLang,
+                            target: targetCode,
+                            format: 'text'
+                        })
+                    });
+
                     const data = await response.json();
-                    if (data.responseStatus === 200 && data.responseData.translatedText) {
-                        el.textContent = data.responseData.translatedText;
+
+                    if (data.translatedText) {
+                        translatedTexts.set(text, data.translatedText);
+                        elements.forEach(el => {
+                            if (el.dataset.original === text) {
+                                el.textContent = data.translatedText;
+                            }
+                        });
                     }
                 } catch (e) {
                     console.error('Translation error:', e);
                 }
             }
+
             isTranslating = false;
         }
 
+        // 恢復原文
         function restoreOriginal() {
-            originalTexts.forEach((text, el) => {
-                el.textContent = text;
+            const elements = document.querySelectorAll('[data-original]');
+            elements.forEach(el => {
+                el.textContent = el.dataset.original;
+                delete el.dataset.original;
             });
-            originalTexts.clear();
+            translatedTexts.clear();
             localStorage.removeItem('selectedLang');
         }
 
