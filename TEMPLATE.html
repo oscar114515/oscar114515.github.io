@@ -51,6 +51,164 @@
         .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
         .nav-links a:hover { color: #0056b3; text-decoration: underline; }
 
+        /* ===== 語言選擇器 ===== */
+        .lang-selector {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            border-radius: 40px;
+            background: transparent;
+            color: #007bff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 160px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .lang-dropdown.show {
+            display: block;
+        }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .lang-option:hover {
+            background: #f0f8ff;
+        }
+        .lang-option.active {
+            background: #e6f3ff;
+            color: #007bff;
+            font-weight: 500;
+        }
+        .lang-option .flag {
+            font-size: 1.2rem;
+        }
+        /* 隱藏 Google 翻譯彈窗 */
+        .goog-te-gadget {
+            font-size: 0 !important;
+        }
+        .goog-te-gadget .goog-te-combo {
+            font-size: 12px;
+        }
+        #google_translate_element {
+            display: inline-block;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
+        }
+
+        /* ===== 語言選擇器 ===== */
+        .lang-selector {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            border-radius: 40px;
+            background: transparent;
+            color: #007bff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 160px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .lang-dropdown.show {
+            display: block;
+        }
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .lang-option:hover {
+            background: #f0f8ff;
+        }
+        .lang-option.active {
+            background: #e6f3ff;
+            color: #007bff;
+            font-weight: 500;
+        }
+        .lang-option .flag {
+            font-size: 1.2rem;
+        }
+        /* 隱藏 Google 翻譯彈窗 */
+        .goog-te-gadget {
+            font-size: 0 !important;
+        }
+        .goog-te-gadget .goog-te-combo {
+            font-size: 12px;
+        }
+        #google_translate_element {
+            display: inline-block;
+        }
+        .skiptranslate {
+            display: none !important;
+        }
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
+        }
+
         .avatar-btn {
             width: 40px; height: 40px; border-radius: 50%;
             border: 2px solid #e0e0e0;
@@ -187,6 +345,65 @@
                         </button>
                     </li>
                     <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li>
+                        <div class="lang-selector">
+                            <button class="lang-btn" id="langBtn">
+                                <span>🌐</span>
+                                <span id="currentLang">中文(繁)</span>
+                                <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                            </button>
+                            <div class="lang-dropdown" id="langDropdown">
+                                <div class="lang-option active" data-lang="zh-TW" data-flag="🇹🇼">
+                                    <span>🇹🇼</span>
+                                    <span>中文(繁)</span>
+                                </div>
+                                <div class="lang-option" data-lang="zh-CN" data-flag="🇨🇳">
+                                    <span>🇨🇳</span>
+                                    <span>中文(简)</span>
+                                </div>
+                                <div class="lang-option" data-lang="en" data-flag="🇺🇸">
+                                    <span>🇺🇸</span>
+                                    <span>English</span>
+                                </div>
+                                <div class="lang-option" data-lang="ko" data-flag="🇰🇷">
+                                    <span>🇰🇷</span>
+                                    <span>한국어</span>
+                                </div>
+                                <div class="lang-option" data-lang="ja" data-flag="🇯🇵">
+                                    <span>🇯🇵</span>
+                                    <span>日本語</span>
+                                </div>
+                                <div class="lang-option" data-lang="fr" data-flag="🇫🇷">
+                                    <span>🇫🇷</span>
+                                    <span>Français</span>
+                                </div>
+                                <div class="lang-option" data-lang="de" data-flag="🇩🇪">
+                                    <span>🇩🇪</span>
+                                    <span>Deutsch</span>
+                                </div>
+                                <div class="lang-option" data-lang="es" data-flag="🇪🇸">
+                                    <span>🇪🇸</span>
+                                    <span>Español</span>
+                                </div>
+                                <div class="lang-option" data-lang="pt" data-flag="🇧🇷">
+                                    <span>🇧🇷</span>
+                                    <span>Português</span>
+                                </div>
+                                <div class="lang-option" data-lang="ru" data-flag="🇷🇺">
+                                    <span>🇷🇺</span>
+                                    <span>Русский</span>
+                                </div>
+                                <div class="lang-option" data-lang="ar" data-flag="🇸🇦">
+                                    <span>🇸🇦</span>
+                                    <span>العربية</span>
+                                </div>
+                                <div class="lang-option" data-lang="hi" data-flag="🇮🇳">
+                                    <span>🇮🇳</span>
+                                    <span>हिन्दী</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -686,6 +903,108 @@
             }
         });
         initAuth();
+
+        // ============================================================
+        // 語言翻譯功能
+        // ============================================================
+        const langDropdown = document.getElementById('langDropdown');
+        const langBtn = document.getElementById('langBtn');
+        const currentLang = document.getElementById('currentLang');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        // 點擊語言按鈕切換下拉
+        langBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+        });
+
+        // 點擊選項切換語言
+        langOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const lang = this.dataset.lang;
+                const flag = this.dataset.flag;
+
+                // 更新激活狀態
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+
+                // 更新按鈕顯示
+                currentLang.textContent = this.querySelector('span:last-child').textContent;
+
+                // 關閉下拉
+                langDropdown.classList.remove('show');
+
+                // 使用 Google Translate 進行翻譯
+                translatePage(lang);
+            });
+        });
+
+        // 點擊外部關閉下拉
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.lang-selector')) {
+                langDropdown.classList.remove('show');
+            }
+        });
+
+        // 翻譯頁面
+        function translatePage(lang) {
+            // 保存當前語言到 localStorage
+            localStorage.setItem('selectedLang', lang);
+
+            // 使用 Google Translate widget
+            if (lang === 'zh-TW') {
+                // 繁體中文 - 不需要翻譯
+                if (typeof google !== 'undefined' && google.translate) {
+                    google.translate.TranslateElement({pageLanguage: 'zh-TW', autoDisplay: false}, 'google_translate_element');
+                }
+            } else {
+                // 其他語言 - 使用 Google Translate
+                const googleTranslateElement = document.getElementById('google_translate_element');
+                if (googleTranslateElement) {
+                    // 清除此前的翻譯
+                    const oldIframe = document.querySelector('iframe[src*="google.com"]');
+                    if (oldIframe) oldIframe.remove();
+
+                    // 創建新的翻譯
+                    const script = document.createElement('script');
+                    script.src = `//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit`;
+                    document.body.appendChild(script);
+
+                    window.googleTranslateElementInit = function() {
+                        new google.translate.TranslateElement({
+                            pageLanguage: 'zh-TW',
+                            includedLanguages: 'zh-CN,en,ko,ja,fr,de,es,pt,ru,ar,hi',
+                            autoDisplay: false,
+                            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                        }, 'google_translate_element');
+                    };
+                }
+            }
+        }
+
+        // 頁面加載時恢復語言選擇
+        (function() {
+            const savedLang = localStorage.getItem('selectedLang');
+            if (savedLang && savedLang !== 'zh-TW') {
+                langOptions.forEach(option => {
+                    if (option.dataset.lang === savedLang) {
+                        option.click();
+                    }
+                });
+            }
+        })();
+
+        // Google Translate 初始化
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'zh-TW',
+                includedLanguages: 'zh-CN,en,ko,ja,fr,de,es,pt,ru,ar,hi',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
     </script>
+
+    <!-- Google Translate 容器（隱藏） -->
+    <div id="google_translate_element" style="display:none;"></div>
 </body>
 </html>
