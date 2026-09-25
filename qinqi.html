@@ -382,6 +382,21 @@
                 <button class="rel-btn" data-rel="阿姨">阿姨</button>
                 <button class="rel-btn" data-rel="舅舅">舅舅</button>
                 <button class="rel-btn" data-rel="姑姑">姑姑</button>
+                <button class="rel-btn" data-rel="姨媽">姨媽</button>
+                <button class="rel-btn" data-rel="嫂子">嫂子</button>
+                <button class="rel-btn" data-rel="姐夫">姐夫</button>
+                <button class="rel-btn" data-rel="妹夫">妹夫</button>
+                <button class="rel-btn" data-rel="弟妹">弟妹</button>
+                <button class="rel-btn" data-rel="舅媽">舅媽</button>
+                <button class="rel-btn" data-rel="婶婶">婶婶</button>
+                <button class="rel-btn" data-rel="姑父">姑父</button>
+                <button class="rel-btn" data-rel="姨父">姨父</button>
+                <button class="rel-btn" data-rel="婆婆">婆婆</button>
+                <button class="rel-btn" data-rel="公公">公公</button>
+                <button class="rel-btn" data-rel="岳父">岳父</button>
+                <button class="rel-btn" data-rel="岳母">岳母</button>
+                <button class="rel-btn" data-rel="媳婦">媳婦</button>
+                <button class="rel-btn" data-rel="女婿">女婿</button>
             </div>
             
             <div class="action-buttons">
@@ -704,7 +719,22 @@
             '叔叔': { male: '叔叔', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
             '阿姨': { male: '阿姨', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
             '舅舅': { male: '舅舅', female: '舅舅', reverse: '外甥', femaleReverse: '侄子', gender: 'male' },
-            '姑姑': { male: '姑姑', female: '姑姑', reverse: '侄子', femaleReverse: '外甥', gender: 'female' }
+            '姑姑': { male: '姑姑', female: '姑姑', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
+            '姨媽': { male: '姨媽', female: '姨媽', reverse: '外甥', femaleReverse: '外甥', gender: 'female' },
+            '嫂子': { male: '嫂子', female: '嫂子', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
+            '姐夫': { male: '姐夫', female: '姐夫', reverse: '小姨子', femaleReverse: '小舅子', gender: 'male' },
+            '妹夫': { male: '妹夫', female: '妹夫', reverse: '大姨子', femaleReverse: '大舅子', gender: 'male' },
+            '弟妹': { male: '弟妹', female: '弟妹', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
+            '舅媽': { male: '舅媽', female: '舅媽', reverse: '外甥', femaleReverse: '侄子', gender: 'female' },
+            '婶婶': { male: '婶婶', female: '婶婶', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
+            '姑父': { male: '姑父', female: '姑父', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
+            '姨父': { male: '姨父', female: '姨父', reverse: '外甥', femaleReverse: '侄子', gender: 'male' },
+            '婆婆': { male: '婆婆', female: '婆婆', reverse: '媳婦', femaleReverse: '媳婦', gender: 'female' },
+            '公公': { male: '公公', female: '公公', reverse: '媳婦', femaleReverse: '媳婦', gender: 'male' },
+            '岳父': { male: '岳父', female: '岳父', reverse: '女婿', femaleReverse: '女婿', gender: 'male' },
+            '岳母': { male: '岳母', female: '岳母', reverse: '女婿', femaleReverse: '女婿', gender: 'female' },
+            '媳婦': { male: '媳婦', female: '媳婦', reverse: '公公', femaleReverse: '婆婆', gender: 'female' },
+            '女婿': { male: '女婿', female: '女婿', reverse: '岳父', femaleReverse: '岳母', gender: 'male' }
         };
 
         // 擴展關係表
@@ -746,29 +776,96 @@
             document.getElementById('resultBox').style.display = 'none';
         }
 
+        // 關係組合表：多步關係的正確稱呼
+        const chainMap = {
+            '父亲,母亲': { male: '奶奶', female: '奶奶' },
+            '父亲,父亲': { male: '爺爺', female: '爺爺' },
+            '母亲,母亲': { male: '外婆', female: '外婆' },
+            '母亲,父亲': { male: '外公', female: '外公' },
+            '父亲,哥哥': { male: '伯父', female: '姑姑' },
+            '父亲,弟弟': { male: '叔叔', female: '阿姨' },
+            '父亲,姐姐': { male: '姑姑', female: '姑姑' },
+            '父亲,妹妹': { male: '姑姑', female: '姑姑' },
+            '母亲,哥哥': { male: '舅舅', female: '舅舅' },
+            '母亲,弟弟': { male: '舅舅', female: '舅舅' },
+            '母亲,姐姐': { male: '姨媽', female: '姨媽' },
+            '母亲,妹妹': { male: '姨媽', female: '姨媽' },
+            '哥哥,儿子': { male: '侄子', female: '外甥' },
+            '哥哥,女儿': { male: '侄女', female: '外甥女' },
+            '弟弟,儿子': { male: '侄子', female: '外甥' },
+            '弟弟,女儿': { male: '侄女', female: '外甥女' },
+            '姐姐,儿子': { male: '外甥', female: '外甥' },
+            '姐姐,女儿': { male: '外甥女', female: '外甥女' },
+            '妹妹,儿子': { male: '外甥', female: '外甥' },
+            '妹妹,女儿': { male: '外甥女', female: '外甥女' },
+            '儿子,儿子': { male: '孫子', female: '孫女' },
+            '儿子,女儿': { male: '孫女', female: '孫女' },
+            '女儿,儿子': { male: '外孫', female: '外孫女' },
+            '女儿,女儿': { male: '外孫女', female: '外孫女' },
+            '儿子,父亲': { male: '祖父', female: '祖母' },
+            '儿子,母亲': { male: '祖母', female: '祖母' },
+            '女儿,父亲': { male: '外祖父', female: '外祖母' },
+            '女儿,母亲': { male: '外祖母', female: '外祖母' },
+            '丈夫,父亲': { male: '公公', female: '婆婆' },
+            '丈夫,母亲': { male: '婆婆', female: '婆婆' },
+            '妻子,父亲': { male: '岳父', female: '岳母' },
+            '妻子,母亲': { male: '岳母', female: '岳母' },
+            '祖父,妻子': { male: '奶奶', female: '奶奶' },
+            '外祖父,妻子': { male: '外婆', female: '外婆' },
+            '叔叔,妻子': { male: '婶婶', female: '婶婶' },
+            '舅舅,妻子': { male: '舅媽', female: '舅媽' },
+            '姑姑,丈夫': { male: '姑父', female: '姑父' },
+            '阿姨,丈夫': { male: '姨父', female: '姨父' },
+            '姐姐,丈夫': { male: '姐夫', female: '姐夫' },
+            '妹妹,丈夫': { male: '妹夫', female: '妹夫' },
+            '哥哥,妻子': { male: '嫂子', female: '嫂子' },
+            '弟弟,妻子': { male: '弟妹', female: '弟妹' },
+            '儿子,妻子': { male: '媳婦', female: '媳婦' },
+            '女儿,丈夫': { male: '女婿', female: '女婿' },
+        };
+
         function calculate() {
             if (relationChain.length === 0) {
                 alert('請先選擇關係！');
                 return;
             }
-            
-            let result = '自己';
-            let currentGender = userGender;
-            
-            for (const rel of relationChain) {
+
+            const chainKey = relationChain.join(',');
+            let result;
+            let detail = relationChain.join(' → ');
+
+            // 優先使用組合表（多步關係）
+            if (chainMap[chainKey]) {
+                result = chainMap[chainKey][userGender] || chainMap[chainKey].male;
+            }
+            // 單步關係：直接查表
+            else if (relationChain.length === 1) {
+                const rel = relationChain[0];
                 const info = relations[rel];
-                if (!info) continue;
-                
+                if (!info) {
+                    alert('未知的關係：' + rel);
+                    return;
+                }
                 if (queryDirection === 'forward') {
-                    result = currentGender === 'male' ? info.male : info.female;
-                    if (info.gender) currentGender = info.gender;
+                    result = userGender === 'male' ? info.male : info.female;
                 } else {
-                    result = currentGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
+                    result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
                 }
             }
-            
+            // 未收錄的多步關係：顯示最後一步的結果
+            else {
+                const lastRel = relationChain[relationChain.length - 1];
+                const info = relations[lastRel];
+                if (queryDirection === 'forward') {
+                    result = userGender === 'male' ? info.male : info.female;
+                } else {
+                    result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
+                }
+                detail += '（僅顯示最後一步）';
+            }
+
             document.getElementById('resultValue').textContent = result;
-            document.getElementById('resultDetail').textContent = relationChain.join(' → ');
+            document.getElementById('resultDetail').textContent = detail;
             document.getElementById('resultBox').style.display = 'block';
         }
 
