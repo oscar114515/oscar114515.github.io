@@ -369,7 +369,49 @@
             top: 0 !important;
         }
 
-    </style>
+    
+        /* ===== 站尾資訊 ===== */
+        .site-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px 20px 20px;
+            border-top: 1px solid #e8ecf0;
+            background: #fafbfc;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            text-align: left;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+        }
+        .footer-col h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c4a7a;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #e6edf8;
+            padding-bottom: 6px;
+        }
+        .footer-col p {
+            font-size: 0.8rem;
+            color: #6a7e9b;
+            line-height: 1.6;
+        }
+        .footer-bottom {
+            font-size: 0.75rem;
+            color: #8a9bb0;
+            padding-top: 15px;
+            border-top: 1px solid #eef2f7;
+        }
+</style>
 </head>
 <body>
     <div class="navbar-wrapper">
@@ -437,7 +479,25 @@
                 <button class="canvas-btn primary" id="saveBtn"><i class="fas fa-download"></i> 保存</button>
             </div>
             
-            <div class="footer-note">🎨 支持畫筆、橡皮、圖形工具，可保存作品</div>
+            <div class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>關於這個网站</h4>
+            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+        </div>
+        <div class="footer-col">
+            <h4>隐私政策</h4>
+            <p>本网站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+        </div>
+        <div class="footer-col">
+            <h4>聯繫我們</h4>
+            <p>QQ: 1962487792 | 郵箱: oscarmtr114514@gmail.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 梁喆同學 · 用 ❤️ 製作</span>
+    </div>
+</div>
         </div>
     </div>
 
