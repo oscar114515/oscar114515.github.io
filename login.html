@@ -600,7 +600,7 @@
             min-width: 44px;
         }
         .captcha-input {
-            flex: 1;
+            flex: 0 0 140px;
             padding: 0.55rem 0.7rem;
             border: 1px solid #e5e7eb;
             border-radius: 1rem;
@@ -803,13 +803,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
-                    <div class="captcha-row">
-                        <label class="captcha-label">驗證碼</label>
-                        <input type="text" id="loginCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
-                        <img id="loginCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshLoginCaptcha()">
-                        <button class="captcha-refresh" onclick="refreshLoginCaptcha()" title="重新生成">↻</button>
-                    </div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -1093,7 +1087,7 @@
             if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
             if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha', '驗證碼錯誤')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
             showLoading('註冊中...');
             registerSubmit.disabled = true;
             registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -1122,7 +1116,6 @@
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            if (!checkCaptcha('loginCaptcha', 'loginExpectedCaptcha', '驗證碼錯誤')) { showMsg(loginMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
             showLoading('登入中...');
             loginSubmit.disabled = true;
             loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
@@ -1143,7 +1136,6 @@
                         db.ref('users/' + c.key + '/lastLogin').set(Date.now());
                         loginName.value = '';
                         loginPassword.value = '';
-                        document.getElementById('loginCaptcha').value = '';
                     }
                 });
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
@@ -1221,15 +1213,11 @@
             img.src = 'https://api.opencaptcha.io/captcha?text=' + encodeURIComponent(text) + '&t=' + Date.now();
         }
         
-        function refreshLoginCaptcha() {
-            loadCaptcha('loginCaptchaImg', 'loginExpectedCaptcha');
-        }
-        
         function refreshRegisterCaptcha() {
             loadCaptcha('registerCaptchaImg', 'registerExpectedCaptcha');
         }
         
-        function checkCaptcha(inputId, expectedVar, errorMsg) {
+        function checkCaptcha(inputId, expectedVar) {
             const input = document.getElementById(inputId).value.trim().toUpperCase();
             const expected = window[expectedVar];
             if (!expected) return true; // not loaded yet, skip
@@ -1243,7 +1231,6 @@
         const originalOpenAuthModal = openAuthModal;
         openAuthModal = function() {
             originalOpenAuthModal();
-            if (!window.loginExpectedCaptcha) refreshLoginCaptcha();
             if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
         };
 
