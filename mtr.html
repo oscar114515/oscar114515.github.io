@@ -1082,6 +1082,48 @@
             padding-top: 15px;
             border-top: 1px solid #eef2f7;
         }
+
+        /* CAPTCHA 驗證碼 */
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .captcha-label {
+            font-weight: 500;
+            color: #5c5c5c;
+            font-size: 0.8rem;
+            min-width: 44px;
+        }
+        .captcha-input {
+            flex: 0 0 140px;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: sans-serif;
+        }
+        .captcha-input:focus { border-color: #b0b0b0; }
+        .captcha-image {
+            width: 110px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            background: #f9f9f9;
+        }
+        .captcha-refresh {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .captcha-refresh:hover { background: #f0f0f0; color: #555; }
 </style>
 </head>
 <body>
@@ -1201,6 +1243,12 @@
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
                     <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="captcha-row">
+                        <label class="captcha-label">驗證碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshRegisterCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
+                    </div>
                     <button class="action-btn" id="registerSubmitBtn">註冊</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
@@ -1481,6 +1529,7 @@
             if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
             if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
             showLoading('註冊中...');
             registerSubmit.disabled = true;
             registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -1499,6 +1548,7 @@
                 regName.value = '';
                 regPassword.value = '';
                 regConfirmPassword.value = '';
+                document.getElementById('registerCaptcha').value = '';
             } catch (e) { showMsg(registerMessage, '註冊失敗', 'error');
                 hideLoading(); } finally { registerSubmit.disabled = false;
                 registerSubmit.textContent = '註冊'; }
@@ -1589,6 +1639,43 @@
         };
 
         // ============================================================
+
+        // ===== CAPTCHA 驗證碼 =====
+        const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+        function generateCaptchaText() {
+            let result = '';
+            for (let i = 0; i < 4; i++) {
+                result += captchaChars.charAt(Math.floor(Math.random() * captchaChars.length));
+            }
+            return result;
+        }
+
+        function loadCaptcha(imgId, expectedVar) {
+            const text = generateCaptchaText();
+            window[expectedVar] = text;
+            const img = document.getElementById(imgId);
+            img.src = 'https://api.opencaptcha.io/captcha?text=' + encodeURIComponent(text) + '&t=' + Date.now();
+        }
+
+        function refreshRegisterCaptcha() {
+            loadCaptcha('registerCaptchaImg', 'registerExpectedCaptcha');
+        }
+
+        function checkCaptcha(inputId, expectedVar) {
+            const input = document.getElementById(inputId).value.trim().toUpperCase();
+            const expected = window[expectedVar];
+            if (!expected) return true;
+            return input === expected;
+        }
+
+        // Initialize CAPTCHA when modal opens
+        const _origOpenAuthModal = openAuthModal;
+        openAuthModal = function() {
+            _origOpenAuthModal();
+            if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
+        };
+
         // 9. 事件綁定
         // ============================================================
         loginTabBtn.addEventListener('click', switchToLogin);
