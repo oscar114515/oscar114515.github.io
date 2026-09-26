@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <script async src="https://ss.mrmnd.com/static/8e6e2b64-e447-4835-9383-b3690481621b.js"></script>
+    <meta name="mnd-ver" content="tlr5gwjihbdf9nqy1inwfa" />
+    <meta name="google-site-verification" content="Fo87PV4l8qknvf02W0c2541TD76fU8hgqG0DtjcAA_Y">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI 網頁生成器</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+  background: #f0f2f5; display: flex; flex-direction: column;
+}
+.navbar {
+  width: 100%; height: 64px; background: #f8f9fa; padding: 0 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid #ddd; flex-shrink: 0;
+  transform: translateY(-100%); animation: slideDown 0.5s ease-out forwards; z-index: 1000;
+}
+@keyframes slideDown { 0% { transform: translateY(-100%); } 100% { transform: translateY(0); } }
+.logo a { display: flex; align-items: center; }
+.logo img { height: 45px; width: auto; display: block; }
+.nav-right { display: flex; align-items: center; gap: 1.2rem; }
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
+.nav-links a:hover { color: #0056b3; text-decoration: underline; }
+.avatar-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 2px solid #e0e0e0;
+  cursor: pointer; background: white; padding: 0; overflow: hidden;
+  transition: border-color 0.2s; flex-shrink: 0;
+}
+.avatar-btn:hover { border-color: #007bff; }
+.avatar-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar-btn .default-avatar {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: #e6edf8; color: #2c4a7a; font-weight: 600; font-size: 1.1rem;
+}
+.auth-link {
+  text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer;
+  padding: 6px 16px; border-radius: 40px; border: 1px solid #007bff;
+  transition: all 0.2s ease; background: transparent;
+}
+.auth-link:hover { background: #007bff; color: white; text-decoration: none; }
+.auth-link.logout { border-color: #dc3545; color: #dc3545; }
+.auth-link.logout:hover { background: #dc3545; color: white; }
+.auth-link.publish { border-color: #28a745; color: #28a745; }
+.auth-link.publish:hover { background: #28a745; color: white; }
+.main-container { flex: 1; display: flex; overflow: hidden; height: calc(100vh - 64px); background: #ffffff; }
+.left-panel {
+  width: 34%; min-width: 320px; max-width: 520px; background: #ffffff;
+  border-right: 1px solid #e5e7eb; display: flex; flex-direction: column;
+  height: 100%; overflow: hidden; position: relative;
+}
+.chat-header {
+  padding: 12px 16px; border-bottom: 1px solid #e5e7eb; display: flex;
+  align-items: center; gap: 10px; background: #fafafa; flex-shrink: 0;
+}
+.chat-header .logo-icon {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg, #1e5ef7, #3b7cff);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 15px;
+}
+.chat-header .title { font-weight: 600; font-size: 14px; color: #111; }
+.chat-header .tag {
+  background: #eef2f6; color: #5a6a7e; padding: 2px 10px;
+  border-radius: 20px; font-size: 11px; margin-left: auto;
+}
+.chat-header .history-btn {
+  background: transparent; border: 1px solid #e5e7eb; border-radius: 8px;
+  width: 30px; height: 30px; cursor: pointer; color: #6b7280; font-size: 13px;
+  display: flex; align-items: center; justify-content: center; margin-left: 6px;
+}
+.chat-header .history-btn:hover { background: #f0f0f0; color: #1e5ef7; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 16px; display: flex;
+  flex-direction: column; gap: 12px; background: #fafafa; min-height: 0;
+}
+.msg-row { display: flex; gap: 8px; max-width: 94%; }
+.msg-row.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-row.ai { align-self: flex-start; }
+.msg-avatar {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #1e5ef7, #3b7cff);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 13px;
+}
+.msg-bubble {
+  padding: 9px 13px; border-radius: 12px; font-size: 14px; line-height: 1.6;
+  word-break: break-word; white-space: pre-wrap; min-width: 0;
+}
+.msg-row.user .msg-bubble { background: #1e5ef7; color: white; border-bottom-right-radius: 4px; }
+.msg-row.ai .msg-bubble { background: #ffffff; color: #1a1a2e; border: 1px solid #e5e7eb; border-bottom-left-radius: 4px; }
+.msg-bubble.streaming { border-left: 3px solid #1e5ef7; animation: blink 1s infinite; }
+@keyframes blink { 0%, 100% { border-left-color: #1e5ef7; } 50% { border-left-color: transparent; } }
+.msg-bubble.code-done { background: #ecfdf3; border-color: #b8e0c4; color: #0f7b3a; }
+.chat-input-area { padding: 12px 16px; border-top: 1px solid #e5e7eb; background: #ffffff; flex-shrink: 0; }
+.chat-input-inner {
+  display: flex; gap: 8px; align-items: flex-end; background: #fafcff;
+  border: 1px solid #e5e7eb; border-radius: 14px; padding: 8px 8px 8px 14px;
+}
+.chat-input-inner:focus-within { border-color: #1e5ef7; }
+#chatInput {
+  flex: 1; border: none; background: transparent; color: #1a1a2e;
+  font-size: 14px; font-family: inherit; resize: none; outline: none;
+  min-height: 24px; max-height: 100px; line-height: 1.5; padding: 2px 0;
+}
+.btn-send {
+  background: #1e5ef7; color: white; border: none; border-radius: 10px;
+  padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.btn-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-stop {
+  background: #dc2626; color: white; border: none; border-radius: 10px;
+  padding: 8px 18px; font-size: 14px; font-weight: 600; cursor: pointer; display: none;
+}
+.history-drawer {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: #ffffff; z-index: 10; display: none; flex-direction: column;
+  border-right: 1px solid #e5e7eb;
+}
+.history-drawer.show { display: flex; }
+.history-drawer-header {
+  padding: 14px 16px; border-bottom: 1px solid #e5e7eb;
+  display: flex; justify-content: space-between; align-items: center;
+  background: #fafafa; flex-shrink: 0;
+}
+.history-drawer-header .title { font-weight: 600; font-size: 14px; color: #111; }
+.history-drawer-header .close-btn {
+  background: transparent; border: none; width: 30px; height: 30px;
+  border-radius: 8px; cursor: pointer; color: #6b7280; font-size: 15px;
+}
+.history-drawer-header .close-btn:hover { background: #f0f0f0; }
+.history-new-btn {
+  margin: 12px 16px 6px; padding: 10px 14px; background: #1e5ef7;
+  color: white; border: none; border-radius: 12px; cursor: pointer;
+  font-size: 14px; font-weight: 600; display: flex;
+  align-items: center; justify-content: center; gap: 8px;
+}
+.history-new-btn:hover { background: #3b7cff; }
+.history-list { flex: 1; overflow-y: auto; padding: 8px 12px 16px; }
+.history-item {
+  padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  margin-bottom: 4px; display: flex; align-items: center; gap: 10px;
+  transition: background 0.15s;
+}
+.history-item:hover { background: #f5f7fa; }
+.history-item.active { background: #eef4ff; }
+.history-item .h-icon { font-size: 15px; flex-shrink: 0; }
+.history-item .h-body { flex: 1; min-width: 0; }
+.history-item .h-title {
+  font-size: 13px; color: #1a1a2e; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.history-item .h-time { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.history-item .h-del {
+  background: transparent; border: none; color: #d1d5db;
+  width: 26px; height: 26px; border-radius: 6px; cursor: pointer;
+  font-size: 12px; opacity: 0; transition: all 0.15s; flex-shrink: 0;
+}
+.history-item:hover .h-del { opacity: 1; }
+.history-item .h-del:hover { background: #fee2e2; color: #dc2626; }
+.history-empty { text-align: center; color: #9ca3af; font-size: 13px; padding: 40px 20px; }
+.right-panel { flex: 1; display: flex; flex-direction: column; background: #f5f5f5; height: 100%; overflow: hidden; }
+.preview-header {
+  padding: 10px 16px; background: #ffffff; border-bottom: 1px solid #e5e7eb;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.preview-dots { display: flex; gap: 6px; }
+.preview-dots .dot { width: 11px; height: 11px; border-radius: 50%; }
+.preview-urlbar {
+  flex: 1; background: #f5f5f5; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 5px 12px; font-size: 12px; color: #8a98aa;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.preview-content { flex: 1; position: relative; overflow: hidden; }
+#previewFrame { width: 100%; height: 100%; border: none; display: block; background: #ffffff; }
+.empty-state {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #a3a3a3; font-size: 15px; gap: 8px; text-align: center;
+  padding: 20px; background: #f5f5f5; pointer-events: none;
+}
+.empty-state .big { font-size: 48px; }
+@media (max-width: 768px) {
+  .navbar { height: 56px; padding: 0 1rem; }
+  .logo img { height: 38px; }
+  .nav-links { gap: 1rem; }
+  .nav-links a { font-size: 0.85rem; }
+  .auth-link { font-size: 0.85rem; padding: 4px 12px; }
+  .avatar-btn { width: 34px; height: 34px; }
+  .main-container { height: calc(100vh - 56px); flex-direction: row; }
+  .left-panel { width: 50%; min-width: 0; max-width: none; }
+  .right-panel { width: 50%; }
+  .chat-header .title { font-size: 12px; }
+  .chat-header .tag { display: none; }
+  .msg-bubble { font-size: 12px; padding: 7px 10px; }
+  .btn-send, .btn-stop { padding: 6px 12px; font-size: 12px; }
+  #chatInput { font-size: 12px; }
+  .preview-header { padding: 8px 10px; }
+  .preview-dots { display: none; }
+}
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px);
+  display: none; justify-content: center; align-items: center; z-index: 5000; cursor: pointer;
+}
+.modal-box {
+  background: white; border-radius: 24px; padding: 2rem; width: 100%;
+  max-width: 400px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease; cursor: default;
+}
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+.modal-box .brand { text-align: center; margin-bottom: 1.5rem; }
+.modal-box .brand h2 { font-weight: 500; font-size: 1.8rem; color: #111; }
+.modal-box .tab-switch { display: flex; background: #f5f5f5; border-radius: 3rem; padding: 0.3rem; margin-bottom: 1.5rem; gap: 0.25rem; }
+.modal-box .tab-btn {
+  flex: 1; text-align: center; padding: 0.6rem; font-size: 0.9rem;
+  font-weight: 500; border-radius: 2.5rem; background: transparent;
+  border: none; color: #5c5c5c; cursor: pointer;
+}
+.modal-box .tab-btn.active { background: #ffffff; color: #0a0a0a; font-weight: 600; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); }
+.modal-box .form-panel { display: block; }
+.modal-box .form-panel.hidden { display: none; }
+.modal-box .input-group { margin-bottom: 1rem; }
+.modal-box .input-field { width: 100%; padding: 0.8rem 1rem; border: 1px solid #e5e7eb; border-radius: 1rem; font-size: 0.95rem; outline: none; }
+.modal-box .input-field:focus { border-color: #b0b0b0; }
+.modal-box .action-btn { width: 100%; background: #1a1a1a; color: white; border: none; padding: 0.8rem; border-radius: 1rem; font-weight: 500; font-size: 1rem; cursor: pointer; }
+.modal-box .action-btn:disabled { background: #999; cursor: not-allowed; }
+.modal-box .action-btn.danger { background: #dc3545; }
+.modal-box .action-btn.danger:hover { background: #c82333; }
+.modal-box .google-btn {
+  width: 100%; display: flex; align-items: center; justify-content: center;
+  gap: 0.7rem; background: #fff; border: 1px solid #e5e7eb; padding: 0.8rem;
+  border-radius: 1rem; font-weight: 500; color: #2d2d2d; font-size: 0.95rem;
+  cursor: pointer; transition: background 0.2s;
+}
+.modal-box .google-btn:hover { background: #f5f5f5; }
+.modal-box .google-btn svg { flex-shrink: 0; }
+.modal-box .divider { display: flex; align-items: center; margin: 1.2rem 0; color: #9ca3af; font-size: 0.8rem; }
+.modal-box .divider::before, .modal-box .divider::after { content: ""; flex: 1; height: 1px; background: #eee; }
+.modal-box .divider span { margin: 0 1rem; }
+.modal-box .message-box { text-align: center; font-size: 0.85rem; padding: 0.5rem; border-radius: 2rem; margin-bottom: 1rem; display: none; }
+.modal-box .message-success { color: #065f46; background: #f0fdf6; border: 1px solid #d1fae5; display: block; }
+.modal-box .message-error { color: #991b1b; background: #fef2f2; border: 1px solid #fee2e2; display: block; }
+.modal-box .spinner {
+  display: inline-block; width: 16px; height: 16px; border: 2px solid #ccc;
+  border-top: 2px solid #1a1a1a; border-radius: 50%;
+  animation: spin 0.6s linear infinite; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.modal-box .admin-btn-small {
+  margin-top: 0.8rem; background: transparent; border: 1px solid #e5e7eb;
+  padding: 0.5rem; border-radius: 1rem; width: 100%; color: #6b7280;
+  cursor: pointer; font-size: 0.85rem; display: none;
+}
+.modal-box .admin-btn-small:hover { background: #f5f5f5; }
+.admin-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.3); display: none;
+  align-items: center; justify-content: center; z-index: 6000;
+}
+.admin-modal-overlay.show { display: flex; }
+.admin-modal-box {
+  background: #ffffff; border-radius: 1.5rem; padding: 1.5rem; width: 90%;
+  max-width: 550px; max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.admin-modal-box h3 { font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem; color: #111; }
+.admin-modal-box .modal-close {
+  float: right; background: #f5f5f5; border: none; width: 32px; height: 32px;
+  border-radius: 0.8rem; cursor: pointer; font-size: 1rem; color: #6b7280;
+}
+.admin-modal-box .modal-close:hover { background: #e5e7eb; }
+.admin-modal-box table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.admin-modal-box th, .admin-modal-box td { padding: 0.7rem 0.5rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
+.admin-modal-box th { color: #6b7280; font-weight: 500; font-size: 0.75rem; }
+.admin-modal-box .delete-user-btn {
+  background: #fef2f2; border: 1px solid #fecaca; color: #dc2626;
+  padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer;
+  font-size: 0.7rem; font-weight: 500;
+}
+.admin-modal-box .delete-user-btn:hover { background: #fee2e2; }
+.my-sites-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.site-card {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  background: #fafbfc; border: 1px solid #e5e7eb; border-radius: 12px;
+}
+.site-card .s-icon { font-size: 18px; flex-shrink: 0; }
+.site-card .s-body { flex: 1; min-width: 0; }
+.site-card .s-title {
+  font-size: 13px; font-weight: 600; color: #1a1a2e;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.site-card .s-url { font-size: 11px; color: #6b7280; word-break: break-all; margin-top: 3px; }
+.site-card .s-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.site-card .s-btn {
+  padding: 6px 12px; border-radius: 8px; font-size: 12px;
+  cursor: pointer; border: 1px solid #e5e7eb; background: #fff; color: #374151;
+}
+.site-card .s-btn:hover { background: #f5f5f5; }
+.site-card .s-btn.danger { color: #dc2626; border-color: #fecaca; }
+.site-card .s-btn.danger:hover { background: #fee2e2; }
+.loading-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px);
+  display: none; justify-content: center; align-items: center; z-index: 9999;
+}
+.loading-box {
+  background: white; border-radius: 20px; padding: 2rem 2.5rem; text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); animation: fadeIn 0.25s ease; min-width: 180px;
+}
+.loading-spinner-full {
+  width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top: 4px solid #0066cc;
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px;
+}
+.loading-box p { color: #333; font-size: 1rem; font-weight: 500; margin: 0; }
+#publishOverlay {
+  display: none; position: fixed; inset: 0; z-index: 7000; background: #0f172a;
+  color: #fff; font-family: system-ui, -apple-system, 'PingFang HK', 'Microsoft JhengHei', sans-serif;
+  overflow-y: auto;
+}
+#publishOverlay .pub-close {
+  position: absolute; top: 24px; right: 28px; background: rgba(255, 255, 255, .1);
+  border: none; color: #fff; width: 44px; height: 44px; border-radius: 50%;
+  font-size: 20px; cursor: pointer; transition: background .2s;
+}
+#publishOverlay .pub-close:hover { background: rgba(255, 255, 255, .2); }
+#publishOverlay .pub-inner {
+  max-width: 720px; margin: 0 auto; padding: 80px 24px 40px; min-height: 100%;
+  display: flex; flex-direction: column; box-sizing: border-box;
+}
+#publishOverlay .pub-tag { font-size: 15px; letter-spacing: 3px; color: #60a5fa; font-weight: 600; margin-bottom: 10px; }
+#publishOverlay h1 { font-size: 38px; margin: 0 0 8px; font-weight: 700; }
+#publishOverlay .pub-desc { color: #94a3b8; font-size: 15px; margin: 0 0 40px; line-height: 1.6; }
+#publishOverlay label { font-size: 13px; color: #94a3b8; margin-bottom: 10px; display: block; }
+#publishOverlay .suffix-box {
+  display: flex; align-items: center; background: rgba(255, 255, 255, .06);
+  border: 2px solid rgba(255, 255, 255, .12); border-radius: 16px;
+  padding: 0 18px; transition: border-color .2s;
+}
+#publishOverlay .suffix-box:focus-within { border-color: #1e5ef7; }
+#publishOverlay .suffix-prefix { color: #64748b; font-size: 16px; white-space: nowrap; }
+#publishOverlay #suffixInput {
+  flex: 1; background: transparent; border: none; outline: none; color: #fff;
+  font-size: 17px; padding: 18px 8px; font-family: inherit; min-width: 0;
+}
+#publishOverlay #suffixInput::placeholder { color: #475569; }
+#urlPreviewBox { margin-top: 20px; background: rgba(255, 255, 255, .04); border-radius: 14px; padding: 18px 20px; display: none; }
+#urlPreviewBox .preview-label { font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+#urlPreview { font-size: 14px; color: #60a5fa; word-break: break-all; line-height: 1.6; font-family: ui-monospace, Menlo, monospace; }
+#encodeNote { margin-top: 12px; font-size: 12px; color: #fbbf24; display: none; line-height: 1.6; }
+#publishMsg { margin-top: 20px; font-size: 14px; display: none; padding: 12px 16px; border-radius: 10px; line-height: 1.6; word-break: break-all; white-space: pre-wrap; }
+#publishOverlay .pub-bottom { margin-top: auto; padding-top: 30px; }
+#publishConfirm {
+  width: 100%; padding: 18px; border: none; border-radius: 16px;
+  background: #1e5ef7; color: #fff; font-size: 17px; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: background .2s;
+}
+#publishConfirm:hover:not(:disabled) { background: #3b7cff; }
+#publishConfirm:disabled { opacity: .6; cursor: not-allowed; }
+#viewerOverlay { display: none; position: fixed; inset: 0; z-index: 8000; background: #fff; }
+#viewerFrame { width: 100%; height: 100%; border: none; display: none; }
+#viewerLoading {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; color: #888;
+  font-family: system-ui, sans-serif; gap: 12px;
+}
+.viewer-spin { width: 40px; height: 40px; border: 4px solid #ddd; border-top-color: #1e5ef7; border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+        /* ===== 站尾資訊 ===== */
+        .site-footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px 20px 20px;
+            border-top: 1px solid #e8ecf0;
+            background: #fafbfc;
+        }
+        .footer-inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto 20px;
+            text-align: left;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+        }
+        .footer-col h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c4a7a;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #e6edf8;
+            padding-bottom: 6px;
+        }
+        .footer-col p {
+            font-size: 0.8rem;
+            color: #6a7e9b;
+            line-height: 1.6;
+        }
+        .footer-bottom {
+            font-size: 0.75rem;
+            color: #8a9bb0;
+            padding-top: 15px;
+            border-top: 1px solid #eef2f7;
+        }
+
+        /* CAPTCHA 驗證碼 */
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .captcha-label {
+            font-weight: 500;
+            color: #5c5c5c;
+            font-size: 0.8rem;
+            min-width: 44px;
+        }
+        .captcha-input {
+            flex: 0 0 140px;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            outline: none;
+            font-family: sans-serif;
+        }
+        .captcha-input:focus { border-color: #b0b0b0; }
+        .captcha-image {
+            width: 110px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            background: #f9f9f9;
+        }
+        .captcha-refresh {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .captcha-refresh:hover { background: #f0f0f0; color: #555; }
+</style>
+    <script src="lang-switch.js"></script>
+</head>
+<body>
+<script>
+if (new URLSearchParams(location.search).get('id')) {
+  document.documentElement.style.visibility = 'hidden';
+}
+</script>
+
+<nav class="navbar">
+  <div class="logo"><a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#" id="publishNavLink" class="auth-link publish">發佈</a></li>
+      <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+      <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="頭像"></button></li>
+      <li><a href="/ja/privacy.html">隱私政策</a></li>
+                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="main-container">
+  <div class="left-panel">
+    <div class="chat-header">
+      <div class="logo-icon">🤖</div>
+      <span class="title">AI 網頁生成器</span>
+      <span class="tag">即時預覽</span>
+      <button class="history-btn" id="historyToggleBtn" title="對話紀錄"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的網頁生成助手。請告訴我你想要什麼樣的網頁，我會幫你寫出完整的 HTML 並在右邊即時預覽。
+
+例如：「幫我做一個藍色主題的登入頁面」或「寫一個有動畫的聖誕樹網頁」。</div></div>
+    </div>
+    <div class="chat-input-area">
+      <div class="chat-input-inner">
+        <textarea id="chatInput" rows="1" placeholder="描述你想要的網頁…"></textarea>
+        <button class="btn-send" id="sendBtn">傳送</button>
+        <button class="btn-stop" id="stopBtn">停止</button>
+      </div>
+    </div>
+
+    <div class="history-drawer" id="historyDrawer">
+      <div class="history-drawer-header">
+        <span class="title">對話紀錄</span>
+        <button class="close-btn" id="historyCloseBtn">✕</button>
+      </div>
+      <button class="history-new-btn" id="newChatBtn"><i class="fas fa-plus"></i> 新對話</button>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="preview-header">
+      <div class="preview-dots"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span></div>
+      <div class="preview-urlbar" id="previewUrl">預覽 · 尚未生成</div>
+    </div>
+    <div class="preview-content">
+      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>在左邊描述你想要的網頁<br>生成的結果會在這裡即時顯示</div></div>
+      <iframe id="previewFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div style="height:1px;background:#e8ecf0;margin:14px 0;"></div>
+    <div style="font-size:1.1rem;font-weight:500;color:#333;margin-bottom:16px;">📱 追蹤我</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#00AEEC" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span></button>
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FE3C54" xmlns="http://www.w3.org/2000/svg"><title>Xiaohongshu</title><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"/></svg></span></button>
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#000000" xmlns="http://www.w3.org/2000/svg"><title>TikTok</title><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span></button>
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg"><title>YouTube</title><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span></button>
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://www.instagram.com/oscar_114514?stkn=MTYxZGlhNHA5eTk1cA==','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 2.5C6.469 2.5 2 6.969 2 12.5S6.469 22.5 12 22.5s10-4.469 10-10S17.531 2.5 12 2.5zm0 2.5c4.156 0 7.5 3.344 7.5 7.5S16.156 20 12 20 4.5 16.656 4.5 12.5 7.844 5 12 5zm0 2.5C9.496 7.5 7.5 9.496 7.5 12.5S9.496 17.5 12 17.5s4.5-1.996 4.5-4.5S14.504 7.5 12 7.5zm0 7.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 10 12 10s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm4.93-6.563c-.328-.328-.781-.328-1.106 0-.324.324-.324.848 0 1.172.16.16.367.246.553.246s.393-.086.553-.246c.324-.324.324-.848 0-1.172z"/></svg></span></button>
+      <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://qm.qq.com/q/pqsAuCsOnA','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="20" height="20" fill="#7155E5" xmlns="http://www.w3.org/2000/svg"><title>QQ</title><path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/></svg></span></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="authModal">
+  <div class="modal-box">
+    <div class="brand"><h2>歡迎你的使用</h2></div>
+    <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
+      <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
+      <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
+      <button class="action-btn danger" id="authLogoutBtn">登出</button>
+      <button class="admin-btn-small" id="authMySitesBtn"><i class="fas fa-globe"></i> 我的網站</button>
+      <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+    </div>
+    <div id="authPanel">
+      <div class="tab-switch">
+        <button class="tab-btn active" id="loginTabBtn">登錄</button>
+        <button class="tab-btn" id="registerTabBtn">註冊</button>
+      </div>
+      <div id="loginPanel" class="form-panel">
+        <div id="loginMessage" class="message-box"></div>
+        <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
+        <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
+        <button class="action-btn" id="loginSubmitBtn">登入</button>
+        <div class="divider"><span>或</span></div>
+        <button class="google-btn" id="googleLoginBtn">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          使用 Google 登入
+        </button>
+      </div>
+      <div id="registerPanel" class="form-panel hidden">
+        <div id="registerMessage" class="message-box"></div>
+        <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
+        <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
+        <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="captcha-row">
+                        <label class="captcha-label">驗證碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshRegisterCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
+                    </div>
+        <button class="action-btn" id="registerSubmitBtn">註冊</button>
+        <div class="divider"><span>或</span></div>
+        <button class="google-btn" id="googleRegisterBtn">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          使用 Google 註冊
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="admin-modal-overlay" id="adminModal">
+  <div class="admin-modal-box">
+    <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-users"></i> 用戶管理</h3>
+    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+  </div>
+</div>
+
+<div class="admin-modal-overlay" id="mySitesModal">
+  <div class="admin-modal-box">
+    <button class="modal-close" id="closeMySitesModal"><i class="fas fa-times"></i></button>
+    <h3><i class="fas fa-globe"></i> 我的網站</h3>
+    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+  </div>
+</div>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">載入中...</p></div>
+</div>
+
+<div id="publishOverlay">
+  <button class="pub-close" id="publishClose">✕</button>
+  <div class="pub-inner">
+    <div class="pub-tag">PUBLISH</div>
+    <h1>發佈你的網頁</h1>
+    <p class="pub-desc">填寫一個後綴，任何人都能透過這個網址訪問你的作品。</p>
+    <label>網址後綴</label>
+    <div class="suffix-box"><span class="suffix-prefix">?id=</span><input id="suffixInput" type="text" placeholder="例如 abc、我的作品" autocomplete="off"></div>
+    <div id="urlPreviewBox">
+      <div class="preview-label">你的網址會是</div>
+      <div id="urlPreview"></div>
+      <div id="encodeNote">⚠️ 你填寫了中文或特殊符號，網址會自動編碼成上面這樣（訪問時完全正常，別擔心）</div>
+    </div>
+    <div id="publishMsg"></div>
+    <div class="pub-bottom"><button id="publishConfirm">確認發佈</button></div>
+  </div>
+</div>
+
+<div id="viewerOverlay">
+  <iframe id="viewerFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
+  <div id="viewerLoading"><div class="viewer-spin"></div><div>載入中...</div></div>
+</div>
+
+<canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
+
+<script>
+// ============================================================
+// 1. Firebase
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
+  authDomain: "oscar-io-log-in.firebaseapp.com",
+  projectId: "oscar-io-log-in",
+  storageBucket: "oscar-io-log-in.firebasestorage.app",
+  messagingSenderId: "51821788083",
+  appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
+
+// ============================================================
+// 2. AI 設定
+// ============================================================
+const AI_KEY = 'ak_txnGh9EwAE2IWe0e7lJHKfghJbGwU';
+const AI_API = 'https://note3-prev-api.askdiandian.com/v1/chat/completions';
+const AI_MODEL = 'dots3-note-prev';
+const MAX_CONTEXT_MESSAGES = 20;
+const REFRESH_MARKER = '[[__REFRESH_SIGNAL__]]';
+// 全域快取：最後生成的乾淨 HTML（不含注入腳本）
+window.__LAST_GENERATED_HTML__ = null;
+
+// ============================================================
+// 3. 注入腳本
+// ============================================================
+const IFRAME_FIX_SCRIPT = [
+'<scr'+'ipt>',
+'(function(){',
+'function bm(h){var d=document.createElement("div");d.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;";d.innerHTML=h;document.body.appendChild(d);return d;}',
+'window.alert=function(m){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><button id=\\"__ok\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div>");d.querySelector("#__ok").onclick=function(){d.remove();};};',
+'window.confirm=function(m){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><div style=\\"display:flex;gap:10px;justify-content:center;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");d.querySelector("#__k").onclick=function(){d.remove();r(true);};d.querySelector("#__c").onclick=function(){d.remove();r(false);};});};',
+'window.prompt=function(m,df){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><input id=\\"__i\\" style=\\"width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;\\" value=\\""+(df?String(df).replace(/"/g,"&quot;"):"")+"\\"><div style=\\"display:flex;gap:10px;justify-content:flex-end;margin-top:16px;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");var i=d.querySelector("#__i");i.focus();d.querySelector("#__k").onclick=function(){var v=i.value;d.remove();r(v);};d.querySelector("#__c").onclick=function(){d.remove();r(null);};i.onkeydown=function(e){if(e.key==="Enter"){var v=i.value;d.remove();r(v);}};});};',
+'var _o=window.open;window.open=function(u){if(u){var d=bm("<div style=\\"background:#fff;border-radius:14px;width:90%;height:80%;max-width:900px;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.2);overflow:hidden;\\"><div style=\\"padding:10px 14px;background:#f5f5f5;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#333;\\"><span>🔗 "+String(u).replace(/</g,"&lt;")+"</span><button id=\\"__x\\" style=\\"background:#e0e0e0;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;\\">✕</button></div><iframe src=\\""+u+"\\" style=\\"flex:1;border:none;width:100%;\\"></iframe></div>");d.querySelector("#__x").onclick=function(){d.remove();};return d;}return _o.apply(window,arguments);};',
+'})();',
+'</scr'+'ipt>'
+].join('\n');
+
+const STUDIO_BADGE_SCRIPT = [
+'<scr'+'ipt>',
+'(function(){',
+'var LOGO="https://i.postimg.cc/HxVC7TcN/IMG-8863.png";',
+'var LINK="https://oscar114515.github.io/ai-web/";',
+'function addBadge(){',
+'if(document.getElementById("__studio_badge__"))return;',
+'var d=document.createElement("div");',
+'d.id="__studio_badge__";',
+'d.setAttribute("style","position:fixed!important;bottom:10px!important;left:50%!important;transform:translateX(-50%)!important;z-index:2147483647!important;background:#ffffff!important;border:1px solid #e5e7eb!important;border-radius:10px!important;box-shadow:0 4px 16px rgba(0,0,0,.15)!important;padding:6px 10px!important;display:flex!important;align-items:center!important;gap:8px!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang HK,Microsoft JhengHei,sans-serif!important;font-size:11px!important;color:#333!important;line-height:1.4!important;max-width:94vw!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important;");',
+'d.innerHTML=\'<img src="\'+LOGO+\'" style="height:22px;width:auto;display:block;flex-shrink:0;" alt="logo"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:10px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">此網站技術支援由梁喆同學工作室提供</span><button id="__studio_btn__" style="background:#1e5ef7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;white-space:nowrap;font-weight:500;">你也可以點擊這裏前往AI工具免費建立網站</button></div>\';',
+'document.body.appendChild(d);',
+'var btn=document.getElementById("__studio_btn__");',
+'if(btn){btn.onclick=function(){var a=document.createElement("a");a.href=LINK;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();document.body.removeChild(a);};}',
+'}',
+'if(document.body){addBadge();}else{document.addEventListener("DOMContentLoaded",addBadge);}',
+'setTimeout(addBadge,500);',
+'setTimeout(addBadge,1500);',
+'})();',
+'</scr'+'ipt>'
+].join('\n');
+
+function injectFix(html) {
+  if (!html) return html;
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, IFRAME_FIX_SCRIPT + '</body>');
+  return html + IFRAME_FIX_SCRIPT;
+}
+
+function injectStudioBadge(html) {
+  if (!html) return html;
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, STUDIO_BADGE_SCRIPT + '</body>');
+  return html + STUDIO_BADGE_SCRIPT;
+}
+
+let _previewBlobUrl = null;
+let _viewerBlobUrl = null;
+function loadIntoIframe(iframeEl, html, which) {
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  if (which === 'preview') {
+    if (_previewBlobUrl) URL.revokeObjectURL(_previewBlobUrl);
+    _previewBlobUrl = url;
+  } else {
+    if (_viewerBlobUrl) URL.revokeObjectURL(_viewerBlobUrl);
+    _viewerBlobUrl = url;
+  }
+  iframeEl.src = url;
+}
+
+// ============================================================
+// 4. 加載彈窗
+// ============================================================
+let loadingTimer = null;
+function showLoading(t) {
+  document.getElementById('loadingText').textContent = t || '載入中...';
+  document.getElementById('loadingOverlay').style.display = 'flex';
+}
+function hideLoading() {
+  if (loadingTimer) return;
+  loadingTimer = setTimeout(() => {
+    document.getElementById('loadingOverlay').style.display = 'none';
+    loadingTimer = null;
+  }, 500);
+}
+
+// ============================================================
+// 5. DOM 元素
+// ============================================================
+const authNavLink = document.getElementById('authNavLink');
+const avatarBtn = document.getElementById('avatarBtn');
+const avatarImg = document.getElementById('avatarImg');
+const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+const authModal = document.getElementById('authModal');
+const authPanel = document.getElementById('authPanel');
+const authLoggedInPanel = document.getElementById('authLoggedInPanel');
+const authDisplayName = document.getElementById('authDisplayName');
+const authDisplayEmail = document.getElementById('authDisplayEmail');
+const authLogoutBtn = document.getElementById('authLogoutBtn');
+const authAdminBtn = document.getElementById('authAdminBtn');
+const authMySitesBtn = document.getElementById('authMySitesBtn');
+const loginTabBtn = document.getElementById('loginTabBtn');
+const registerTabBtn = document.getElementById('registerTabBtn');
+const loginPanel = document.getElementById('loginPanel');
+const registerPanel = document.getElementById('registerPanel');
+const loginName = document.getElementById('loginName');
+const loginPassword = document.getElementById('loginPassword');
+const loginSubmit = document.getElementById('loginSubmitBtn');
+const loginMessage = document.getElementById('loginMessage');
+const regName = document.getElementById('regName');
+const regPassword = document.getElementById('regPassword');
+const regConfirmPassword = document.getElementById('regConfirmPassword');
+const registerSubmit = document.getElementById('registerSubmitBtn');
+const registerMessage = document.getElementById('registerMessage');
+const googleLoginBtn = document.getElementById('googleLoginBtn');
+const googleRegisterBtn = document.getElementById('googleRegisterBtn');
+const adminModal = document.getElementById('adminModal');
+const closeAdminModal = document.getElementById('closeAdminModal');
+const userTableContainer = document.getElementById('userTableContainer');
+const mySitesModal = document.getElementById('mySitesModal');
+const closeMySitesModal = document.getElementById('closeMySitesModal');
+const mySitesContainer = document.getElementById('mySitesContainer');
+const avatarCanvas = document.getElementById('avatarCanvas');
+const avatarCtx = avatarCanvas.getContext('2d');
+const contactModal = document.getElementById('contactModal');
+const contactBtn = document.getElementById('contactBtn');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const sendBtn = document.getElementById('sendBtn');
+const stopBtn = document.getElementById('stopBtn');
+const previewFrame = document.getElementById('previewFrame');
+const previewUrl = document.getElementById('previewUrl');
+const emptyState = document.getElementById('emptyState');
+const publishNavLink = document.getElementById('publishNavLink');
+const publishOverlay = document.getElementById('publishOverlay');
+const publishClose = document.getElementById('publishClose');
+const suffixInput = document.getElementById('suffixInput');
+const urlPreviewBox = document.getElementById('urlPreviewBox');
+const urlPreview = document.getElementById('urlPreview');
+const encodeNote = document.getElementById('encodeNote');
+const publishMsg = document.getElementById('publishMsg');
+const publishConfirm = document.getElementById('publishConfirm');
+const historyToggleBtn = document.getElementById('historyToggleBtn');
+const historyDrawer = document.getElementById('historyDrawer');
+const historyCloseBtn = document.getElementById('historyCloseBtn');
+const historyList = document.getElementById('historyList');
+const newChatBtn = document.getElementById('newChatBtn');
+
+// ============================================================
+// 6. 訪問模式
+// ============================================================
+(function checkViewerMode() {
+  const viewerId = new URLSearchParams(location.search).get('id');
+  if (!viewerId) {
+    document.documentElement.style.visibility = 'visible';
+    return;
+  }
+  const viewer = document.getElementById('viewerOverlay');
+  const frame = document.getElementById('viewerFrame');
+  const loading = document.getElementById('viewerLoading');
+  document.querySelector('.navbar').style.display = 'none';
+  document.querySelector('.main-container').style.display = 'none';
+  authModal.style.display = 'none';
+  contactModal.style.display = 'none';
+  adminModal.style.display = 'none';
+  mySitesModal.style.display = 'none';
+  publishOverlay.style.display = 'none';
+  document.getElementById('loadingOverlay').style.display = 'none';
+  viewer.style.display = 'block';
+  document.documentElement.style.visibility = 'visible';
+  const safeKey = encodeURIComponent(viewerId);
+  db.ref('published/' + safeKey).once('value').then(snap => {
+    const data = snap.val();
+    if (!data || !data.html) {
+      loading.innerHTML = '<div style="font-size:52px">🔍</div><div style="font-size:17px;color:#555;margin-top:8px;">此網頁不存在或已被刪除</div>';
+      return;
+    }
+    document.title = data.title || viewerId;
+    loading.style.display = 'none';
+    frame.style.display = 'block';
+    loadIntoIframe(frame, injectStudioBadge(data.html), 'viewer');
+  }).catch(err => {
+    loading.innerHTML = '<div style="font-size:52px">❌</div><div style="font-size:17px;color:#555;margin-top:8px;">載入失敗：' + err.message + '</div>';
+  });
+})();
+
+// ============================================================
+// 7. 管理員
+// ============================================================
+function isAdmin(user) {
+  if (!user) return false;
+  return user.email === 'oscarmtr114514@gmail.com';
+}
+function getCurrentUid() {
+  if (auth.currentUser) return auth.currentUser.uid;
+  return localStorage.getItem('_localUid') || null;
+}
+
+// ============================================================
+// 8. 頭像生成
+// ============================================================
+function generateIdenticon(name) {
+  const seed = name || 'default';
+  const encoder = new TextEncoder();
+  const data = encoder.encode(seed);
+  let hash = BigInt('0xcbf29ce484222325');
+  const prime = BigInt('0x100000001b3');
+  for (let i = 0; i < data.length; i++) {
+    hash ^= BigInt(data[i]);
+    hash = (hash * prime) & BigInt('0xffffffffffffffff');
+  }
+  const bytes = new Uint8Array(8);
+  for (let i = 0; i < 8; i++) bytes[7 - i] = Number((hash >> BigInt(i * 8)) & BigInt(0xff));
+  const hue = (bytes[0] * 256 + bytes[1]) % 360;
+  const sat = 70 + (bytes[2] % 20);
+  const lig = 55 + (bytes[0] % 20);
+  const bits = [];
+  let bi = 3, bj = 0;
+  for (let r = 0; r < 5; r++) {
+    for (let c = 0; c < 5; c++) {
+      if (c < 3) {
+        const b = bytes[bi] || 0;
+        bits.push(((b >> (7 - bj)) & 1) === 1);
+        bj++;
+        if (bj >= 8) { bj = 0; bi++; }
+      } else {
+        bits.push(bits[r * 3 + (4 - c)] || false);
+      }
+    }
+  }
+  avatarCtx.clearRect(0, 0, 420, 420);
+  avatarCtx.fillStyle = '#f5f5f5';
+  avatarCtx.fillRect(0, 0, 420, 420);
+  avatarCtx.fillStyle = 'hsl(' + hue + ',' + sat + '%,' + lig + '%)';
+  for (let r = 0; r < 5; r++)
+    for (let c = 0; c < 5; c++)
+      if (bits[r * 5 + c]) avatarCtx.fillRect(c * 84, r * 84, 84, 84);
+  return avatarCanvas.toDataURL('image/png');
+}
+
+// ============================================================
+// 9. UI 控制
+// ============================================================
+function showMsg(el, text, type) {
+  el.textContent = text;
+  el.className = 'message-box message-' + type;
+  setTimeout(() => { el.className = 'message-box'; el.textContent = ''; }, 4000);
+}
+function switchToLogin() {
+  loginPanel.classList.remove('hidden');
+  registerPanel.classList.add('hidden');
+  loginTabBtn.classList.add('active');
+  registerTabBtn.classList.remove('active');
+}
+function switchToRegister() {
+  registerPanel.classList.remove('hidden');
+  loginPanel.classList.add('hidden');
+  registerTabBtn.classList.add('active');
+  loginTabBtn.classList.remove('active');
+}
+function updateAvatar(photoUrl, name) {
+  if (photoUrl && photoUrl.startsWith('http')) {
+    avatarImg.src = photoUrl;
+  } else {
+    avatarImg.src = generateIdenticon(name || 'default');
+  }
+  avatarImg.style.display = 'block';
+  avatarPlaceholder.style.display = 'none';
+}
+function showUI(user) {
+  authNavLink.textContent = '登出';
+  authNavLink.className = 'auth-link logout';
+  authNavLink.removeEventListener('click', openAuthModal);
+  authNavLink.removeEventListener('click', handleLogout);
+  authNavLink.addEventListener('click', handleLogout);
+  updateAvatar(user.photoURL, user.displayName || user.name);
+  authPanel.style.display = 'none';
+  authLoggedInPanel.style.display = 'block';
+  authDisplayName.textContent = user.displayName || user.name || '使用者';
+  authDisplayEmail.textContent = user.email || '';
+  authAdminBtn.style.display = isAdmin(user) ? 'block' : 'none';
+  authMySitesBtn.style.display = 'block';
+  hideLoading();
+}
+function hideUI() {
+  authNavLink.textContent = '登入';
+  authNavLink.className = 'auth-link';
+  authNavLink.removeEventListener('click', openAuthModal);
+  authNavLink.removeEventListener('click', handleLogout);
+  authNavLink.addEventListener('click', openAuthModal);
+  avatarImg.style.display = 'none';
+  avatarPlaceholder.style.display = 'flex';
+  authPanel.style.display = 'block';
+  authLoggedInPanel.style.display = 'none';
+  hideLoading();
+}
+function openAuthModal() { authModal.style.display = 'flex'; }
+function closeAuthModal() { authModal.style.display = 'none'; }
+function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable(); }
+function closeAdminModalFn() { adminModal.classList.remove('show'); }
+
+// ============================================================
+// 10. Firebase 認證
+// ============================================================
+async function googleLogin() {
+  showLoading('Google 登入中...');
+  const provider = new firebase.auth.GoogleAuthProvider();
+  try {
+    const result = await auth.signInWithPopup(provider);
+    const u = result.user;
+    await db.ref('users/' + u.uid).update({
+      name: u.displayName, email: u.email, photo: u.photoURL, lastLogin: Date.now()
+    });
+    showUI(u);
+    closeAuthModal();
+    onUserLogin(u.uid);
+  } catch (e) {
+    hideLoading();
+    if (e.code !== 'auth/popup-closed-by-user') {
+      showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+    }
+  }
+}
+async function handleRegister() {
+  const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
+  if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+  if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
+  if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+  if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
+  showLoading('註冊中...');
+  registerSubmit.disabled = true;
+  registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+  try {
+    const safeName = name.replace(/[.#$\[\]]/g, '_');
+    const snap = await db.ref('users/' + safeName).once('value');
+    if (snap.exists()) {
+      showMsg(registerMessage, '此姓名已被使用', 'error');
+      hideLoading();
+      registerSubmit.disabled = false;
+      registerSubmit.textContent = '註冊';
+      return;
+    }
+    const avatar = generateIdenticon(name);
+    const ref = db.ref('users/' + safeName);
+    await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
+    const ud = { name, email: '', photo: avatar, uid: safeName, displayName: name };
+    localStorage.setItem('_localUid', safeName);
+    showUI(ud);
+    closeAuthModal();
+    onUserLogin(ref.key);
+    regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
+                document.getElementById('registerCaptcha').value = '';
+  } catch (e) {
+    showMsg(registerMessage, '註冊失敗', 'error');
+    hideLoading();
+  } finally {
+    registerSubmit.disabled = false;
+    registerSubmit.textContent = '註冊';
+  }
+}
+async function handleLogin() {
+  const name = loginName.value.trim(), pw = loginPassword.value;
+  if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+  showLoading('登入中...');
+  loginSubmit.disabled = true;
+  loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+  try {
+    const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+    if (!snap.exists()) {
+      showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+      hideLoading();
+      loginSubmit.disabled = false;
+      loginSubmit.textContent = '登入';
+      return;
+    }
+    let found = false;
+    snap.forEach(c => {
+      const d = c.val();
+      if (d.password === pw) {
+        found = true;
+        const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: c.key, displayName: d.name };
+        localStorage.setItem('_localUid', c.key);
+        showUI(ud);
+        closeAuthModal();
+        db.ref('users/' + c.key + '/lastLogin').set(Date.now());
+        onUserLogin(c.key);
+        loginName.value = ''; loginPassword.value = '';
+      }
+    });
+    if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+    hideLoading();
+  } catch (e) {
+    showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+    hideLoading();
+  } finally {
+    loginSubmit.disabled = false;
+    loginSubmit.textContent = '登入';
+  }
+}
+function handleLogout() {
+  showLoading('登出中...');
+  auth.signOut().catch(() => {});
+  localStorage.removeItem('_localUid');
+  hideUI();
+  currentChatId = null;
+  currentUid = null;
+  hist = [];
+  renderHistory([]);
+  resetChat();
+}
+function onUserLogin(uid) {
+  currentUid = uid;
+  loadHistoryList();
+  startNewChat(false);
+  loadPreviewFromLastSession();
+}
+
+// ============================================================
+// 11. 用戶管理
+// ============================================================
+async 
+        // ===== HTML 轉義（防止 XSS） =====
+        function escapeHtml(str) {
+            if (str == null) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+function loadUserTable() {
+  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  try {
+    const snap = await db.ref('users').once('value');
+    const data = snap.val();
+    if (!data) {
+      userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+      return;
+    }
+    let html = '<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>';
+    for (const [key, user] of Object.entries(data)) {
+      const d = user.createdAt ? new Date(user.createdAt).toLocaleDateString('zh-HK') : '-';
+      const pwDisplay = user.password ? user.password : 'Google';
+      const safeName = (user.name || '').replace(/'/g, "\\'");
+      html += '<tr><td>' + (escapeHtml(user.name) || '-') + '</td><td>' + (escapeHtml(user.email) || '-') + '</td><td>' + escapeHtml(pwDisplay) + '</td><td>' + d + '</td><td><button class="delete-user-btn" onclick="window._deleteUser(\'' + key + '\',\'' + safeName + '\')"><i class="fas fa-trash"></i> 刪除</button></td></tr>';
+    }
+    html += '</tbody></table>';
+    userTableContainer.innerHTML = html;
+  } catch (e) {
+    userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+  }
+}
+window._deleteUser = async function(key, name) {
+  if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+  try {
+    await db.ref('users/' + key).remove();
+    loadUserTable();
+  } catch (e) { alert('刪除失敗：' + e.message); }
+};
+
+// ============================================================
+// 12. 我的網站
+// ============================================================
+function openMySitesModal() {
+  mySitesModal.classList.add('show');
+  loadMySites();
+}
+function closeMySitesModalFn() { mySitesModal.classList.remove('show'); }
+async function loadMySites() {
+  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  const uid = getCurrentUid();
+  if (!uid) {
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">請先登入</p>';
+    return;
+  }
+  try {
+    const snap = await db.ref('published').orderByChild('ownerUid').equalTo(uid).once('value');
+    const data = snap.val();
+    if (!data) {
+      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你還沒有發佈任何網站</p>';
+      return;
+    }
+    const list = Object.entries(data).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
+    let html = '<div class="my-sites-list">';
+    const baseUrl = location.origin + location.pathname + '?id=';
+    for (const [key, site] of list) {
+      const d = site.createdAt ? new Date(site.createdAt).toLocaleString('zh-HK') : '-';
+      const safeKey = key.replace(/'/g, "\\'");
+      const safeTitle = (site.title || key).replace(/'/g, "\\'");
+      html += '<div class="site-card">' +
+        '<div class="s-icon">🌐</div>' +
+        '<div class="s-body">' +
+        '<div class="s-title">' + (site.title || key) + '</div>' +
+        '<div class="s-url">' + baseUrl + key + '</div>' +
+        '<div class="s-url" style="color:#9ca3af;">' + d + '</div>' +
+        '</div>' +
+        '<div class="s-actions">' +
+        '<button class="s-btn" onclick="window.open(\'' + baseUrl + safeKey + '\',\'_blank\')">訪問</button>' +
+        '<button class="s-btn danger" onclick="window._deleteSite(\'' + safeKey + '\',\'' + safeTitle + '\')">刪除</button>' +
+        '</div></div>';
+    }
+    html += '</div>';
+    mySitesContainer.innerHTML = html;
+  } catch (e) {
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗：' + e.message + '</p>';
+  }
+}
+window._deleteSite = async function(key, title) {
+  if (!confirm('確定要刪除網站「' + title + '」嗎？此操作無法撤銷。')) return;
+  try {
+    await db.ref('published/' + key).remove();
+    loadMySites();
+  } catch (e) { alert('刪除失敗：' + e.message); }
+};
+
+// ============================================================
+// 13. 對話紀錄
+// ============================================================
+let currentUid = null;
+let currentChatId = null;
+let hist = [];
+let historyCache = {};
+
+function resetChat() {
+  chatMessages.innerHTML = '';
+  const row = document.createElement('div');
+  row.className = 'msg-row ai';
+  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的網頁生成助手。請告訴我你想要什麼樣的網頁，我會幫你寫出完整的 HTML 並在右邊即時預覽。</div>';
+  chatMessages.appendChild(row);
+  hist = [];
+}
+
+async function startNewChat(createNode) {
+  if (!currentUid) { resetChat(); return; }
+  currentChatId = null;
+  resetChat();
+  if (createNode !== false) {
+    const ref = db.ref('users/' + currentUid + '/chats').push();
+    currentChatId = ref.key;
+    await ref.set({ title: '新對話', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+    await loadHistoryList();
+    highlightHistoryItem(currentChatId);
+  }
+}
+
+function highlightHistoryItem(chatId) {
+  document.querySelectorAll('.history-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.chatId === chatId);
+  });
+}
+
+async function loadHistoryList() {
+  if (!currentUid) { renderHistory([]); return; }
+  try {
+    const snap = await db.ref('users/' + currentUid + '/chats').once('value');
+    const data = snap.val() || {};
+    const list = Object.entries(data).map(([id, c]) => ({
+      id, title: c.title || '未命名', updatedAt: c.updatedAt || c.createdAt || 0, messages: c.messages || []
+    })).sort((a, b) => b.updatedAt - a.updatedAt);
+    historyCache = {};
+    list.forEach(c => { historyCache[c.id] = c; });
+    renderHistory(list);
+  } catch (e) {
+    renderHistory([]);
+  }
+}
+
+function renderHistory(list) {
+  if (!list.length) {
+    historyList.innerHTML = '<div class="history-empty">還沒有對話紀錄<br>開始聊天就會自動儲存</div>';
+    return;
+  }
+  let html = '';
+  for (const c of list) {
+    const d = c.updatedAt ? new Date(c.updatedAt).toLocaleString('zh-HK', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+    const safeId = c.id;
+    const safeTitle = (c.title || '未命名').replace(/</g, '&lt;');
+    html += '<div class="history-item" data-chat-id="' + safeId + '" onclick="window._openChat(\'' + safeId + '\')">' +
+      '<div class="h-icon">💬</div>' +
+      '<div class="h-body"><div class="h-title">' + safeTitle + '</div><div class="h-time">' + d + '</div></div>' +
+      '<button class="h-del" onclick="event.stopPropagation();window._deleteChat(\'' + safeId + '\')"><i class="fas fa-trash"></i></button>' +
+      '</div>';
+  }
+  historyList.innerHTML = html;
+  if (currentChatId) highlightHistoryItem(currentChatId);
+}
+
+window._openChat = async function(chatId) {
+  if (!currentUid) return;
+  try {
+    const snap = await db.ref('users/' + currentUid + '/chats/' + chatId).once('value');
+    const data = snap.val();
+    if (!data) return;
+    currentChatId = chatId;
+    chatMessages.innerHTML = '';
+    const msgs = data.messages || [];
+    hist = [];
+    for (const m of msgs) {
+      if (m.role === 'user') {
+        addMessage('user', m.content);
+        hist.push({ role: 'user', content: m.content });
+      } else if (m.role === 'assistant') {
+        if (m.isCode) {
+          const bubble = addMessage('ai', '✅ 已生成網頁，請看右邊預覽');
+          bubble.classList.add('code-done');
+          if (m.html) showPreview(m.html);
+        } else {
+          addMessage('ai', m.content);
+        }
+        hist.push({ role: 'assistant', content: m.content });
+      }
+    }
+    highlightHistoryItem(chatId);
+    historyDrawer.classList.remove('show');
+  } catch (e) { alert('載入對話失敗：' + e.message); }
+};
+
+window._deleteChat = async function(chatId) {
+  if (!currentUid) return;
+  if (!confirm('確定要刪除此對話嗎？')) return;
+  try {
+    await db.ref('users/' + currentUid + '/chats/' + chatId).remove();
+    if (currentChatId === chatId) {
+      currentChatId = null;
+      resetChat();
+    }
+    await loadHistoryList();
+  } catch (e) { alert('刪除失敗：' + e.message); }
+};
+
+async function saveChat() {
+  if (!currentUid || !currentChatId) return;
+  try {
+    const firstUser = hist.find(m => m.role === 'user');
+    let title = '新對話';
+    if (firstUser) title = firstUser.content.slice(0, 20).replace(/\n/g, ' ');
+    const msgs = hist.map(m => {
+      if (m.role === 'assistant' && m.isCode) {
+        return { role: 'assistant', content: m.content, isCode: true, html: m.html || '' };
+      }
+      return { role: m.role, content: m.content };
+    });
+    await db.ref('users/' + currentUid + '/chats/' + currentChatId).update({
+      title, messages: msgs, updatedAt: Date.now()
+    });
+    await loadHistoryList();
+  } catch (e) { console.warn('saveChat failed', e); }
+}
+
+async function loadPreviewFromLastSession() {
+  if (!currentUid) return;
+  try {
+    const snap = await db.ref('users/' + currentUid + '/lastPreview').once('value');
+    const data = snap.val();
+    if (data && data.html) {
+      showPreview(data.html);
+    }
+  } catch (e) {}
+}
+
+// ============================================================
+// 14. 事件綁定
+// ============================================================
+loginTabBtn.addEventListener('click', switchToLogin);
+registerTabBtn.addEventListener('click', switchToRegister);
+loginSubmit.addEventListener('click', handleLogin);
+
+
+        // ===== 安全注意 =====
+        // Firebase Realtime Database 規則請設定為：
+        // {
+        //   "rules": {
+        //     ".read": "auth != null",
+        //     ".write": "auth != null"
+        //   }
+        // }
+        // 或更嚴格的規則以保護用户數據
+        // ===== CAPTCHA 驗證碼 =====
+        const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+        function generateCaptchaText() {
+            let result = '';
+            for (let i = 0; i < 4; i++) {
+                result += captchaChars.charAt(Math.floor(Math.random() * captchaChars.length));
+            }
+            return result;
+        }
+
+        function loadCaptcha(imgId, expectedVar) {
+            const text = generateCaptchaText();
+            window[expectedVar] = text;
+            const img = document.getElementById(imgId);
+            img.src = 'https://api.opencaptcha.io/captcha?text=' + encodeURIComponent(text) + '&t=' + Date.now();
+        }
+
+                function refreshLoginCaptcha() {
+            loadCaptcha('loginCaptchaImg', 'loginExpectedCaptcha');
+        }
+
+function refreshRegisterCaptcha() {
+            loadCaptcha('registerCaptchaImg', 'registerExpectedCaptcha');
+        }
+
+        function checkCaptcha(inputId, expectedVar) {
+            const input = document.getElementById(inputId).value.trim().toUpperCase();
+            const expected = window[expectedVar];
+            if (!expected) return true;
+            return input === expected;
+        }
+
+        // Initialize CAPTCHA when modal opens
+        const _origOpenAuthModal = openAuthModal;
+        openAuthModal = function() {
+            _origOpenAuthModal();
+                        if (!window.loginExpectedCaptcha) refreshLoginCaptcha();
+            if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
+        };
+
+registerSubmit.addEventListener('click', handleRegister);
+googleLoginBtn.addEventListener('click', googleLogin);
+googleRegisterBtn.addEventListener('click', googleLogin);
+authLogoutBtn.addEventListener('click', function() { handleLogout(); closeAuthModal(); });
+authNavLink.addEventListener('click', openAuthModal);
+avatarBtn.addEventListener('click', function() {
+  const user = auth.currentUser;
+  if (user || currentUid) {
+    openAuthModal();
+    authPanel.style.display = 'none';
+    authLoggedInPanel.style.display = 'block';
+    const name = user ? (user.displayName || '使用者') : (authDisplayName.textContent || '使用者');
+    const email = user ? (user.email || '') : (authDisplayEmail.textContent || '');
+    authDisplayName.textContent = name;
+    authDisplayEmail.textContent = email;
+    authAdminBtn.style.display = isAdmin(user) ? 'block' : 'none';
+    authMySitesBtn.style.display = 'block';
+  } else {
+    openAuthModal();
+  }
+});
+authAdminBtn.addEventListener('click', function() {
+  closeAuthModal();
+  setTimeout(openAdminModalFn, 300);
+});
+authMySitesBtn.addEventListener('click', function() {
+  closeAuthModal();
+  setTimeout(openMySitesModal, 300);
+});
+authModal.addEventListener('click', function(e) { if (e.target === authModal) closeAuthModal(); });
+closeAdminModal.addEventListener('click', closeAdminModalFn);
+adminModal.addEventListener('click', function(e) { if (e.target === adminModal) closeAdminModalFn(); });
+closeMySitesModal.addEventListener('click', closeMySitesModalFn);
+mySitesModal.addEventListener('click', function(e) { if (e.target === mySitesModal) closeMySitesModalFn(); });
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (adminModal.classList.contains('show')) closeAdminModalFn();
+    if (mySitesModal.classList.contains('show')) closeMySitesModalFn();
+    if (authModal.style.display === 'flex') closeAuthModal();
+    if (publishOverlay.style.display === 'block') publishOverlay.style.display = 'none';
+    if (contactModal.style.display === 'flex') contactModal.style.display = 'none';
+  }
+});
+contactBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  contactModal.style.display = 'flex';
+});
+contactModal.addEventListener('click', function(e) {
+  if (e.target === contactModal) contactModal.style.display = 'none';
+});
+historyToggleBtn.addEventListener('click', function() {
+  historyDrawer.classList.toggle('show');
+  if (historyDrawer.classList.contains('show')) loadHistoryList();
+});
+historyCloseBtn.addEventListener('click', function() { historyDrawer.classList.remove('show'); });
+newChatBtn.addEventListener('click', async function() {
+  if (!currentUid) { alert('請先登入'); return; }
+  await startNewChat(true);
+  historyDrawer.classList.remove('show');
+});
+
+// ============================================================
+// 15. AI 功能
+// ============================================================
+let isStreaming = false;
+let abortController = null;
+let fullContent = '';
+const SYSTEM_PROMPT = '你是「AI 網頁生成器」，一個專業的前端開發助手。\n\n【核心規則】\n1. 當用戶要求你「寫/生成/做/修改/新增/調整」網頁時，你必須從 `<!DOCTYPE html>` 開始，輸出完整的 HTML 到 `</html>`，不可以只給片段。\n2. 絕對不要在代碼前後加任何解釋、說明、標題、或 Markdown 格式。\n3. 絕對不要說「這是你的網頁」或「以下是代碼」等任何文字。\n4. 直接輸出純 HTML，讓用戶可以直接複製貼上使用。\n5. **每次輸出 HTML 的最後，在 `</html>` 之後，加一行 `' + REFRESH_MARKER + '`（這行是給系統的信號，用戶看不到，你務必每次都加）。**\n\n【代碼要求】\n• 完整 HTML，含 style 和 script\n• 響應式（viewport + @media）\n• 配色 3-5 色，行高 1.5-1.6\n• 語意化 HTML，可存取性\n• 不依賴外部 CDN（除了 Font Awesome 等常用庫）\n• 版權年份用 ' + new Date().getFullYear() + '\n\n【一般對話】\n如果用戶只是問問題、諮詢，沒有要求寫網頁，用自然語言回答即可，不需要輸出代碼。';
+
+function addMessage(role, text) {
+  const row = document.createElement('div');
+  row.className = 'msg-row ' + role;
+  if (role === 'ai') {
+    const av = document.createElement('div');
+    av.className = 'msg-avatar';
+    av.textContent = '🤖';
+    row.appendChild(av);
+  }
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.textContent = text;
+  row.appendChild(bubble);
+  chatMessages.appendChild(row);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+  return bubble;
+}
+function extractHTML(text) {
+  if (!text) return null;
+  let clean = text.replace(REFRESH_MARKER, '');
+  let m = clean.match(/```html\s*([\s\S]*?)\s*```/i);
+  if (m) return m[1];
+  m = clean.match(/(<!DOCTYPE[\s\S]*<\/html>)/i);
+  if (m) return m[1];
+  m = clean.match(/(<html[\s\S]*<\/html>)/i);
+  if (m) return m[1];
+  m = clean.match(/(<!DOCTYPE[\s\S]*)/i);
+  if (m) return m[1];
+  m = clean.match(/(<html[\s\S]*)/i);
+  if (m) return m[1];
+  if (clean.trim().startsWith('<')) return clean;
+  return null;
+}
+function forceRefreshPreview(html) {
+  // 關鍵：存進全域快取，讓發佈功能能讀取
+  window.__LAST_GENERATED_HTML__ = html;
+  emptyState.style.display = 'none';
+  previewUrl.textContent = '預覽 · 已生成';
+  loadIntoIframe(previewFrame, injectFix(html), 'preview');
+}
+function showPreview(html) {
+  forceRefreshPreview(html);
+  if (currentUid) {
+    db.ref('users/' + currentUid + '/lastPreview').set({ html: html, ts: Date.now() }).catch(() => {});
+  }
+}
+function buildContextMessages() {
+  const sys = { role: 'system', content: SYSTEM_PROMPT };
+  let recent = hist.slice(-MAX_CONTEXT_MESSAGES);
+  return [sys, ...recent];
+}
+async function sendMsg() {
+  const text = chatInput.value.trim();
+  if (!text || isStreaming) return;
+  if (!getCurrentUid()) {
+    openAuthModal();
+    return;
+  }
+  if (currentUid && !currentChatId) {
+    const ref = db.ref('users/' + currentUid + '/chats').push();
+    currentChatId = ref.key;
+    await ref.set({ title: '新對話', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+  }
+  addMessage('user', text);
+  hist.push({ role: 'user', content: text });
+  chatInput.value = '';
+  chatInput.style.height = 'auto';
+  const bubble = addMessage('ai', '');
+  bubble.classList.add('streaming');
+  fullContent = '';
+  isStreaming = true;
+  sendBtn.disabled = true;
+  sendBtn.style.display = 'none';
+  stopBtn.style.display = 'inline-block';
+  try {
+    abortController = new AbortController();
+    const messages = buildContextMessages();
+    const res = await fetch(AI_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + AI_KEY },
+      body: JSON.stringify({ model: AI_MODEL, messages: messages, stream: true, max_tokens: 8192, temperature: 0.3 }),
+      signal: abortController.signal
+    });
+    if (!res.ok) {
+      let msg = 'HTTP ' + res.status;
+      try { const d = await res.json(); msg = d.error?.message || d.error || msg; } catch (e) {}
+      throw new Error(msg);
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buffer = '';
+    let refreshTriggered = false;
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6).trim();
+          if (data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            const content = parsed.choices?.[0]?.delta?.content;
+            if (content) {
+              fullContent += content;
+              const displayContent = fullContent.replace(REFRESH_MARKER, '').trim();
+              bubble.textContent = displayContent;
+              chatMessages.scrollTop = chatMessages.scrollHeight;
+              if (!refreshTriggered && fullContent.includes(REFRESH_MARKER)) {
+                refreshTriggered = true;
+                const html = extractHTML(fullContent);
+                if (html) forceRefreshPreview(html);
+              }
+            }
+          } catch (e) {}
+        }
+      }
+    }
+    bubble.classList.remove('streaming');
+    const cleanText = fullContent.replace(REFRESH_MARKER, '').trim();
+    const html = extractHTML(fullContent);
+    if (html) {
+      bubble.textContent = '✅ 已生成網頁，請看右邊預覽';
+      bubble.classList.add('code-done');
+      forceRefreshPreview(html);
+      hist.push({ role: 'assistant', content: html, isCode: true, html: html });
+    } else {
+      bubble.textContent = cleanText;
+      hist.push({ role: 'assistant', content: cleanText });
+    }
+    await saveChat();
+  } catch (e) {
+    if (e.name === 'AbortError') {
+      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n⏸️ 已停止';
+    } else {
+      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n❌ ' + e.message;
+    }
+    bubble.classList.remove('streaming');
+  } finally {
+    isStreaming = false;
+    sendBtn.disabled = false;
+    sendBtn.style.display = 'inline-block';
+    stopBtn.style.display = 'none';
+    abortController = null;
+    chatInput.focus();
+  }
+}
+function stopGen() {
+  if (abortController) { abortController.abort(); abortController = null; }
+}
+sendBtn.onclick = sendMsg;
+stopBtn.onclick = stopGen;
+chatInput.onkeydown = function(e) {
+  if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent?.isComposing && e.keyCode !== 229) {
+    e.preventDefault();
+    sendMsg();
+  }
+};
+chatInput.oninput = function() {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 100) + 'px';
+};
+
+// ============================================================
+// 16. 發佈功能
+// ============================================================
+function getCurrentHTML() {
+  // 直接讀全域快取（Blob URL 模式下 srcdoc 永遠空）
+  const html = window.__LAST_GENERATED_HTML__;
+  if (!html || html.trim().length < 20) return null;
+  if (!html.includes('<html') && !html.includes('<!DOCTYPE')) return null;
+  return html;
+}
+function hasSpecialChars(str) { return /[^\w\-]/.test(str); }
+function buildBaseUrl() { return location.origin + location.pathname + '?id='; }
+suffixInput.addEventListener('input', function() {
+  const val = suffixInput.value;
+  if (!val) { urlPreviewBox.style.display = 'none'; return; }
+  urlPreviewBox.style.display = 'block';
+  const encoded = encodeURIComponent(val);
+  urlPreview.textContent = buildBaseUrl() + encoded;
+  encodeNote.style.display = hasSpecialChars(val) ? 'block' : 'none';
+});
+function showPublishMsg(text, type) {
+  publishMsg.style.display = 'block';
+  publishMsg.textContent = text;
+  if (type === 'error') {
+    publishMsg.style.background = 'rgba(220,38,38,.15)';
+    publishMsg.style.color = '#fca5a5';
+    publishMsg.style.border = '1px solid rgba(220,38,38,.4)';
+  } else {
+    publishMsg.style.background = 'rgba(34,197,94,.15)';
+    publishMsg.style.color = '#86efac';
+    publishMsg.style.border = '1px solid rgba(34,197,94,.4)';
+  }
+}
+publishNavLink.addEventListener('click', function(e) {
+  e.preventDefault();
+  const uid = getCurrentUid();
+  if (!uid) { alert('請先登入才能發佈網頁'); openAuthModal(); return; }
+  const html = getCurrentHTML();
+  if (!html) { alert('請先在左邊讓 AI 生成一個網頁，再進行發佈'); return; }
+  publishMsg.style.display = 'none';
+  suffixInput.value = '';
+  urlPreviewBox.style.display = 'none';
+  publishOverlay.style.display = 'block';
+  setTimeout(() => suffixInput.focus(), 100);
+});
+publishClose.addEventListener('click', function() { publishOverlay.style.display = 'none'; });
+publishConfirm.addEventListener('click', async function() {
+  const suffix = suffixInput.value;
+  if (!suffix.trim()) { showPublishMsg('請填寫後綴', 'error'); return; }
+  const html = getCurrentHTML();
+  if (!html) { showPublishMsg('找不到要發佈的網頁，請重新生成', 'error'); return; }
+  const uid = getCurrentUid();
+  if (!uid) { showPublishMsg('登入狀態已失效，請重新登入', 'error'); return; }
+  publishConfirm.disabled = true;
+  publishConfirm.textContent = '發佈中...';
+  try {
+    const safeKey = encodeURIComponent(suffix);
+    const check = await db.ref('published/' + safeKey).once('value');
+    if (check.exists()) {
+      showPublishMsg('此後綴已被使用，請換一個', 'error');
+      publishConfirm.disabled = false;
+      publishConfirm.textContent = '確認發佈';
+      return;
+    }
+    const user = auth.currentUser;
+    const ownerName = user ? (user.displayName || user.email || 'unknown') : (authDisplayName.textContent || 'unknown');
+    await db.ref('published/' + safeKey).set({
+      html: html, title: suffix,
+      owner: ownerName,
+      ownerUid: uid,
+      createdAt: Date.now()
+    });
+    const fullUrl = buildBaseUrl() + safeKey;
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      showPublishMsg('✅ 發佈成功！網址已複製到剪貼簿：\n' + fullUrl, 'success');
+    } catch (e) {
+      showPublishMsg('✅ 發佈成功！你的網址：\n' + fullUrl, 'success');
+    }
+  } catch (err) {
+    showPublishMsg('發佈失敗：' + err.message, 'error');
+  } finally {
+    publishConfirm.disabled = false;
+    publishConfirm.textContent = '確認發佈';
+  }
+});
+
+// ============================================================
+// 17. 初始化
+// ============================================================
+auth.onAuthStateChanged(user => {
+  if (user) {
+    showUI(user);
+    if (user.uid !== currentUid) {
+      currentUid = user.uid;
+      localStorage.setItem('_localUid', user.uid);
+      loadHistoryList();
+      startNewChat(false);
+      loadPreviewFromLastSession();
+    }
+  } else {
+    if (localStorage.getItem('_localUid')) {
+      const uid = localStorage.getItem('_localUid');
+      currentUid = uid;
+      db.ref('users/' + uid).once('value').then(snap => {
+        const d = snap.val();
+        if (d) {
+          const ud = { name: d.name, email: d.email || '', photo: d.photo || '', uid: uid, displayName: d.name };
+          showUI(ud);
+          loadHistoryList();
+          startNewChat(false);
+          loadPreviewFromLastSession();
+        } else {
+          hideUI();
+          localStorage.removeItem('_localUid');
+        }
+      }).catch(() => {
+        hideUI();
+      });
+    } else {
+      hideUI();
+    }
+  }
+});
+chatInput.focus();
+console.log('AI 網頁生成器已啟動');
+</script>
+
+    <div class="site-footer">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <h4>隐私政策</h4>
+            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+        </div>
+        <div class="footer-col">
+            <h4>聯繫我們</h4>
+            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <p>郵箱: oscarmtr114514@gmail.com</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+    </div>
+</div>
+</body>
+</html>
