@@ -803,6 +803,12 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
+                    <div class="captcha-row">
+                        <label class="captcha-label">驗證碼</label>
+                        <input type="text" id="loginCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
+                        <img id="loginCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshLoginCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshLoginCaptcha()" title="重新生成">↻</button>
+                    </div>
                     <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
@@ -1092,15 +1098,18 @@
             registerSubmit.disabled = true;
             registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
             try {
-                const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
+                const safeName = name.replace(/[.#$\[\]]/g, '_');
+                const snap = await db.ref('users/' + safeName).once('value');
                 if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error');
                     hideLoading();
                     registerSubmit.disabled = false;
                     registerSubmit.textContent = '註冊'; return; }
                 const avatar = generateIdenticon(name);
-                const ref = db.ref('users').push();
+                // 使用姓名作為 Firebase key（防止重複姓名）
+                const safeName = name.replace(/[.#$\[\]]/g, '_');
+                const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
-                const ud = { name, email: '', photo: avatar, uid: ref.key };
+                const ud = { name, email: '', photo: avatar, uid: safeName };
                 showUI(ud);
                 closeAuthModal();
                 regName.value = '';
@@ -1116,6 +1125,7 @@
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
+            if (!checkCaptcha('loginCaptcha', 'loginExpectedCaptcha')) { showMsg(loginMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
             showLoading('登入中...');
             loginSubmit.disabled = true;
             loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
@@ -1136,6 +1146,7 @@
                         db.ref('users/' + c.key + '/lastLogin').set(Date.now());
                         loginName.value = '';
                         loginPassword.value = '';
+                        document.getElementById('loginCaptcha').value = '';
                     }
                 });
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
@@ -1152,6 +1163,15 @@
         }
 
         // ===== 用戶管理 =====
+
+        // ===== HTML 轉義（防止 XSS） =====
+        function escapeHtml(str) {
+            if (str == null) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         let allUsers = [];
 
         async function loadUserTable() {
@@ -1175,7 +1195,7 @@
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
                     html +=
-                        `<tr><td>${u.name}</td><td>${u.email || '-'}</td><td>${pwDisplay}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${u.name.replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                        `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
@@ -1195,6 +1215,16 @@
         };
 
 
+
+        // ===== 安全注意 =====
+        // Firebase Realtime Database 規則請設定為：
+        // {
+        //   "rules": {
+        //     ".read": "auth != null",
+        //     ".write": "auth != null"
+        //   }
+        // }
+        // 或更嚴格的規則以保護用户數據
         // ===== CAPTCHA 驗證碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
         
@@ -1213,6 +1243,10 @@
             img.src = 'https://api.opencaptcha.io/captcha?text=' + encodeURIComponent(text) + '&t=' + Date.now();
         }
         
+        function refreshLoginCaptcha() {
+            loadCaptcha('loginCaptchaImg', 'loginExpectedCaptcha');
+        }
+
         function refreshRegisterCaptcha() {
             loadCaptcha('registerCaptchaImg', 'registerExpectedCaptcha');
         }
@@ -1231,6 +1265,7 @@
         const originalOpenAuthModal = openAuthModal;
         openAuthModal = function() {
             originalOpenAuthModal();
+            if (!window.loginExpectedCaptcha) refreshLoginCaptcha();
             if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
         };
 
