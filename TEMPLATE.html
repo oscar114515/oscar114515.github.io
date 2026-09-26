@@ -101,9 +101,6 @@
         .modal-box .title, .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #333; margin-bottom: 16px; }
         .modal-box .divider, .auth-modal-box .divider { height: 1px; background: #e8ecf0; margin: 14px 0; }
         .contact-info, .auth-modal-box .brand { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
-        .qq-icon { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
-        .qq-number { font-size: 1.6rem; font-weight: bold; color: #333; letter-spacing: 2px; }
-        .qq-label { font-size: 0.85rem; color: #888; }
 
         .platform-grid-small { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
         .platform-btn-small {
@@ -114,6 +111,8 @@
             font-family: sans-serif;
         }
         .platform-btn-small:active { background: #f0f0f0; transform: scale(0.97); }
+        .platform-btn-small.qq { color: #7155E5; }
+        .platform-btn-small.qq:hover { background: #f5f0ff; border-color: #7155E5; }
         .platform-btn-small.bili { color: #00a1d6; }
         .platform-btn-small.xhs { color: #ff2442; }
         .platform-btn-small.douyin { color: #000000; }
@@ -157,8 +156,6 @@
             .modal-box { padding: 24px 20px; max-width: 300px; }
             .platform-grid-small { gap: 8px; }
             .platform-btn-small { padding: 10px 0; font-size: 0.85rem; }
-            .qq-number { font-size: 1.3rem; }
-            .qq-icon { width: 50px; height: 50px; }
         }
         @media (max-width: 480px) {
             .auth-modal-box, .modal-box, .admin-modal-box, .loading-box { padding: 1.2rem; }
@@ -200,11 +197,7 @@
     <!-- ===== 聯繫我們彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
-            <div class="contact-info">
-                <img src="https://i.postimg.cc/Z520m4jx/e1fb8ec8ae1db1ac50505adac82398e4.jpg" class="qq-icon">
-                <div class="qq-label">QQ</div>
-                <span class="qq-number">1962487792</span>
-            </div>
+            
             <div class="divider"></div>
             <div class="title">📱 追蹤我</div>
             <div class="platform-grid-small">
@@ -213,6 +206,7 @@
                 <button class="platform-btn-small douyin" onclick="window.open('https://v.douyin.com/HDdZvMmGXwU/','_blank')">抖音</button>
                 <button class="platform-btn-small yt" onclick="window.open('https://www.youtube.com/@%E6%A2%81%E5%96%86%E5%90%8C%E5%AD%B8','_blank')">YouTube</button>
                 <button class="platform-btn-small ig" onclick="window.open('https://www.instagram.com/oscar_114514?stkn=MTYxZGlhNHA5eTk1cA==','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><title>Instagram</title><path d="M12 2.5C6.469 2.5 2 6.969 2 12.5S6.469 22.5 12 22.5s10-4.469 10-10S17.531 2.5 12 2.5zm0 2.5c4.156 0 7.5 3.344 7.5 7.5S16.156 20 12 20 4.5 16.656 4.5 12.5 7.844 5 12 5zm0 2.5C9.496 7.5 7.5 9.496 7.5 12.5S9.496 17.5 12 17.5s4.5-1.996 4.5-4.5S14.504 7.5 12 7.5zm0 7.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 10 12 10s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zm4.93-6.563c-.328-.328-.781-.328-1.106 0-.324.324-.324.848 0 1.172.16.16.367.246.553.246s.393-.086.553-.246c.324-.324.324-.848 0-1.172z"/></svg></span></button>
+                <button class="platform-btn-small qq" onclick="window.open('https://qm.qq.com/q/pqsAuCsOnA','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="20" height="20" fill="#7155E5" xmlns="http://www.w3.org/2000/svg"><title>QQ</title><path d="M21.395 15.035a40 40 0 0 0-.803-2.264l-1.079-2.695c.001-.032.014-.562.014-.836C19.526 4.632 17.351 0 12 0S4.474 4.632 4.474 9.241c0 .274.013.804.014.836l-1.08 2.695a39 39 0 0 0-.802 2.264c-1.021 3.283-.69 4.643-.438 4.673.54.065 2.103-2.472 2.103-2.472 0 1.469.756 3.387 2.394 4.771-.612.188-1.363.479-1.845.835-.434.32-.379.646-.301.778.343.578 5.883.369 7.482.189 1.6.18 7.14.389 7.483-.189.078-.132.132-.458-.301-.778-.483-.356-1.233-.646-1.846-.836 1.637-1.384 2.393-3.302 2.393-4.771 0 0 1.563 2.537 2.103 2.472.251-.03.581-1.39-.438-4.673"/></svg></span></button>
             </div>
         </div>
     </div>
