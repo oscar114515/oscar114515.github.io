@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relative Calculator · 我的網站</title>
+    <title>亲戚计算機 · My website</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -145,7 +145,7 @@
         
         .footer-note { text-align: center; margin-top: 20px; font-size: 0.8rem; color: #8a9bb0; }
         
-        /* ===== 彈窗 ===== */
+        /* ===== 弹窗 ===== */
         .modal-overlay, .auth-modal-overlay, .admin-modal-overlay, .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
@@ -266,7 +266,7 @@
         }
 
     
-        /* ===== 站尾Info ===== */
+        /* ===== 站尾资讯 ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -308,7 +308,7 @@
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA Verify碼 */
+        /* CAPTCHA 驗证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -356,19 +356,19 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/en/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">Login</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="Avatar">
+                            <img id="avatarImg" style="display:none;" alt="頭像">
                         </button>
                     </li>
                     <li><a href="/en/privacy.html">Privacy Policy</a></li>
-                    <li><a href="#" id="contactBtn">Contact Us</a></li>
+                    <li><a href="#" id="contactBtn">联系我們</a></li>
 
                     
                 </ul>
@@ -378,12 +378,12 @@
 
     <div class="content-wrapper">
         <div class="card">
-            <h1><i class="fas fa-users" style="color:#007bff"></i> Relative Calculator</h1>
-            <div class="subhead">輕鬆計算中國親戚關係，逢年過节不再叫錯人</div>
+            <h1><i class="fas fa-users" style="color:#007bff"></i> 亲戚计算機</h1>
+            <div class="subhead">輕鬆计算中國亲戚关係，逢年過节不再叫錯人</div>
             
             <div class="gender-selector">
-                <button class="gender-btn active" data-gender="male"><i class="fas fa-mars"></i> 我是男生</button>
-                <button class="gender-btn" data-gender="female"><i class="fas fa-venus"></i> 我是女生</button>
+                <button class="gender-btn active" data-gender="male"><i class="fas fa-mars"></i> I'm a boy</button>
+                <button class="gender-btn" data-gender="female"><i class="fas fa-venus"></i> I'm a girl</button>
             </div>
             
             <div class="direction-toggle">
@@ -392,49 +392,49 @@
             </div>
             
             <div class="relation-chain" id="relationChain">
-                <span style="color:#8a9bb0;">點擊關係Button構建關係鏈...</span>
+                <span style="color:#8a9bb0;">點擊关係按钮構建关係鏈...</span>
             </div>
             
             <div class="relation-buttons">
-                <button class="rel-btn" data-rel="父亲">父亲</button>
-                <button class="rel-btn" data-rel="母亲">母亲</button>
-                <button class="rel-btn" data-rel="丈夫">丈夫</button>
-                <button class="rel-btn" data-rel="妻子">妻子</button>
-                <button class="rel-btn" data-rel="哥哥">哥哥</button>
-                <button class="rel-btn" data-rel="弟弟">弟弟</button>
-                <button class="rel-btn" data-rel="姐姐">姐姐</button>
-                <button class="rel-btn" data-rel="妹妹">妹妹</button>
-                <button class="rel-btn" data-rel="儿子">儿子</button>
-                <button class="rel-btn" data-rel="女儿">女儿</button>
-                <button class="rel-btn" data-rel="祖父">祖父</button>
-                <button class="rel-btn" data-rel="祖母">祖母</button>
-                <button class="rel-btn" data-rel="外祖父">外祖父</button>
-                <button class="rel-btn" data-rel="外祖母">外祖母</button>
-                <button class="rel-btn" data-rel="叔叔">叔叔</button>
-                <button class="rel-btn" data-rel="阿姨">阿姨</button>
-                <button class="rel-btn" data-rel="舅舅">舅舅</button>
-                <button class="rel-btn" data-rel="姑姑">姑姑</button>
+                <button class="rel-btn" data-rel="Father">Father</button>
+                <button class="rel-btn" data-rel="Mother">Mother</button>
+                <button class="rel-btn" data-rel="Husband">Husband</button>
+                <button class="rel-btn" data-rel="Wife">Wife</button>
+                <button class="rel-btn" data-rel="Older brother">Older brother</button>
+                <button class="rel-btn" data-rel="Younger brother">Younger brother</button>
+                <button class="rel-btn" data-rel="Older sister">Older sister</button>
+                <button class="rel-btn" data-rel="Younger sister">Younger sister</button>
+                <button class="rel-btn" data-rel="Son">Son</button>
+                <button class="rel-btn" data-rel="Daughter">Daughter</button>
+                <button class="rel-btn" data-rel="Grandfather (paternal)">Grandfather (paternal)</button>
+                <button class="rel-btn" data-rel="Grandmother (paternal)">Grandmother (paternal)</button>
+                <button class="rel-btn" data-rel="Maternal grandfather">Maternal grandfather</button>
+                <button class="rel-btn" data-rel="Maternal grandmother">Maternal grandmother</button>
+                <button class="rel-btn" data-rel="Uncle">Uncle</button>
+                <button class="rel-btn" data-rel="Aunt">Aunt</button>
+                <button class="rel-btn" data-rel="Maternal uncle">Maternal uncle</button>
+                <button class="rel-btn" data-rel="Father's sister">Father's sister</button>
                 <button class="rel-btn" data-rel="姨媽">姨媽</button>
-                <button class="rel-btn" data-rel="嫂子">嫂子</button>
-                <button class="rel-btn" data-rel="姐夫">姐夫</button>
-                <button class="rel-btn" data-rel="妹夫">妹夫</button>
-                <button class="rel-btn" data-rel="弟妹">弟妹</button>
+                <button class="rel-btn" data-rel="Sister-in-law (husband's older brother's wife)">Sister-in-law (husband's older brother's wife)</button>
+                <button class="rel-btn" data-rel="Brother-in-law (sister's husband)">Brother-in-law (sister's husband)</button>
+                <button class="rel-btn" data-rel="Brother-in-law (husband's younger brother)">Brother-in-law (husband's younger brother)</button>
+                <button class="rel-btn" data-rel="Younger brother and sister">Younger brother and sister</button>
                 <button class="rel-btn" data-rel="舅媽">舅媽</button>
-                <button class="rel-btn" data-rel="婶婶">婶婶</button>
-                <button class="rel-btn" data-rel="姑父">姑父</button>
-                <button class="rel-btn" data-rel="姨父">姨父</button>
-                <button class="rel-btn" data-rel="婆婆">婆婆</button>
+                <button class="rel-btn" data-rel="Aunt (husband's brother's wife)">Aunt (husband's brother's wife)</button>
+                <button class="rel-btn" data-rel="Father's sister's husband">Father's sister's husband</button>
+                <button class="rel-btn" data-rel="Mother's sister's husband">Mother's sister's husband</button>
+                <button class="rel-btn" data-rel="Grandmother (maternal)">Grandmother (maternal)</button>
                 <button class="rel-btn" data-rel="公公">公公</button>
-                <button class="rel-btn" data-rel="岳父">岳父</button>
-                <button class="rel-btn" data-rel="岳母">岳母</button>
+                <button class="rel-btn" data-rel="Father-in-law (wife's father)">Father-in-law (wife's father)</button>
+                <button class="rel-btn" data-rel="Mother-in-law (wife's mother)">Mother-in-law (wife's mother)</button>
                 <button class="rel-btn" data-rel="媳婦">媳婦</button>
-                <button class="rel-btn" data-rel="女婿">女婿</button>
+                <button class="rel-btn" data-rel="Son-in-law">Son-in-law</button>
             </div>
             
             <div class="action-buttons">
-                <button class="action-btn secondary" id="backBtn"><i class="fas fa-arrow-left"></i> 上一步</button>
-                <button class="action-btn secondary" id="clearBtn"><i class="fas fa-trash"></i> 清空</button>
-                <button class="action-btn primary" id="calcBtn"><i class="fas fa-calculator"></i> 計算</button>
+                <button class="action-btn secondary" id="backBtn"><i class="fas fa-arrow-left"></i> Previous step</button>
+                <button class="action-btn secondary" id="clearBtn"><i class="fas fa-trash"></i> Clear</button>
+                <button class="action-btn primary" id="calcBtn"><i class="fas fa-calculator"></i> 计算</button>
             </div>
             
             <div class="result-box" id="resultBox" style="display:none;">
@@ -447,16 +447,16 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>Privacy Policy</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據Upload至任何Service器。我們不Use Cookie Track，也不與第三方共享數據。</p>
+            <p>本站不收集任何個人数據。所有工具均在本地浏览器Run，不會將你的数據上传至任何服務器。我們不Use Cookie 追踪，也不與第三方Share数據。</p>
         </div>
         <div class="footer-col">
-            <h4>Contact Us</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站Use GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我們</h4>
+            <p>這是梁喆同學的個人Portfolio网站，上面所有工具均由原創开發。网站Use GitHub Pages 托管，並整合了 Firebase 認证Feature。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 Liang Zhe Studio LZTX Studio</span>
+        <span>© 2026 梁喆同學工作室LZTX Studio</span>
     </div>
 </div>
         </div>
@@ -466,7 +466,7 @@
         <div class="modal-box" onclick="event.stopPropagation()">
             
             <div class="divider"></div>
-            <div class="title">📱 Track我</div>
+            <div class="title">📱 追蹤我</div>
             <div class="platform-grid-small">
                 <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#00AEEC" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span></button>
                 <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FE3C54" xmlns="http://www.w3.org/2000/svg"><title>Xiaohongshu</title><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034.38 0 .078-.029-.641-.724-.998z"/></svg></span></button>
@@ -480,7 +480,7 @@
 
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
-            <div class="brand"><h2>歡迎你的Use</h2></div>
+            <div class="brand"><h2>Welcome to use</h2></div>
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
@@ -496,7 +496,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">Login</button>
+                    <button class="action-btn" id="loginSubmitBtn">登入</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -505,19 +505,19 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        Use Google Login
+                        Use Google 登入
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="Confirm密碼"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (At least4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">Verify碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請InputVerify碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="Verify碼" onclick="refreshRegisterCaptcha()">
-                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
+                        <label class="captcha-label">驗证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請Input驗证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新Generate">↻</button>
                     </div>
                     <button class="action-btn" id="registerSubmitBtn">註冊</button>
                     <div class="divider"><span>或</span></div>
@@ -539,14 +539,14 @@
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">Loading......</p></div>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
         </div>
     </div>
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">Loading......</p>
+            <p id="loadingText">載入中...</p>
         </div>
     </div>
 
@@ -606,7 +606,7 @@
         }
 
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || 'Loading......';
+            document.getElementById('loadingText').textContent = text || '載入中...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -623,7 +623,7 @@
             updateAvatar(user.photo, user.name);
             authPanel.style.display = 'none';
             authLoggedInPanel.style.display = 'block';
-            authDisplayName.textContent = user.name || 'Use者';
+            authDisplayName.textContent = user.name || 'User';
             authDisplayEmail.textContent = user.email || '';
             if (isAdmin(user)) { authAdminBtn.style.display = 'block'; }
             else { authAdminBtn.style.display = 'none'; }
@@ -631,7 +631,7 @@
             hideLoading();
         }
         function hideUI() {
-            authNavLink.textContent = 'Login';
+            authNavLink.textContent = '登入';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', openAuthModal);
@@ -652,7 +652,7 @@
         function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
         async function googleLogin() {
-            showLoading('Google Login中...');
+            showLoading('Google 登入中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -664,17 +664,17 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google LoginFailed：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
                 }
             }
         }
         async function handleRegister() {
             const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
-            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, 'Name must be at least2個字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼At least4個字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, 'Verify碼Error，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
             showLoading('註冊中...');
             registerSubmitBtn.disabled = true;
             registerSubmitBtn.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -690,18 +690,18 @@
                 closeAuthModal();
                 regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
                 document.getElementById('registerCaptcha').value = '';
-            } catch (e) { showMsg(registerMessage, '註冊Failed', 'error'); hideLoading(); }
+            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error'); hideLoading(); }
             finally { registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; }
         }
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請Input姓名和密碼', 'error'); return; }
-            showLoading('Login中...');
+            showLoading('登入中...');
             loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>Login中...';
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = 'Login'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -717,9 +717,9 @@
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = 'Login'; }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
         }
-        function handleLogout() { showLoading('Logout中...'); auth.signOut().catch(() => {}); hideUI(); }
+        function handleLogout() { showLoading('Logging out...'); auth.signOut().catch(() => {}); hideUI(); }
         function showMsg(el, msg, type) { el.textContent = msg; el.className = 'message-box ' + type; setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000); }
 
         // ===== HTML 轉義（防止 XSS） =====
@@ -732,7 +732,7 @@
 
         let allUsers = [];
         async function loadUserTable() {
-            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Loading......</p>';
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
@@ -740,81 +740,81 @@
                 if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>'; return; }
                 let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
-                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
                     html += `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
-            } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入Failed</p>'; }
+            } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>'; }
         }
         window._deleteUser = async function(key, name) {
-            if (!confirm('Confirm要刪除用戶「' + name + '」嗎？此操作無法Undo。')) return;
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？This operation cannot be undone.')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (local && local.uid === key) { hideUI(); }
                 loadUserTable();
-            } catch (e) { alert('刪除Failed：' + e.message); }
+            } catch (e) { alert('刪除失敗：' + e.message); }
         };
 
-        // ===== Relative Calculator功能 =====
+        // ===== 亲戚计算機Feature =====
         let userGender = 'male';
         let queryDirection = 'forward';
         let relationChain = [];
 
         const relations = {
-            '父亲': { male: '爸爸', female: '爸爸', reverse: '兒子', femaleReverse: '女兒', gender: 'male' },
-            '母亲': { male: '媽媽', female: '媽媽', reverse: '兒子', femaleReverse: '女兒', gender: 'female' },
-            '丈夫': { male: '老公', female: '老公', reverse: '老婆', gender: 'male' },
-            '妻子': { male: '老婆', female: '老婆', reverse: '老公', gender: 'female' },
-            '哥哥': { male: '哥哥', female: '姐姐', reverse: '弟弟', femaleReverse: '妹妹', gender: 'male' },
-            '弟弟': { male: '弟弟', female: '妹妹', reverse: '哥哥', femaleReverse: '姐姐', gender: 'male' },
-            '姐姐': { male: '姐姐', female: '姐姐', reverse: '弟弟', femaleReverse: '妹妹', gender: 'female' },
-            '妹妹': { male: '妹妹', female: '妹妹', reverse: '哥哥', femaleReverse: '姐姐', gender: 'female' },
-            '儿子': { male: '兒子', female: '兒子', reverse: '爸爸', femaleReverse: '媽媽', gender: 'male' },
-            '女儿': { male: '女兒', female: '女兒', reverse: '爸爸', femaleReverse: '媽媽', gender: 'female' },
-            '祖父': { male: '爺爺', female: '爺爺', reverse: '孙子', femaleReverse: '孙女', gender: 'male' },
-            '祖母': { male: '奶奶', female: '奶奶', reverse: '孙子', femaleReverse: '孙女', gender: 'female' },
-            '外祖父': { male: '外公', female: '外公', reverse: '外孙', femaleReverse: '外孙女', gender: 'male' },
-            '外祖母': { male: '外婆', female: '外婆', reverse: '外孙', femaleReverse: '外孙女', gender: 'female' },
-            '叔叔': { male: '叔叔', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
-            '阿姨': { male: '阿姨', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
-            '舅舅': { male: '舅舅', female: '舅舅', reverse: '外甥', femaleReverse: '侄子', gender: 'male' },
-            '姑姑': { male: '姑姑', female: '姑姑', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
-            '姨媽': { male: '姨媽', female: '姨媽', reverse: '外甥', femaleReverse: '外甥', gender: 'female' },
-            '嫂子': { male: '嫂子', female: '嫂子', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
-            '姐夫': { male: '姐夫', female: '姐夫', reverse: '小姨子', femaleReverse: '小舅子', gender: 'male' },
-            '妹夫': { male: '妹夫', female: '妹夫', reverse: '大姨子', femaleReverse: '大舅子', gender: 'male' },
-            '弟妹': { male: '弟妹', female: '弟妹', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
-            '舅媽': { male: '舅媽', female: '舅媽', reverse: '外甥', femaleReverse: '侄子', gender: 'female' },
-            '婶婶': { male: '婶婶', female: '婶婶', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
-            '姑父': { male: '姑父', female: '姑父', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
-            '姨父': { male: '姨父', female: '姨父', reverse: '外甥', femaleReverse: '侄子', gender: 'male' },
-            '婆婆': { male: '婆婆', female: '婆婆', reverse: '媳婦', femaleReverse: '媳婦', gender: 'female' },
+            'Father': { male: 'Dad', female: 'Dad', reverse: '兒子', femaleReverse: '女兒', gender: 'male' },
+            'Mother': { male: '媽媽', female: '媽媽', reverse: '兒子', femaleReverse: '女兒', gender: 'female' },
+            'Husband': { male: 'Husband', female: 'Husband', reverse: 'Wife', gender: 'male' },
+            'Wife': { male: 'Wife', female: 'Wife', reverse: 'Husband', gender: 'female' },
+            'Older brother': { male: 'Older brother', female: 'Older sister', reverse: 'Younger brother', femaleReverse: 'Younger sister', gender: 'male' },
+            'Younger brother': { male: 'Younger brother', female: 'Younger sister', reverse: 'Older brother', femaleReverse: 'Older sister', gender: 'male' },
+            'Older sister': { male: 'Older sister', female: 'Older sister', reverse: 'Younger brother', femaleReverse: 'Younger sister', gender: 'female' },
+            'Younger sister': { male: 'Younger sister', female: 'Younger sister', reverse: 'Older brother', femaleReverse: 'Older sister', gender: 'female' },
+            'Son': { male: '兒子', female: '兒子', reverse: 'Dad', femaleReverse: '媽媽', gender: 'male' },
+            'Daughter': { male: '女兒', female: '女兒', reverse: 'Dad', femaleReverse: '媽媽', gender: 'female' },
+            'Grandfather (paternal)': { male: '爺爺', female: '爺爺', reverse: 'Grandson', femaleReverse: 'Granddaughter', gender: 'male' },
+            'Grandmother (paternal)': { male: 'Grandmother (paternal)', female: 'Grandmother (paternal)', reverse: 'Grandson', femaleReverse: 'Granddaughter', gender: 'female' },
+            'Maternal grandfather': { male: 'Maternal grandfather', female: 'Maternal grandfather', reverse: 'Grandson (maternal)', femaleReverse: 'Granddaughter (maternal)', gender: 'male' },
+            'Maternal grandmother': { male: 'Maternal grandmother', female: 'Maternal grandmother', reverse: 'Grandson (maternal)', femaleReverse: 'Granddaughter (maternal)', gender: 'female' },
+            'Uncle': { male: 'Uncle', female: 'Aunt', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Aunt': { male: 'Aunt', female: 'Aunt', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Maternal uncle': { male: 'Maternal uncle', female: 'Maternal uncle', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Father's sister': { male: 'Father's sister', female: 'Father's sister', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            '姨媽': { male: '姨媽', female: '姨媽', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Sister-in-law (husband's older brother's wife)': { male: 'Sister-in-law (husband's older brother's wife)', female: 'Sister-in-law (husband's older brother's wife)', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
+            'Brother-in-law (sister's husband)': { male: 'Brother-in-law (sister's husband)', female: 'Brother-in-law (sister's husband)', reverse: '小姨子', femaleReverse: '小舅子', gender: 'male' },
+            'Brother-in-law (husband's younger brother)': { male: 'Brother-in-law (husband's younger brother)', female: 'Brother-in-law (husband's younger brother)', reverse: '大姨子', femaleReverse: '大舅子', gender: 'male' },
+            'Younger brother and sister': { male: 'Younger brother and sister', female: 'Younger brother and sister', reverse: '大伯子', femaleReverse: '大姑子', gender: 'female' },
+            '舅媽': { male: '舅媽', female: '舅媽', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Aunt (husband's brother's wife)': { male: 'Aunt (husband's brother's wife)', female: 'Aunt (husband's brother's wife)', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Father's sister's husband': { male: 'Father's sister's husband', female: 'Father's sister's husband', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Mother's sister's husband': { male: 'Mother's sister's husband', female: 'Mother's sister's husband', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Grandmother (maternal)': { male: 'Grandmother (maternal)', female: 'Grandmother (maternal)', reverse: '媳婦', femaleReverse: '媳婦', gender: 'female' },
             '公公': { male: '公公', female: '公公', reverse: '媳婦', femaleReverse: '媳婦', gender: 'male' },
-            '岳父': { male: '岳父', female: '岳父', reverse: '女婿', femaleReverse: '女婿', gender: 'male' },
-            '岳母': { male: '岳母', female: '岳母', reverse: '女婿', femaleReverse: '女婿', gender: 'female' },
-            '媳婦': { male: '媳婦', female: '媳婦', reverse: '公公', femaleReverse: '婆婆', gender: 'female' },
-            '女婿': { male: '女婿', female: '女婿', reverse: '岳父', femaleReverse: '岳母', gender: 'male' }
+            'Father-in-law (wife's father)': { male: 'Father-in-law (wife's father)', female: 'Father-in-law (wife's father)', reverse: 'Son-in-law', femaleReverse: 'Son-in-law', gender: 'male' },
+            'Mother-in-law (wife's mother)': { male: 'Mother-in-law (wife's mother)', female: 'Mother-in-law (wife's mother)', reverse: 'Son-in-law', femaleReverse: 'Son-in-law', gender: 'female' },
+            '媳婦': { male: '媳婦', female: '媳婦', reverse: '公公', femaleReverse: 'Grandmother (maternal)', gender: 'female' },
+            'Son-in-law': { male: 'Son-in-law', female: 'Son-in-law', reverse: 'Father-in-law (wife's father)', femaleReverse: 'Mother-in-law (wife's mother)', gender: 'male' }
         };
 
-        // 擴展關係表
+        // 擴展关係表
         const extendedRelations = {
-            '伯父': { male: '伯父', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
-            '婶婶': { male: '婶婶', female: '婶婶', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
-            '姑父': { male: '姑父', female: '姑父', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
-            '舅妈': { male: '舅妈', female: '舅妈', reverse: '外甥', femaleReverse: '侄子', gender: 'female' },
-            '姐夫': { male: '姐夫', female: '姐夫', reverse: '小姨子', gender: 'male' },
-            '嫂子': { male: '嫂子', female: '嫂子', reverse: '大伯子', gender: 'female' },
-            '妹夫': { male: '妹夫', female: '妹夫', reverse: '大姨子', gender: 'male' },
-            '女婿': { male: '女婿', female: '女婿', reverse: '岳父', femaleReverse: '岳母', gender: 'male' }
+            'Uncle (paternal)': { male: 'Uncle (paternal)', female: 'Aunt', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Aunt (husband's brother's wife)': { male: 'Aunt (husband's brother's wife)', female: 'Aunt (husband's brother's wife)', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Father's sister's husband': { male: 'Father's sister's husband', female: 'Father's sister's husband', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'male' },
+            'Aunt (wife's brother's wife)': { male: 'Aunt (wife's brother's wife)', female: 'Aunt (wife's brother's wife)', reverse: 'Nephew', femaleReverse: 'Nephew', gender: 'female' },
+            'Brother-in-law (sister's husband)': { male: 'Brother-in-law (sister's husband)', female: 'Brother-in-law (sister's husband)', reverse: '小姨子', gender: 'male' },
+            'Sister-in-law (husband's older brother's wife)': { male: 'Sister-in-law (husband's older brother's wife)', female: 'Sister-in-law (husband's older brother's wife)', reverse: '大伯子', gender: 'female' },
+            'Brother-in-law (husband's younger brother)': { male: 'Brother-in-law (husband's younger brother)', female: 'Brother-in-law (husband's younger brother)', reverse: '大姨子', gender: 'male' },
+            'Son-in-law': { male: 'Son-in-law', female: 'Son-in-law', reverse: 'Father-in-law (wife's father)', femaleReverse: 'Mother-in-law (wife's mother)', gender: 'male' }
         };
 
         function updateChainDisplay() {
             const chain = document.getElementById('relationChain');
             if (relationChain.length === 0) {
-                chain.innerHTML = '<span style="color:#8a9bb0;">點擊關係Button構建關係鏈...</span>';
+                chain.innerHTML = '<span style="color:#8a9bb0;">點擊关係按钮構建关係鏈...</span>';
                 return;
             }
             
@@ -838,57 +838,57 @@
             document.getElementById('resultBox').style.display = 'none';
         }
 
-        // 關係組合表：多步關係的正確稱呼
+        // 关係組合表：多步关係的正確稱呼
         const chainMap = {
-            '父亲,母亲': { male: '奶奶', female: '奶奶' },
-            '父亲,父亲': { male: '爺爺', female: '爺爺' },
-            '母亲,母亲': { male: '外婆', female: '外婆' },
-            '母亲,父亲': { male: '外公', female: '外公' },
-            '父亲,哥哥': { male: '伯父', female: '姑姑' },
-            '父亲,弟弟': { male: '叔叔', female: '阿姨' },
-            '父亲,姐姐': { male: '姑姑', female: '姑姑' },
-            '父亲,妹妹': { male: '姑姑', female: '姑姑' },
-            '母亲,哥哥': { male: '舅舅', female: '舅舅' },
-            '母亲,弟弟': { male: '舅舅', female: '舅舅' },
-            '母亲,姐姐': { male: '姨媽', female: '姨媽' },
-            '母亲,妹妹': { male: '姨媽', female: '姨媽' },
-            '哥哥,儿子': { male: '侄子', female: '外甥' },
-            '哥哥,女儿': { male: '侄女', female: '外甥女' },
-            '弟弟,儿子': { male: '侄子', female: '外甥' },
-            '弟弟,女儿': { male: '侄女', female: '外甥女' },
-            '姐姐,儿子': { male: '外甥', female: '外甥' },
-            '姐姐,女儿': { male: '外甥女', female: '外甥女' },
-            '妹妹,儿子': { male: '外甥', female: '外甥' },
-            '妹妹,女儿': { male: '外甥女', female: '外甥女' },
-            '儿子,儿子': { male: '孫子', female: '孫女' },
-            '儿子,女儿': { male: '孫女', female: '孫女' },
-            '女儿,儿子': { male: '外孫', female: '外孫女' },
-            '女儿,女儿': { male: '外孫女', female: '外孫女' },
-            '儿子,父亲': { male: '祖父', female: '祖母' },
-            '儿子,母亲': { male: '祖母', female: '祖母' },
-            '女儿,父亲': { male: '外祖父', female: '外祖母' },
-            '女儿,母亲': { male: '外祖母', female: '外祖母' },
-            '丈夫,父亲': { male: '公公', female: '婆婆' },
-            '丈夫,母亲': { male: '婆婆', female: '婆婆' },
-            '妻子,父亲': { male: '岳父', female: '岳母' },
-            '妻子,母亲': { male: '岳母', female: '岳母' },
-            '祖父,妻子': { male: '奶奶', female: '奶奶' },
-            '外祖父,妻子': { male: '外婆', female: '外婆' },
-            '叔叔,妻子': { male: '婶婶', female: '婶婶' },
-            '舅舅,妻子': { male: '舅媽', female: '舅媽' },
-            '姑姑,丈夫': { male: '姑父', female: '姑父' },
-            '阿姨,丈夫': { male: '姨父', female: '姨父' },
-            '姐姐,丈夫': { male: '姐夫', female: '姐夫' },
-            '妹妹,丈夫': { male: '妹夫', female: '妹夫' },
-            '哥哥,妻子': { male: '嫂子', female: '嫂子' },
-            '弟弟,妻子': { male: '弟妹', female: '弟妹' },
-            '儿子,妻子': { male: '媳婦', female: '媳婦' },
-            '女儿,丈夫': { male: '女婿', female: '女婿' },
+            'Father,Mother': { male: 'Grandmother (paternal)', female: 'Grandmother (paternal)' },
+            'Father,Father': { male: '爺爺', female: '爺爺' },
+            'Mother,Mother': { male: 'Maternal grandmother', female: 'Maternal grandmother' },
+            'Mother,Father': { male: 'Maternal grandfather', female: 'Maternal grandfather' },
+            'Father,Older brother': { male: 'Uncle (paternal)', female: 'Father's sister' },
+            'Father,Younger brother': { male: 'Uncle', female: 'Aunt' },
+            'Father,Older sister': { male: 'Father's sister', female: 'Father's sister' },
+            'Father,Younger sister': { male: 'Father's sister', female: 'Father's sister' },
+            'Mother,Older brother': { male: 'Maternal uncle', female: 'Maternal uncle' },
+            'Mother,Younger brother': { male: 'Maternal uncle', female: 'Maternal uncle' },
+            'Mother,Older sister': { male: '姨媽', female: '姨媽' },
+            'Mother,Younger sister': { male: '姨媽', female: '姨媽' },
+            'Older brother,Son': { male: 'Nephew', female: 'Nephew' },
+            'Older brother,Daughter': { male: 'Niece', female: 'Niece' },
+            'Younger brother,Son': { male: 'Nephew', female: 'Nephew' },
+            'Younger brother,Daughter': { male: 'Niece', female: 'Niece' },
+            'Older sister,Son': { male: 'Nephew', female: 'Nephew' },
+            'Older sister,Daughter': { male: 'Niece', female: 'Niece' },
+            'Younger sister,Son': { male: 'Nephew', female: 'Nephew' },
+            'Younger sister,Daughter': { male: 'Niece', female: 'Niece' },
+            'Son,Son': { male: '孫子', female: '孫女' },
+            'Son,Daughter': { male: '孫女', female: '孫女' },
+            'Daughter,Son': { male: '外孫', female: '外孫女' },
+            'Daughter,Daughter': { male: '外孫女', female: '外孫女' },
+            'Son,Father': { male: 'Grandfather (paternal)', female: 'Grandmother (paternal)' },
+            'Son,Mother': { male: 'Grandmother (paternal)', female: 'Grandmother (paternal)' },
+            'Daughter,Father': { male: 'Maternal grandfather', female: 'Maternal grandmother' },
+            'Daughter,Mother': { male: 'Maternal grandmother', female: 'Maternal grandmother' },
+            'Husband,Father': { male: '公公', female: 'Grandmother (maternal)' },
+            'Husband,Mother': { male: 'Grandmother (maternal)', female: 'Grandmother (maternal)' },
+            'Wife,Father': { male: 'Father-in-law (wife's father)', female: 'Mother-in-law (wife's mother)' },
+            'Wife,Mother': { male: 'Mother-in-law (wife's mother)', female: 'Mother-in-law (wife's mother)' },
+            'Grandfather (paternal),Wife': { male: 'Grandmother (paternal)', female: 'Grandmother (paternal)' },
+            'Maternal grandfather,Wife': { male: 'Maternal grandmother', female: 'Maternal grandmother' },
+            'Uncle,Wife': { male: 'Aunt (husband's brother's wife)', female: 'Aunt (husband's brother's wife)' },
+            'Maternal uncle,Wife': { male: '舅媽', female: '舅媽' },
+            'Father's sister,Husband': { male: 'Father's sister's husband', female: 'Father's sister's husband' },
+            'Aunt,Husband': { male: 'Mother's sister's husband', female: 'Mother's sister's husband' },
+            'Older sister,Husband': { male: 'Brother-in-law (sister's husband)', female: 'Brother-in-law (sister's husband)' },
+            'Younger sister,Husband': { male: 'Brother-in-law (husband's younger brother)', female: 'Brother-in-law (husband's younger brother)' },
+            'Older brother,Wife': { male: 'Sister-in-law (husband's older brother's wife)', female: 'Sister-in-law (husband's older brother's wife)' },
+            'Younger brother,Wife': { male: 'Younger brother and sister', female: 'Younger brother and sister' },
+            'Son,Wife': { male: '媳婦', female: '媳婦' },
+            'Daughter,Husband': { male: 'Son-in-law', female: 'Son-in-law' },
         };
 
         function calculate() {
             if (relationChain.length === 0) {
-                alert('請先Select關係！');
+                alert('請先選擇关係！');
                 return;
             }
 
@@ -896,16 +896,16 @@
             let result;
             let detail = relationChain.join(' → ');
 
-            // 優先Use組合表（多步關係）
+            // 優先Use組合表（多步关係）
             if (chainMap[chainKey]) {
                 result = chainMap[chainKey][userGender] || chainMap[chainKey].male;
             }
-            // 單步關係：直接查表
+            // 單步关係：直接查表
             else if (relationChain.length === 1) {
                 const rel = relationChain[0];
                 const info = relations[rel];
                 if (!info) {
-                    alert('未知的關係：' + rel);
+                    alert('未知的关係：' + rel);
                     return;
                 }
                 if (queryDirection === 'forward') {
@@ -914,7 +914,7 @@
                     result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
                 }
             }
-            // 未收錄的多步關係：Show最後一步的結果
+            // 未收錄的多步关係：显示最後一步的结果
             else {
                 const lastRel = relationChain[relationChain.length - 1];
                 const info = relations[lastRel];
@@ -923,7 +923,7 @@
                 } else {
                     result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
                 }
-                detail += '（僅Show最後一步）';
+                detail += '（僅显示最後一步）';
             }
 
             document.getElementById('resultValue').textContent = result;
@@ -931,7 +931,7 @@
             document.getElementById('resultBox').style.display = 'block';
         }
 
-        // 事件監聽
+        // 事件監听
         document.querySelectorAll('.gender-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
@@ -969,7 +969,7 @@
             document.getElementById('resultBox').style.display = 'none';
         });
 
-        // ===== 初始化 =====
+        // ===== Initialize =====
         auth.onAuthStateChanged(user => {
             if (user) {
                 const ud = { name: user.displayName, email: user.email, photo: user.photoURL, uid: user.uid };
@@ -1005,16 +1005,16 @@
         registerTabBtn.addEventListener('click', () => { registerPanel.classList.remove('hidden'); loginPanel.classList.add('hidden'); registerTabBtn.classList.add('active'); loginTabBtn.classList.remove('active'); });
 
 
-        // ===== 安全注意 =====
-        // Firebase Realtime Database 規則請設定為：
+        // ===== Safety note =====
+        // Firebase Realtime Database 規則請設定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保護用户數據
-        // ===== CAPTCHA Verify碼 =====
+        // 或更嚴格的規則以保护用户数據
+        // ===== CAPTCHA 驗证碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {

@@ -70,7 +70,7 @@
         .auth-link.logout { border-color: #dc3545; color: #dc3545; }
         .auth-link.logout:hover { background: #dc3545; color: white; }
 
-        /* ===== QR 工具스타일 ===== */
+        /* ===== QR 工具样式 ===== */
         .qr-wrapper {
             max-width: 600px;
             width: 95%;
@@ -294,7 +294,7 @@
             background: #374151;
         }
 
-        /* ===== 수신端스타일 ===== */
+        /* ===== 接收端样式 ===== */
         .scanner-area {
             width: 100%;
             aspect-ratio: 1;
@@ -516,7 +516,7 @@
             transform: translateY(-2px);
         }
 
-        /* ===== 弹框스타일 ===== */
+        /* ===== 弹框样式 ===== */
         .modal-overlay, .auth-modal-overlay, .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             display: none; justify-content: center; align-items: center;
@@ -625,7 +625,7 @@
         }
 
     
-        /* ===== 站尾資訊 ===== */
+        /* ===== 站尾资讯 ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -673,19 +673,19 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/ko/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">로그인</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
                             <img id="avatarImg" style="display:none;" alt="头像">
                         </button>
                     </li>
-                    <li><a href="/ko/privacy.html">개인정보 처리 방침</a></li>
-                    <li><a href="#" id="contactBtn">연락처</a></li>
+                    <li><a href="/ko/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     
                 </ul>
@@ -696,18 +696,18 @@
     <div class="qr-wrapper">
         <div class="tab-switch">
             <button class="tab-btn active" id="tabSend" onclick="switchTab('send')">发送</button>
-            <button class="tab-btn" id="tabReceive" onclick="switchTab('receive')">수신</button>
+            <button class="tab-btn" id="tabReceive" onclick="switchTab('receive')">接收</button>
         </div>
 
         <!-- 发送端 -->
         <div id="panelSend">
             <div class="qr-card">
                 <div class="input-area">
-                    <textarea id="inputText" placeholder="입력内容..."></textarea>
+                    <textarea id="inputText" placeholder="输入内容..."></textarea>
                 </div>
                 <div class="file-info" id="fileInfo" style="display:none;">
                     <span class="file-name" id="fileName"></span>
-                    <button class="remove-btn" onclick="removeFile()">취소文件</button>
+                    <button class="remove-btn" onclick="removeFile()">取消文件</button>
                 </div>
                 <div class="control-row">
                     <span class="control-label">速度: <span id="fpsVal" class="control-value">12</span> FPS</span>
@@ -740,7 +740,7 @@
             </div>
         </div>
 
-        <!-- 수신端 -->
+        <!-- 接收端 -->
         <div id="panelReceive" style="display:none;">
             <div class="qr-card">
                 <div class="scanner-area" id="scannerArea">
@@ -749,7 +749,7 @@
                 <div class="scan-btns">
                     <button class="scan-btn scan-btn-primary" id="btnCamera" onclick="toggleCamera()">📷 摄像头</button>
                     <button class="scan-btn scan-btn-indigo" id="btnScreen" onclick="toggleScreen()">🖥️ 屏幕录制</button>
-                    <button class="scan-btn scan-btn-full" onclick="location.reload()">재설정所有상태</button>
+                    <button class="scan-btn scan-btn-full" onclick="location.reload()">重置所有状态</button>
                 </div>
 
                 <div class="task-info" id="taskInfo">
@@ -759,7 +759,7 @@
 
                 <div class="progress-section">
                     <div class="progress-header">
-                        <span class="progress-label">진행통계</span>
+                        <span class="progress-label">进度统计</span>
                         <span class="progress-stats" id="progressStats">0/0</span>
                     </div>
                     <div class="missing-list" id="missingList">— 待扫码 —</div>
@@ -769,7 +769,7 @@
 
             <div class="success-card" id="successCard">
                 <p class="success-label" id="successLabel"></p>
-                <button class="download-btn" id="downloadBtn">立即다운로드文件</button>
+                <button class="download-btn" id="downloadBtn">立即下载文件</button>
             </div>
         </div>
     </div>
@@ -792,7 +792,7 @@
 
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
-            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div class="brand"><h2>欢迎你的使用</h2></div>
             <div class="tab-switch">
                 <button class="tab-btn active" onclick="switchAuthTab('login')">登錄</button>
                 <button class="tab-btn" onclick="switchAuthTab('register')">註冊</button>
@@ -800,9 +800,9 @@
             <div class="message-box" id="authMessage"></div>
             <div class="input-group"><input type="text" class="input-field" placeholder="姓名"></div>
             <div class="input-group"><input type="password" class="input-field" placeholder="密碼"></div>
-            <button class="action-btn">로그인</button>
+            <button class="action-btn">登入</button>
             <div class="divider"><span>或</span></div>
-            <button class="google-btn">使用 Google 로그인</button>
+            <button class="google-btn">使用 Google 登入</button>
         </div>
     </div>
 
@@ -825,7 +825,7 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // ===== QR 工具상태 =====
+        // ===== QR 工具状态 =====
         let state = {
             isSending: false,
             isPaused: false,
@@ -873,7 +873,7 @@
         }
 
         function showLoggedIn(user) {
-            document.getElementById('authNavLink').textContent = '로그아웃';
+            document.getElementById('authNavLink').textContent = '登出';
             document.getElementById('authNavLink').className = 'auth-link logout';
             document.getElementById('authNavLink').onclick = handleLogout;
             document.getElementById('avatarImg').style.display = 'block';
@@ -881,7 +881,7 @@
         }
 
         function showLoggedOut() {
-            document.getElementById('authNavLink').textContent = '로그인';
+            document.getElementById('authNavLink').textContent = '登入';
             document.getElementById('authNavLink').className = 'auth-link';
             document.getElementById('authNavLink').onclick = () => {
                 document.getElementById('authModal').style.display = 'flex';
@@ -958,7 +958,7 @@
             let b64 = state.rawData || (text ? btoa(unescape(encodeURIComponent(text))) : '');
 
             if (!b64) {
-                alert('请先입력内容或선택文件');
+                alert('请先输入内容或选择文件');
                 return;
             }
 
@@ -1020,7 +1020,7 @@
             document.getElementById('pauseBtn').textContent = state.isPaused ? '▶' : '⏸';
         }
 
-        // ===== 수신端逻辑 =====
+        // ===== 接收端逻辑 =====
         async function toggleCamera() {
             if (recv.active) {
                 await stopScanning();
@@ -1036,9 +1036,9 @@
                 );
                 recv.active = true;
                 recv.mode = 'camera';
-                document.getElementById('btnCamera').textContent = '중지扫描';
+                document.getElementById('btnCamera').textContent = '停止扫描';
             } catch (err) {
-                alert('摄像头启动실패: ' + err);
+                alert('摄像头启动失败: ' + err);
             }
         }
 
@@ -1052,7 +1052,7 @@
                 recv.stream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 20 } });
                 recv.active = true;
                 recv.mode = 'screen';
-                document.getElementById('btnScreen').textContent = '중지录屏';
+                document.getElementById('btnScreen').textContent = '停止录屏';
 
                 const video = document.createElement('video');
                 video.srcObject = recv.stream;
@@ -1169,7 +1169,7 @@
             const blob = new Blob([bytes]);
 
             document.getElementById('successCard').classList.add('show');
-            document.getElementById('successLabel').textContent = '传输성공: ' + recv.fileName;
+            document.getElementById('successLabel').textContent = '传输成功: ' + recv.fileName;
             document.getElementById('downloadBtn').onclick = () => {
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
@@ -1202,17 +1202,17 @@
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>개인정보 처리 방침</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 추적，也不與第三方共享數據。</p>
+            <h4>隐私政策</h4>
+            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
         </div>
         <div class="footer-col">
-            <h4>연락처</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我們</h4>
+            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 양철 스튜디오 LZTX Studio</span>
+        <span>© 2026 梁喆同學工作室LZTX Studio</span>
     </div>
 </div>
 </body>

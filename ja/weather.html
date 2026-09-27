@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>観測所ダッシュボード · 我的網站</title>
+    <title>天文台数據看板 · 我的网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -32,7 +32,7 @@
             padding-top: 80px;
         }
 
-        /* ===== 導航欄 ===== */
+        /* ===== 导航栏 ===== */
         .navbar-wrapper {
             position: fixed;
             top: 0;
@@ -361,7 +361,7 @@
             text-align: right;
         }
 
-        /* ===== 浮動刷新按鈕 ===== */
+        /* ===== 浮動刷新按钮 ===== */
         .refresh-btn {
             position: fixed;
             top: 100px;
@@ -418,7 +418,7 @@
             opacity: 1;
         }
 
-        /* ===== 彈窗 ===== */
+        /* ===== 弹窗 ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -503,7 +503,7 @@
         .platform-btn-small.douyin { color: #000000; }
         .platform-btn-small.yt { color: #ff0000; }
 
-        /* ===== ログイン彈窗 ===== */
+        /* ===== 登入弹窗 ===== */
         .auth-modal-overlay {
             position: fixed;
             top: 0;
@@ -714,7 +714,7 @@
             background: #f5f5f5;
         }
 
-        /* ===== 用戶管理彈窗 ===== */
+        /* ===== 用戶管理弹窗 ===== */
         .admin-modal-overlay {
             position: fixed;
             top: 0;
@@ -800,7 +800,7 @@
             background: #fee2e2;
         }
 
-        /* ===== 加載中彈窗 ===== */
+        /* ===== 加載中弹窗 ===== */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -982,7 +982,7 @@
         }
 
     
-        /* ===== 站尾資訊 ===== */
+        /* ===== 站尾资讯 ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -1024,7 +1024,7 @@
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗證碼 */
+        /* CAPTCHA 驗证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -1070,23 +1070,23 @@
 </head>
 <body>
 
-    <!-- ===== 導航欄 ===== -->
+    <!-- ===== 导航栏 ===== -->
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">ログイン</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="アバター">
+                            <img id="avatarImg" style="display:none;" alt="頭像">
                         </button>
                     </li>
-                    <li><a href="/ja/privacy.html">プライバシーポリシー</a></li>
-                    <li><a href="#" id="contactBtn">連絡先</a></li>
+                    <li><a href="/ja/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我們</a></li>
 
                     
                 </ul>
@@ -1097,13 +1097,13 @@
     <!-- ===== 主要內容 ===== -->
     <div class="content-wrapper">
         <div class="card-container">
-            <h1>香港天文台 <span>開放數據看板</span></h1>
-            <div class="subhead">即時天氣、警告、衛星雲圖、雷達圖</div>
+            <h1>香港天文台 <span>开放数據看板</span></h1>
+            <div class="subhead">即時天氣、警告、卫星雲圖、雷達圖</div>
             <div id="app"></div>
         </div>
     </div>
 
-    <!-- ===== 連絡先彈窗 ===== -->
+    <!-- ===== 联系我們弹窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             
@@ -1120,14 +1120,14 @@
         </div>
     </div>
 
-    <!-- ===== ログイン彈窗 ===== -->
+    <!-- ===== 登入弹窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
-            <div class="brand"><h2>歡迎你的使用</h2></div>
+            <div class="brand"><h2>欢迎你的使用</h2></div>
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
-                <button class="action-btn danger" id="authLogoutBtn">ログアウト</button>
+                <button class="action-btn danger" id="authLogoutBtn">登出</button>
                 <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
             </div>
             <div id="authPanel">
@@ -1139,7 +1139,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">ログイン</button>
+                    <button class="action-btn" id="loginSubmitBtn">登入</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -1148,7 +1148,7 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google ログイン
+                        使用 Google 登入
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
@@ -1157,9 +1157,9 @@
                     <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
                     <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗證碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">驗证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入驗证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
                     <button class="action-btn" id="registerSubmitBtn">註冊</button>
@@ -1178,26 +1178,26 @@
         </div>
     </div>
 
-    <!-- ===== 用戶管理彈窗 ===== -->
+    <!-- ===== 用戶管理弹窗 ===== -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p></div>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
         </div>
     </div>
 
-    <!-- ===== 加載中彈窗 ===== -->
+    <!-- ===== 加載中弹窗 ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">読み込み中...</p>
+            <p id="loadingText">載入中...</p>
         </div>
     </div>
 
-    <!-- ===== 浮動刷新按鈕 ===== -->
-    <button class="refresh-btn" id="refreshBtn" title="刷新所有數據">↻</button>
-    <div class="refresh-tooltip" id="refreshTooltip">點擊刷新所有數據</div>
+    <!-- ===== 浮動刷新按钮 ===== -->
+    <button class="refresh-btn" id="refreshBtn" title="刷新所有数據">↻</button>
+    <div class="refresh-tooltip" id="refreshTooltip">點擊刷新所有数據</div>
 
     <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
 
@@ -1218,12 +1218,12 @@
         const db = firebase.database();
 
         // ============================================================
-        // 2. 加載彈窗控制
+        // 2. 加載弹窗控制
         // ============================================================
         let loadingTimer = null;
 
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '読み込み中...';
+            document.getElementById('loadingText').textContent = text || '載入中...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -1276,7 +1276,7 @@
         const avatarCtx = avatarCanvas.getContext('2d');
 
         // ============================================================
-        // 4. 管理員判斷
+        // 4. 管理员判斷
         // ============================================================
         function isAdmin(user) {
             if (!user) return false;
@@ -1284,7 +1284,7 @@
         }
 
         // ============================================================
-        // 5. アバター生成器
+        // 5. 頭像生成器
         // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
@@ -1364,7 +1364,7 @@
         }
 
         function showUI(user) {
-            authNavLink.textContent = 'ログアウト';
+            authNavLink.textContent = '登出';
             authNavLink.className = 'auth-link logout';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1384,7 +1384,7 @@
         }
 
         function hideUI() {
-            authNavLink.textContent = 'ログイン';
+            authNavLink.textContent = '登入';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1417,10 +1417,10 @@
         }
 
         // ============================================================
-        // 7. Firebase 認證
+        // 7. Firebase 認证
         // ============================================================
         async function googleLogin() {
-            showLoading('Google ログイン中...');
+            showLoading('Google 登入中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -1433,7 +1433,7 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google ログイン失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
                 }
             }
         }
@@ -1442,11 +1442,11 @@
             const name = regName.value.trim(),
                 pw = regPassword.value,
                 cf = regConfirmPassword.value;
-            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
             if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
             if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
             showLoading('註冊中...');
             registerSubmit.disabled = true;
             registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -1475,16 +1475,16 @@
         async function handleLogin() {
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
-            if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            showLoading('ログイン中...');
+            if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密碼', 'error'); return; }
+            showLoading('登入中...');
             loginSubmit.disabled = true;
-            loginSubmit.innerHTML = '<span class="spinner"></span>ログイン中...';
+            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
                 if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                     hideLoading();
                     loginSubmit.disabled = false;
-                    loginSubmit.textContent = 'ログイン'; return; }
+                    loginSubmit.textContent = '登入'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -1503,11 +1503,11 @@
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading(); } finally { loginSubmit.disabled = false;
-                loginSubmit.textContent = 'ログイン'; }
+                loginSubmit.textContent = '登入'; }
         }
 
         function handleLogout() {
-            showLoading('ログアウト中...');
+            showLoading('登出中...');
             auth.signOut().catch(() => {});
             hideUI();
         }
@@ -1527,7 +1527,7 @@
         let allUsers = [];
 
         async function loadUserTable() {
-            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p>';
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
@@ -1544,7 +1544,7 @@
                 let html =
                     `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
-                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('ja-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
                     html +=
                         `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
@@ -1557,7 +1557,7 @@
         }
 
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作无法撤销。')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -1570,15 +1570,15 @@
 
 
         // ===== 安全注意 =====
-        // Firebase Realtime Database 規則請設定為：
+        // Firebase Realtime Database 規則請設定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保護用户數據
-        // ===== CAPTCHA 驗證碼 =====
+        // 或更嚴格的規則以保护用户数據
+        // ===== CAPTCHA 驗证碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1668,7 +1668,7 @@ function refreshRegisterCaptcha() {
         });
 
         // ============================================================
-        // 10. 連絡先
+        // 10. 联系我們
         // ============================================================
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
@@ -1705,7 +1705,7 @@ function refreshRegisterCaptcha() {
         initAuth();
 
         // ============================================================
-        // 12. 天文台數據功能
+        // 12. 天文台数據功能
         // ============================================================
         const endpoints = [{
             id: 'flw',
@@ -1759,7 +1759,7 @@ function refreshRegisterCaptcha() {
             type: 'csv'
         }, {
             id: 'lhl',
-            title: '閃電次數',
+            title: '閃电次数',
             url: 'https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=LHL&lang=tc&rformat=json',
             type: 'json'
         }, {
@@ -1780,7 +1780,7 @@ function refreshRegisterCaptcha() {
             if (csvText.startsWith('\uFEFF')) csvText = csvText.slice(1);
 
             const lines = csvText.split('\n').filter(line => line.trim() !== '');
-            if (lines.length === 0) return '<div class="info-line">沒有數據</div>';
+            if (lines.length === 0) return '<div class="info-line">沒有数據</div>';
 
             function parseCSVLine(line) {
                 const result = [];
@@ -1825,7 +1825,7 @@ function refreshRegisterCaptcha() {
             html += `</tr></thead><tbody>`;
 
             if (rows.length === 0) {
-                html += `<tr><td colspan="${header.length}">沒有數據行</td></tr>`;
+                html += `<tr><td colspan="${header.length}">沒有数據行</td></tr>`;
             } else {
                 rows.forEach(row => {
                     html += `<tr>`;
@@ -1834,34 +1834,34 @@ function refreshRegisterCaptcha() {
                 });
             }
             html += `</tbody></table>`;
-            html += `<div class="csv-note">數據來源：天文台開放數據</div>`;
+            html += `<div class="csv-note">数據來源：天文台开放数據</div>`;
             return html;
         }
 
         function renderFLW(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
             if (data.generalSituation) html += `<div class="info-line"><strong>概況</strong> ${data.generalSituation}</div>`;
             if (data.tcInfo) html += `<div class="info-line"><strong>熱帶氣旋</strong> ${data.tcInfo}</div>`;
             if (data.forecastPeriod) html += `<div class="info-line"><strong>預報時段</strong> ${data.forecastPeriod}</div>`;
             if (data.forecastDesc) html += `<div class="info-line"><strong>預報內容</strong> ${data.forecastDesc}</div>`;
             if (data.outlook) html += `<div class="info-line"><strong>展望</strong> ${data.outlook}</div>`;
-            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
             return html;
         }
 
         function renderFND(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
             if (data.generalSituation) html += `<div class="info-line"><strong>概況</strong> ${data.generalSituation}</div>`;
             if (data.seaTemp) {
                 html +=
-                    `<div class="info-line"><strong>海水溫度（${data.seaTemp.place}）</strong> ${data.seaTemp.value}°C（記錄：${data.seaTemp.recordTime}）</div>`;
+                    `<div class="info-line"><strong>海水溫度（${data.seaTemp.place}）</strong> ${data.seaTemp.value}°C（记錄：${data.seaTemp.recordTime}）</div>`;
             }
             if (data.soilTemp && data.soilTemp.length) {
                 data.soilTemp.forEach(s => {
                     html +=
-                        `<div class="info-line"><strong>土壤溫度（${s.place}，${s.depth.value}m）</strong> ${s.value}°C（記錄：${s.recordTime}）</div>`;
+                        `<div class="info-line"><strong>土壤溫度（${s.place}，${s.depth.value}m）</strong> ${s.value}°C（记錄：${s.recordTime}）</div>`;
                 });
             }
             if (data.weatherForecast && data.weatherForecast.length) {
@@ -1883,13 +1883,13 @@ function refreshRegisterCaptcha() {
                 });
                 html += `</tbody></table>`;
             }
-            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
             return html;
         }
 
         // 天氣警告一覽
         function renderWARNSUM(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
 
             const keys = Object.keys(data);
             if (keys.length === 0) {
@@ -1912,8 +1912,8 @@ function refreshRegisterCaptcha() {
 
             const actionMap = {
                 'ISSUE': '發出',
-                'CANCEL': 'キャンセル',
-                'UPDATE': 'アップグレード'
+                'CANCEL': '取消',
+                'UPDATE': '更新'
             };
 
             let html = '';
@@ -1936,7 +1936,7 @@ function refreshRegisterCaptcha() {
                         html += `<span><strong>發出時間：</strong>${issueTime}</span>`;
                     }
                     if (updateTime) {
-                        html += `<span><strong>アップグレード時間：</strong>${updateTime}</span>`;
+                        html += `<span><strong>更新時間：</strong>${updateTime}</span>`;
                     }
                     html += `</div>`;
                     html += `</div>`;
@@ -1949,16 +1949,16 @@ function refreshRegisterCaptcha() {
             }
 
             if (data.updateTime) {
-                html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
+                html += `<div class="update-time">更新：${data.updateTime}</div>`;
             }
 
             return html;
         }
 
         function renderRHRREAD(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
-            if (data.updateTime) html += `<div class="info-line"><strong>アップグレード時間</strong> ${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="info-line"><strong>更新時間</strong> ${data.updateTime}</div>`;
             if (data.temperature && data.temperature.data) {
                 html +=
                     `<div class="info-line"><strong>溫度（${data.temperature.recordTime}）</strong></div><div class="grid-2col">`;
@@ -1989,25 +1989,25 @@ function refreshRegisterCaptcha() {
             }
             if (data.icon) {
                 html +=
-                    `<div class="info-line"><strong>天氣圖示編號</strong> ${data.icon.join(', ')}（アップグレード：${data.iconUpdateTime || '—'}）</div>`;
+                    `<div class="info-line"><strong>天氣圖示编號</strong> ${data.icon.join(', ')}（更新：${data.iconUpdateTime || '—'}）</div>`;
             }
             return html;
         }
 
         function renderQEM(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
             if (data.region) html += `<div class="info-line"><strong>震央區域</strong> ${data.region}</div>`;
             if (data.lat && data.lon) html +=
-                `<div class="info-line"><strong>位置</strong> 北緯 ${data.lat}°，東經 ${data.lon}°</div>`;
+                `<div class="info-line"><strong>位置</strong> 北緯 ${data.lat}°，東经 ${data.lon}°</div>`;
             if (data.mag) html += `<div class="info-line"><strong>規模</strong> ${data.mag} 級</div>`;
             if (data.ptime) html += `<div class="info-line"><strong>發生時間</strong> ${data.ptime}</div>`;
-            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
             return html;
         }
 
         function renderFELT(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             const keys = Object.keys(data);
             if (keys.length === 0) return '<div class="no-warning">目前沒有本地有感地震報告</div>';
             let html = '<ul style="padding-left:20px;">';
@@ -2020,7 +2020,7 @@ function refreshRegisterCaptcha() {
         }
 
         function renderLHL(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
             if (data.fields && data.data) {
                 html += `<table><thead><tr>`;
@@ -2033,13 +2033,13 @@ function refreshRegisterCaptcha() {
                 });
                 html += `</tbody></table>`;
             } else {
-                html += `<div class="info-line">沒有閃電數據</div>`;
+                html += `<div class="info-line">沒有閃电数據</div>`;
             }
             return html;
         }
 
         function renderLTMV(data) {
-            if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
+            if (!data || typeof data !== 'object') return '<div class="status-fail">无法載入数據</div>';
             let html = '';
             if (data.fields && data.data) {
                 html += `<table><thead><tr>`;
@@ -2052,14 +2052,14 @@ function refreshRegisterCaptcha() {
                 });
                 html += `</tbody></table>`;
             } else {
-                html += `<div class="info-line">沒有能見度數據</div>`;
+                html += `<div class="info-line">沒有能見度数據</div>`;
             }
             return html;
         }
 
         function renderCSV(csvText) {
             if (!csvText || typeof csvText !== 'string') {
-                return '<div class="status-fail">無法載入數據</div>';
+                return '<div class="status-fail">无法載入数據</div>';
             }
             return csvToHtmlTable(csvText);
         }
@@ -2097,7 +2097,7 @@ function refreshRegisterCaptcha() {
                 card.innerHTML = `
                     <h2>
                         <span>${ep.title}</span>
-                        <small>読み込み中...</small>
+                        <small>載入中...</small>
                     </h2>
                     <div class="card-content" id="content-${ep.id}"></div>
                 `;
@@ -2125,7 +2125,7 @@ function refreshRegisterCaptcha() {
                 } catch (err) {
                     console.error(`載入失敗 ${ep.title}：`, err);
                     contentEl.innerHTML =
-                        `<div class="status-fail">無法載入此數據：${err.message}</div>`;
+                        `<div class="status-fail">无法載入此数據：${err.message}</div>`;
                     const titleEl = card.querySelector('h2 small');
                     titleEl.textContent = '載入失敗';
                     titleEl.style.color = '#b22234';
@@ -2136,10 +2136,10 @@ function refreshRegisterCaptcha() {
             isRefreshing = false;
 
             const tooltip = document.getElementById('refreshTooltip');
-            tooltip.textContent = '已アップグレード！';
+            tooltip.textContent = '已更新！';
             tooltip.classList.add('show');
             setTimeout(() => {
-                tooltip.textContent = '點擊刷新所有數據';
+                tooltip.textContent = '點擊刷新所有数據';
                 tooltip.classList.remove('show');
             }, 1500);
         }
@@ -2161,17 +2161,17 @@ function refreshRegisterCaptcha() {
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>プライバシーポリシー</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追跡，也不與第三方共享數據。</p>
+            <h4>隐私政策</h4>
+            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
         </div>
         <div class="footer-col">
-            <h4>連絡先</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我們</h4>
+            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆スタジオ LZTX Studio</span>
+        <span>© 2026 梁喆同學工作室LZTX Studio</span>
     </div>
 </div>
 </body>

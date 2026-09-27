@@ -1,18 +1,18 @@
 /* ============================================================
-   語言切換功能 - 共享 JS
+   語言切換Feature - Share JS
    用於所有語言版本的站點
    ============================================================ */
 
-// 語言配置
+// 語言Configuration
 const LANG_CONFIG = {
-    zh: { name: '繁體中文', flag: '🇹🇼', path: '/zh/' },
-    cn: { name: '简体中文', flag: '🇨🇳', path: '/cn/' },
+    en: { name: 'Traditional Chinese', flag: '🇹🇼', path: '/en/' },
+    cn: { name: 'Simplified Chinese', flag: '🇨🇳', path: '/cn/' },
     en: { name: 'English', flag: '🇬🇧', path: '/en/' },
     ko: { name: '한국어', flag: '🇰🇷', path: '/ko/' },
     ja: { name: '日本語', flag: '🇯🇵', path: '/ja/' }
 };
 
-const LANG_ORDER = ['zh', 'cn', 'en', 'ko', 'ja'];
+const LANG_ORDER = ['en', 'cn', 'en', 'ko', 'ja'];
 const COOKIE_NAME = 'oscar_lang';
 const CURRENT_LANG_KEY = 'oscar_current_lang';
 
@@ -22,7 +22,7 @@ function getCurrentLang() {
     for (const lang of LANG_ORDER) {
         if (path.includes('/' + lang + '/')) return lang;
     }
-    return 'zh'; // 默認繁中
+    return 'en'; // 默認繁中
 }
 
 // 取得語言的基础路徑
@@ -30,7 +30,7 @@ function getLangBasePath(lang) {
     return LANG_CONFIG[lang].path;
 }
 
-// 取得當前頁面的相對路徑（不含語言前綴）
+// 取得當前页面的相對路徑（不含語言前綴）
 function getCurrentPagePath() {
     const path = window.location.pathname;
     for (const lang of LANG_ORDER) {
@@ -53,10 +53,10 @@ function switchLanguage(targetLang) {
     // 儲存到 localStorage
     localStorage.setItem(CURRENT_LANG_KEY, targetLang);
 
-    // 儲存當前頁面的表單數據（記憶功能）
+    // 儲存當前页面的表單数據（记憶Feature）
     saveFormData();
 
-    // 儲存到 Firebase（如果已登录）
+    // 儲存到 Firebase(if logged in)
     const local = localStorage.getItem('currentUser');
     if (local) {
         try {
@@ -67,13 +67,13 @@ function switchLanguage(targetLang) {
         } catch (e) {}
     }
 
-    // 跳轉到目標語言的相同頁面
+    // 跳轉到目標語言的相同页面
     const pagePath = getCurrentPagePath();
     const targetBase = getLangBasePath(targetLang);
     window.location.href = targetBase + pagePath;
 }
 
-// 儲存表單數據
+// 儲存表單数據
 function saveFormData() {
     const formData = {};
     const inputs = document.querySelectorAll('input, textarea, select');
@@ -86,7 +86,7 @@ function saveFormData() {
     localStorage.setItem('oscar_form_data', JSON.stringify(formData));
 }
 
-// 恢復表單數據
+// 恢復表單数據
 function restoreFormData() {
     try {
         const saved = JSON.parse(localStorage.getItem('oscar_form_data') || '{}');
@@ -109,17 +109,17 @@ function createLangDropdownHTML(currentLang) {
     return html;
 }
 
-// 初始化語言下拉菜單
+// Initialize語言下拉菜單
 function initLangSwitcher() {
     const currentLang = getCurrentLang();
 
     // 儲存當前語言
     localStorage.setItem(CURRENT_LANG_KEY, currentLang);
 
-    // 恢復表單數據
+    // 恢復表單数據
     restoreFormData();
 
-    // 在導航欄中插入下拉菜單
+    // 在导航栏中插入下拉菜單
     const navRight = document.querySelector('.nav-right');
     if (navRight && !document.getElementById('langSwitcher')) {
         const dropdownContainer = document.createElement('li');
@@ -130,7 +130,7 @@ function initLangSwitcher() {
     }
 }
 
-// 頁面加載完成後初始化
+// 页面加載完成後Initialize
 document.addEventListener('DOMContentLoaded', function() {
     initLangSwitcher();
 });

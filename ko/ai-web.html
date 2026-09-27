@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AI 웹 생성기</title>
+<title>AI 网页生成器</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -376,7 +376,7 @@ body {
 }
 .viewer-spin { width: 40px; height: 40px; border: 4px solid #ddd; border-top-color: #1e5ef7; border-radius: 50%; animation: spin 0.8s linear infinite; }
 
-        /* ===== 站尾資訊 ===== */
+        /* ===== 站尾资讯 ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -418,7 +418,7 @@ body {
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗證碼 */
+        /* CAPTCHA 驗证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -470,14 +470,14 @@ if (new URLSearchParams(location.search).get('id')) {
 </script>
 
 <nav class="navbar">
-  <div class="logo"><a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
+  <div class="logo"><a href="/ko/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#" id="publishNavLink" class="auth-link publish">發佈</a></li>
-      <li><a href="#" id="authNavLink" class="auth-link">로그인</a></li>
-      <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="아바타"></button></li>
-      <li><a href="/ko/privacy.html">개인정보 처리 방침</a></li>
-                    <li><a href="#" id="contactBtn">연락처</a></li>
+      <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+      <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="頭像"></button></li>
+      <li><a href="/ko/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我們</a></li>
     </ul>
   </div>
 </nav>
@@ -486,29 +486,29 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="left-panel">
     <div class="chat-header">
       <div class="logo-icon">🤖</div>
-      <span class="title">AI 웹 생성기</span>
+      <span class="title">AI 网页生成器</span>
       <span class="tag">即時預覽</span>
-      <button class="history-btn" id="historyToggleBtn" title="對話紀錄"><i class="fas fa-bars"></i></button>
+      <button class="history-btn" id="historyToggleBtn" title="對话纪錄"><i class="fas fa-bars"></i></button>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的網頁生成助手。請告訴我你想要什麼樣的網頁，我會幫你寫出完整的 HTML 並在右邊即時預覽。
+      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。請告诉我你想要什麼样的网页，我會幫你寫出完整的 HTML 並在右边即時預覽。
 
-例如：「幫我做一個藍色主題的로그인頁面」或「寫一個有動畫的聖誕樹網頁」。</div></div>
+例如：「幫我做一個藍色主題的登入页面」或「寫一個有動画的圣诞树网页」。</div></div>
     </div>
     <div class="chat-input-area">
       <div class="chat-input-inner">
-        <textarea id="chatInput" rows="1" placeholder="描述你想要的網頁…"></textarea>
-        <button class="btn-send" id="sendBtn">傳送</button>
-        <button class="btn-stop" id="stopBtn">중지</button>
+        <textarea id="chatInput" rows="1" placeholder="描述你想要的网页…"></textarea>
+        <button class="btn-send" id="sendBtn">传送</button>
+        <button class="btn-stop" id="stopBtn">停止</button>
       </div>
     </div>
 
     <div class="history-drawer" id="historyDrawer">
       <div class="history-drawer-header">
-        <span class="title">對話紀錄</span>
+        <span class="title">對话纪錄</span>
         <button class="close-btn" id="historyCloseBtn">✕</button>
       </div>
-      <button class="history-new-btn" id="newChatBtn"><i class="fas fa-plus"></i> 新對話</button>
+      <button class="history-new-btn" id="newChatBtn"><i class="fas fa-plus"></i> 新對话</button>
       <div class="history-list" id="historyList"></div>
     </div>
   </div>
@@ -519,7 +519,7 @@ if (new URLSearchParams(location.search).get('id')) {
       <div class="preview-urlbar" id="previewUrl">預覽 · 尚未生成</div>
     </div>
     <div class="preview-content">
-      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>在左邊描述你想要的網頁<br>生成的結果會在這裡即時顯示</div></div>
+      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>在左边描述你想要的网页<br>生成的结果會在這裡即時显示</div></div>
       <iframe id="previewFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
     </div>
   </div>
@@ -542,12 +542,12 @@ if (new URLSearchParams(location.search).get('id')) {
 
 <div class="modal-overlay" id="authModal">
   <div class="modal-box">
-    <div class="brand"><h2>歡迎你的使用</h2></div>
+    <div class="brand"><h2>欢迎你的使用</h2></div>
     <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
       <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
-      <button class="action-btn danger" id="authLogoutBtn">로그아웃</button>
-      <button class="admin-btn-small" id="authMySitesBtn"><i class="fas fa-globe"></i> 我的網站</button>
+      <button class="action-btn danger" id="authLogoutBtn">登出</button>
+      <button class="admin-btn-small" id="authMySitesBtn"><i class="fas fa-globe"></i> 我的网站</button>
       <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
     </div>
     <div id="authPanel">
@@ -559,22 +559,22 @@ if (new URLSearchParams(location.search).get('id')) {
         <div id="loginMessage" class="message-box"></div>
         <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
         <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-        <button class="action-btn" id="loginSubmitBtn">로그인</button>
+        <button class="action-btn" id="loginSubmitBtn">登入</button>
         <div class="divider"><span>或</span></div>
         <button class="google-btn" id="googleLoginBtn">
           <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          使用 Google 로그인
+          使用 Google 登入
         </button>
       </div>
       <div id="registerPanel" class="form-panel hidden">
         <div id="registerMessage" class="message-box"></div>
         <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
         <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-        <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="확인密碼"></div>
+        <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗證碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗證碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">驗证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入驗证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
         <button class="action-btn" id="registerSubmitBtn">註冊</button>
@@ -592,43 +592,43 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="admin-modal-box">
     <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
     <h3><i class="fas fa-users"></i> 用戶管理</h3>
-    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">로딩 중...</p></div>
+    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
   </div>
 </div>
 
 <div class="admin-modal-overlay" id="mySitesModal">
   <div class="admin-modal-box">
     <button class="modal-close" id="closeMySitesModal"><i class="fas fa-times"></i></button>
-    <h3><i class="fas fa-globe"></i> 我的網站</h3>
-    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">로딩 중...</p></div>
+    <h3><i class="fas fa-globe"></i> 我的网站</h3>
+    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
   </div>
 </div>
 
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">로딩 중...</p></div>
+  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">載入中...</p></div>
 </div>
 
 <div id="publishOverlay">
   <button class="pub-close" id="publishClose">✕</button>
   <div class="pub-inner">
     <div class="pub-tag">PUBLISH</div>
-    <h1>發佈你的網頁</h1>
-    <p class="pub-desc">填寫一個後綴，任何人都能透過這個網址訪問你的作品。</p>
-    <label>網址後綴</label>
+    <h1>發佈你的网页</h1>
+    <p class="pub-desc">填寫一個後綴，任何人都能透過這個网址访問你的作品。</p>
+    <label>网址後綴</label>
     <div class="suffix-box"><span class="suffix-prefix">?id=</span><input id="suffixInput" type="text" placeholder="例如 abc、我的作品" autocomplete="off"></div>
     <div id="urlPreviewBox">
-      <div class="preview-label">你的網址會是</div>
+      <div class="preview-label">你的网址會是</div>
       <div id="urlPreview"></div>
-      <div id="encodeNote">⚠️ 你填寫了中文或特殊符號，網址會自動編碼成上面這樣（訪問時完全正常，別擔心）</div>
+      <div id="encodeNote">⚠️ 你填寫了中文或特殊符號，网址會自動编碼成上面這样（访問時完全正常，別擔心）</div>
     </div>
     <div id="publishMsg"></div>
-    <div class="pub-bottom"><button id="publishConfirm">확인發佈</button></div>
+    <div class="pub-bottom"><button id="publishConfirm">確認發佈</button></div>
   </div>
 </div>
 
 <div id="viewerOverlay">
   <iframe id="viewerFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
-  <div id="viewerLoading"><div class="viewer-spin"></div><div>로딩 중...</div></div>
+  <div id="viewerLoading"><div class="viewer-spin"></div><div>載入中...</div></div>
 </div>
 
 <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
@@ -667,9 +667,9 @@ const IFRAME_FIX_SCRIPT = [
 '<scr'+'ipt>',
 '(function(){',
 'function bm(h){var d=document.createElement("div");d.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;";d.innerHTML=h;document.body.appendChild(d);return d;}',
-'window.alert=function(m){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><button id=\\"__ok\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:14px;\\">확인</button></div>");d.querySelector("#__ok").onclick=function(){d.remove();};};',
-'window.confirm=function(m){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><div style=\\"display:flex;gap:10px;justify-content:center;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">취소</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">확인</button></div></div>");d.querySelector("#__k").onclick=function(){d.remove();r(true);};d.querySelector("#__c").onclick=function(){d.remove();r(false);};});};',
-'window.prompt=function(m,df){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><input id=\\"__i\\" style=\\"width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;\\" value=\\""+(df?String(df).replace(/"/g,"&quot;"):"")+"\\"><div style=\\"display:flex;gap:10px;justify-content:flex-end;margin-top:16px;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">취소</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">확인</button></div></div>");var i=d.querySelector("#__i");i.focus();d.querySelector("#__k").onclick=function(){var v=i.value;d.remove();r(v);};d.querySelector("#__c").onclick=function(){d.remove();r(null);};i.onkeydown=function(e){if(e.key==="Enter"){var v=i.value;d.remove();r(v);}};});};',
+'window.alert=function(m){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><button id=\\"__ok\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div>");d.querySelector("#__ok").onclick=function(){d.remove();};};',
+'window.confirm=function(m){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><div style=\\"display:flex;gap:10px;justify-content:center;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");d.querySelector("#__k").onclick=function(){d.remove();r(true);};d.querySelector("#__c").onclick=function(){d.remove();r(false);};});};',
+'window.prompt=function(m,df){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><input id=\\"__i\\" style=\\"width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;\\" value=\\""+(df?String(df).replace(/"/g,"&quot;"):"")+"\\"><div style=\\"display:flex;gap:10px;justify-content:flex-end;margin-top:16px;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");var i=d.querySelector("#__i");i.focus();d.querySelector("#__k").onclick=function(){var v=i.value;d.remove();r(v);};d.querySelector("#__c").onclick=function(){d.remove();r(null);};i.onkeydown=function(e){if(e.key==="Enter"){var v=i.value;d.remove();r(v);}};});};',
 'var _o=window.open;window.open=function(u){if(u){var d=bm("<div style=\\"background:#fff;border-radius:14px;width:90%;height:80%;max-width:900px;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.2);overflow:hidden;\\"><div style=\\"padding:10px 14px;background:#f5f5f5;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#333;\\"><span>🔗 "+String(u).replace(/</g,"&lt;")+"</span><button id=\\"__x\\" style=\\"background:#e0e0e0;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;\\">✕</button></div><iframe src=\\""+u+"\\" style=\\"flex:1;border:none;width:100%;\\"></iframe></div>");d.querySelector("#__x").onclick=function(){d.remove();};return d;}return _o.apply(window,arguments);};',
 '})();',
 '</scr'+'ipt>'
@@ -685,7 +685,7 @@ const STUDIO_BADGE_SCRIPT = [
 'var d=document.createElement("div");',
 'd.id="__studio_badge__";',
 'd.setAttribute("style","position:fixed!important;bottom:10px!important;left:50%!important;transform:translateX(-50%)!important;z-index:2147483647!important;background:#ffffff!important;border:1px solid #e5e7eb!important;border-radius:10px!important;box-shadow:0 4px 16px rgba(0,0,0,.15)!important;padding:6px 10px!important;display:flex!important;align-items:center!important;gap:8px!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang HK,Microsoft JhengHei,sans-serif!important;font-size:11px!important;color:#333!important;line-height:1.4!important;max-width:94vw!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important;");',
-'d.innerHTML=\'<img src="\'+LOGO+\'" style="height:22px;width:auto;display:block;flex-shrink:0;" alt="logo"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:10px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">此網站技術支援由梁喆同學工作室提供</span><button id="__studio_btn__" style="background:#1e5ef7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;white-space:nowrap;font-weight:500;">你也可以點擊這裏前往AI工具免費建立網站</button></div>\';',
+'d.innerHTML=\'<img src="\'+LOGO+\'" style="height:22px;width:auto;display:block;flex-shrink:0;" alt="logo"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:10px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">此网站技术支援由梁喆同學工作室提供</span><button id="__studio_btn__" style="background:#1e5ef7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;white-space:nowrap;font-weight:500;">你也可以點擊這里前往AI工具免费建立网站</button></div>\';',
 'document.body.appendChild(d);',
 'var btn=document.getElementById("__studio_btn__");',
 'if(btn){btn.onclick=function(){var a=document.createElement("a");a.href=LINK;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();document.body.removeChild(a);};}',
@@ -725,11 +725,11 @@ function loadIntoIframe(iframeEl, html, which) {
 }
 
 // ============================================================
-// 4. 로드彈窗
+// 4. 加載弹窗
 // ============================================================
 let loadingTimer = null;
 function showLoading(t) {
-  document.getElementById('loadingText').textContent = t || '로딩 중...';
+  document.getElementById('loadingText').textContent = t || '載入中...';
   document.getElementById('loadingOverlay').style.display = 'flex';
 }
 function hideLoading() {
@@ -803,7 +803,7 @@ const historyList = document.getElementById('historyList');
 const newChatBtn = document.getElementById('newChatBtn');
 
 // ============================================================
-// 6. 訪問模式
+// 6. 访問模式
 // ============================================================
 (function checkViewerMode() {
   const viewerId = new URLSearchParams(location.search).get('id');
@@ -828,7 +828,7 @@ const newChatBtn = document.getElementById('newChatBtn');
   db.ref('published/' + safeKey).once('value').then(snap => {
     const data = snap.val();
     if (!data || !data.html) {
-      loading.innerHTML = '<div style="font-size:52px">🔍</div><div style="font-size:17px;color:#555;margin-top:8px;">此網頁不存在或已被刪除</div>';
+      loading.innerHTML = '<div style="font-size:52px">🔍</div><div style="font-size:17px;color:#555;margin-top:8px;">此网页不存在或已被刪除</div>';
       return;
     }
     document.title = data.title || viewerId;
@@ -841,7 +841,7 @@ const newChatBtn = document.getElementById('newChatBtn');
 })();
 
 // ============================================================
-// 7. 管理員
+// 7. 管理员
 // ============================================================
 function isAdmin(user) {
   if (!user) return false;
@@ -853,7 +853,7 @@ function getCurrentUid() {
 }
 
 // ============================================================
-// 8. 아바타生成
+// 8. 頭像生成
 // ============================================================
 function generateIdenticon(name) {
   const seed = name || 'default';
@@ -924,7 +924,7 @@ function updateAvatar(photoUrl, name) {
   avatarPlaceholder.style.display = 'none';
 }
 function showUI(user) {
-  authNavLink.textContent = '로그아웃';
+  authNavLink.textContent = '登出';
   authNavLink.className = 'auth-link logout';
   authNavLink.removeEventListener('click', openAuthModal);
   authNavLink.removeEventListener('click', handleLogout);
@@ -939,7 +939,7 @@ function showUI(user) {
   hideLoading();
 }
 function hideUI() {
-  authNavLink.textContent = '로그인';
+  authNavLink.textContent = '登入';
   authNavLink.className = 'auth-link';
   authNavLink.removeEventListener('click', openAuthModal);
   authNavLink.removeEventListener('click', handleLogout);
@@ -956,10 +956,10 @@ function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable();
 function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
 // ============================================================
-// 10. Firebase 認證
+// 10. Firebase 認证
 // ============================================================
 async function googleLogin() {
-  showLoading('Google 로그인中...');
+  showLoading('Google 登入中...');
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
     const result = await auth.signInWithPopup(provider);
@@ -973,17 +973,17 @@ async function googleLogin() {
   } catch (e) {
     hideLoading();
     if (e.code !== 'auth/popup-closed-by-user') {
-      showMsg(loginMessage, 'Google 로그인失敗：' + e.message, 'error');
+      showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
     }
   }
 }
 async function handleRegister() {
   const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
-  if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
+  if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
   if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
   if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
   if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
   showLoading('註冊中...');
   registerSubmit.disabled = true;
   registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -1017,17 +1017,17 @@ async function handleRegister() {
 }
 async function handleLogin() {
   const name = loginName.value.trim(), pw = loginPassword.value;
-  if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-  showLoading('로그인中...');
+  if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密碼', 'error'); return; }
+  showLoading('登入中...');
   loginSubmit.disabled = true;
-  loginSubmit.innerHTML = '<span class="spinner"></span>로그인中...';
+  loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
   try {
     const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
     if (!snap.exists()) {
       showMsg(loginMessage, '帳戶或密碼不正確', 'error');
       hideLoading();
       loginSubmit.disabled = false;
-      loginSubmit.textContent = '로그인';
+      loginSubmit.textContent = '登入';
       return;
     }
     let found = false;
@@ -1051,11 +1051,11 @@ async function handleLogin() {
     hideLoading();
   } finally {
     loginSubmit.disabled = false;
-    loginSubmit.textContent = '로그인';
+    loginSubmit.textContent = '登入';
   }
 }
 function handleLogout() {
-  showLoading('로그아웃中...');
+  showLoading('登出中...');
   auth.signOut().catch(() => {});
   localStorage.removeItem('_localUid');
   hideUI();
@@ -1085,7 +1085,7 @@ async
         }
 
 function loadUserTable() {
-  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">로딩 중...</p>';
+  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
   try {
     const snap = await db.ref('users').once('value');
     const data = snap.val();
@@ -1095,7 +1095,7 @@ function loadUserTable() {
     }
     let html = '<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>';
     for (const [key, user] of Object.entries(data)) {
-      const d = user.createdAt ? new Date(user.createdAt).toLocaleDateString('zh-HK') : '-';
+      const d = user.createdAt ? new Date(user.createdAt).toLocaleDateString('ko-HK') : '-';
       const pwDisplay = user.password ? user.password : 'Google';
       const safeName = (user.name || '').replace(/'/g, "\\'");
       html += '<tr><td>' + (escapeHtml(user.name) || '-') + '</td><td>' + (escapeHtml(user.email) || '-') + '</td><td>' + escapeHtml(pwDisplay) + '</td><td>' + d + '</td><td><button class="delete-user-btn" onclick="window._deleteUser(\'' + key + '\',\'' + safeName + '\')"><i class="fas fa-trash"></i> 刪除</button></td></tr>';
@@ -1107,7 +1107,7 @@ function loadUserTable() {
   }
 }
 window._deleteUser = async function(key, name) {
-  if (!confirm('확인要刪除用戶「' + name + '」嗎？此操作無法실패。')) return;
+  if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作无法撤销。')) return;
   try {
     await db.ref('users/' + key).remove();
     loadUserTable();
@@ -1115,7 +1115,7 @@ window._deleteUser = async function(key, name) {
 };
 
 // ============================================================
-// 12. 我的網站
+// 12. 我的网站
 // ============================================================
 function openMySitesModal() {
   mySitesModal.classList.add('show');
@@ -1123,24 +1123,24 @@ function openMySitesModal() {
 }
 function closeMySitesModalFn() { mySitesModal.classList.remove('show'); }
 async function loadMySites() {
-  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">로딩 중...</p>';
+  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
   const uid = getCurrentUid();
   if (!uid) {
-    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">請先로그인</p>';
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">請先登入</p>';
     return;
   }
   try {
     const snap = await db.ref('published').orderByChild('ownerUid').equalTo(uid).once('value');
     const data = snap.val();
     if (!data) {
-      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你還沒有發佈任何網站</p>';
+      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你還沒有發佈任何网站</p>';
       return;
     }
     const list = Object.entries(data).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
     let html = '<div class="my-sites-list">';
     const baseUrl = location.origin + location.pathname + '?id=';
     for (const [key, site] of list) {
-      const d = site.createdAt ? new Date(site.createdAt).toLocaleString('zh-HK') : '-';
+      const d = site.createdAt ? new Date(site.createdAt).toLocaleString('ko-HK') : '-';
       const safeKey = key.replace(/'/g, "\\'");
       const safeTitle = (site.title || key).replace(/'/g, "\\'");
       html += '<div class="site-card">' +
@@ -1151,7 +1151,7 @@ async function loadMySites() {
         '<div class="s-url" style="color:#9ca3af;">' + d + '</div>' +
         '</div>' +
         '<div class="s-actions">' +
-        '<button class="s-btn" onclick="window.open(\'' + baseUrl + safeKey + '\',\'_blank\')">訪問</button>' +
+        '<button class="s-btn" onclick="window.open(\'' + baseUrl + safeKey + '\',\'_blank\')">访問</button>' +
         '<button class="s-btn danger" onclick="window._deleteSite(\'' + safeKey + '\',\'' + safeTitle + '\')">刪除</button>' +
         '</div></div>';
     }
@@ -1162,7 +1162,7 @@ async function loadMySites() {
   }
 }
 window._deleteSite = async function(key, title) {
-  if (!confirm('확인要刪除網站「' + title + '」嗎？此操作無法실패。')) return;
+  if (!confirm('確定要刪除网站「' + title + '」嗎？此操作无法撤销。')) return;
   try {
     await db.ref('published/' + key).remove();
     loadMySites();
@@ -1170,7 +1170,7 @@ window._deleteSite = async function(key, title) {
 };
 
 // ============================================================
-// 13. 對話紀錄
+// 13. 對话纪錄
 // ============================================================
 let currentUid = null;
 let currentChatId = null;
@@ -1181,7 +1181,7 @@ function resetChat() {
   chatMessages.innerHTML = '';
   const row = document.createElement('div');
   row.className = 'msg-row ai';
-  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的網頁生成助手。請告訴我你想要什麼樣的網頁，我會幫你寫出完整的 HTML 並在右邊即時預覽。</div>';
+  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。請告诉我你想要什麼样的网页，我會幫你寫出完整的 HTML 並在右边即時預覽。</div>';
   chatMessages.appendChild(row);
   hist = [];
 }
@@ -1193,7 +1193,7 @@ async function startNewChat(createNode) {
   if (createNode !== false) {
     const ref = db.ref('users/' + currentUid + '/chats').push();
     currentChatId = ref.key;
-    await ref.set({ title: '新對話', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+    await ref.set({ title: '新對话', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
     await loadHistoryList();
     highlightHistoryItem(currentChatId);
   }
@@ -1223,12 +1223,12 @@ async function loadHistoryList() {
 
 function renderHistory(list) {
   if (!list.length) {
-    historyList.innerHTML = '<div class="history-empty">還沒有對話紀錄<br>시작聊天就會自動儲存</div>';
+    historyList.innerHTML = '<div class="history-empty">還沒有對话纪錄<br>开始聊天就會自動儲存</div>';
     return;
   }
   let html = '';
   for (const c of list) {
-    const d = c.updatedAt ? new Date(c.updatedAt).toLocaleString('zh-HK', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+    const d = c.updatedAt ? new Date(c.updatedAt).toLocaleString('ko-HK', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
     const safeId = c.id;
     const safeTitle = (c.title || '未命名').replace(/</g, '&lt;');
     html += '<div class="history-item" data-chat-id="' + safeId + '" onclick="window._openChat(\'' + safeId + '\')">' +
@@ -1257,7 +1257,7 @@ window._openChat = async function(chatId) {
         hist.push({ role: 'user', content: m.content });
       } else if (m.role === 'assistant') {
         if (m.isCode) {
-          const bubble = addMessage('ai', '✅ 已生成網頁，請看右邊預覽');
+          const bubble = addMessage('ai', '✅ 已生成网页，請看右边預覽');
           bubble.classList.add('code-done');
           if (m.html) showPreview(m.html);
         } else {
@@ -1268,12 +1268,12 @@ window._openChat = async function(chatId) {
     }
     highlightHistoryItem(chatId);
     historyDrawer.classList.remove('show');
-  } catch (e) { alert('載入對話失敗：' + e.message); }
+  } catch (e) { alert('載入對话失敗：' + e.message); }
 };
 
 window._deleteChat = async function(chatId) {
   if (!currentUid) return;
-  if (!confirm('확인要刪除此對話嗎？')) return;
+  if (!confirm('確定要刪除此對话嗎？')) return;
   try {
     await db.ref('users/' + currentUid + '/chats/' + chatId).remove();
     if (currentChatId === chatId) {
@@ -1288,7 +1288,7 @@ async function saveChat() {
   if (!currentUid || !currentChatId) return;
   try {
     const firstUser = hist.find(m => m.role === 'user');
-    let title = '新對話';
+    let title = '新對话';
     if (firstUser) title = firstUser.content.slice(0, 20).replace(/\n/g, ' ');
     const msgs = hist.map(m => {
       if (m.role === 'assistant' && m.isCode) {
@@ -1323,15 +1323,15 @@ loginSubmit.addEventListener('click', handleLogin);
 
 
         // ===== 安全注意 =====
-        // Firebase Realtime Database 規則請設定為：
+        // Firebase Realtime Database 規則請設定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保護用户數據
-        // ===== CAPTCHA 驗證碼 =====
+        // 或更嚴格的規則以保护用户数據
+        // ===== CAPTCHA 驗证碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1428,7 +1428,7 @@ historyToggleBtn.addEventListener('click', function() {
 });
 historyCloseBtn.addEventListener('click', function() { historyDrawer.classList.remove('show'); });
 newChatBtn.addEventListener('click', async function() {
-  if (!currentUid) { alert('請先로그인'); return; }
+  if (!currentUid) { alert('請先登入'); return; }
   await startNewChat(true);
   historyDrawer.classList.remove('show');
 });
@@ -1439,7 +1439,7 @@ newChatBtn.addEventListener('click', async function() {
 let isStreaming = false;
 let abortController = null;
 let fullContent = '';
-const SYSTEM_PROMPT = '你是「AI 웹 생성기」，一個專業的前端開發助手。\n\n【核心規則】\n1. 當用戶要求你「寫/生成/做/修改/新增/調整」網頁時，你必須從 `<!DOCTYPE html>` 시작，輸出完整的 HTML 到 `</html>`，不可以只給片段。\n2. 絕對不要在代碼前後加任何解釋、說明、標題、或 Markdown 格式。\n3. 絕對不要說「這是你的網頁」或「以下是代碼」等任何문자。\n4. 直接輸出純 HTML，讓用戶可以直接복사붙여넣기使用。\n5. **每次輸出 HTML 的最後，在 `</html>` 之後，加一行 `' + REFRESH_MARKER + '`（這行是給系統的信號，用戶看不到，你務必每次都加）。**\n\n【代碼要求】\n• 完整 HTML，含 style 和 script\n• 響應式（viewport + @media）\n• 配色 3-5 色，行高 1.5-1.6\n• 語意化 HTML，可存取性\n• 不依賴外部 CDN（除了 Font Awesome 等常用庫）\n• 版權年份用 ' + new Date().getFullYear() + '\n\n【一般對話】\n如果用戶只是問問題、諮詢，沒有要求寫網頁，用自然語言回答即可，不需要輸出代碼。';
+const SYSTEM_PROMPT = '你是「AI 网页生成器」，一個專業的前端开發助手。\n\n【核心規則】\n1. 當用戶要求你「寫/生成/做/修改/新增/調整」网页時，你必須從 `<!DOCTYPE html>` 开始，输出完整的 HTML 到 `</html>`，不可以只給片段。\n2. 絕對不要在代碼前後加任何解釋、說明、標題、或 Markdown 格式。\n3. 絕對不要說「這是你的网页」或「以下是代碼」等任何文字。\n4. 直接输出純 HTML，讓用戶可以直接複製贴上使用。\n5. **每次输出 HTML 的最後，在 `</html>` 之後，加一行 `' + REFRESH_MARKER + '`（這行是給系統的信號，用戶看不到，你務必每次都加）。**\n\n【代碼要求】\n• 完整 HTML，含 style 和 script\n• 響应式（viewport + @media）\n• 配色 3-5 色，行高 1.5-1.6\n• 語意化 HTML，可存取性\n• 不依賴外部 CDN（除了 Font Awesome 等常用库）\n• 版权年份用 ' + new Date().getFullYear() + '\n\n【一般對话】\n如果用戶只是問問題、諮詢，沒有要求寫网页，用自然語言回答即可，不需要输出代碼。';
 
 function addMessage(role, text) {
   const row = document.createElement('div');
@@ -1475,7 +1475,7 @@ function extractHTML(text) {
   return null;
 }
 function forceRefreshPreview(html) {
-  // 關鍵：存進全域快取，讓發佈功能能讀取
+  // 关鍵：存进全域快取，讓發佈功能能读取
   window.__LAST_GENERATED_HTML__ = html;
   emptyState.style.display = 'none';
   previewUrl.textContent = '預覽 · 已生成';
@@ -1502,7 +1502,7 @@ async function sendMsg() {
   if (currentUid && !currentChatId) {
     const ref = db.ref('users/' + currentUid + '/chats').push();
     currentChatId = ref.key;
-    await ref.set({ title: '新對話', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+    await ref.set({ title: '新對话', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
   }
   addMessage('user', text);
   hist.push({ role: 'user', content: text });
@@ -1565,7 +1565,7 @@ async function sendMsg() {
     const cleanText = fullContent.replace(REFRESH_MARKER, '').trim();
     const html = extractHTML(fullContent);
     if (html) {
-      bubble.textContent = '✅ 已生成網頁，請看右邊預覽';
+      bubble.textContent = '✅ 已生成网页，請看右边預覽';
       bubble.classList.add('code-done');
       forceRefreshPreview(html);
       hist.push({ role: 'assistant', content: html, isCode: true, html: html });
@@ -1576,7 +1576,7 @@ async function sendMsg() {
     await saveChat();
   } catch (e) {
     if (e.name === 'AbortError') {
-      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n⏸️ 已중지';
+      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n⏸️ 已停止';
     } else {
       bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n❌ ' + e.message;
     }
@@ -1610,7 +1610,7 @@ chatInput.oninput = function() {
 // 16. 發佈功能
 // ============================================================
 function getCurrentHTML() {
-  // 直接讀全域快取（Blob URL 模式下 srcdoc 永遠空）
+  // 直接读全域快取（Blob URL 模式下 srcdoc 永远空）
   const html = window.__LAST_GENERATED_HTML__;
   if (!html || html.trim().length < 20) return null;
   if (!html.includes('<html') && !html.includes('<!DOCTYPE')) return null;
@@ -1642,9 +1642,9 @@ function showPublishMsg(text, type) {
 publishNavLink.addEventListener('click', function(e) {
   e.preventDefault();
   const uid = getCurrentUid();
-  if (!uid) { alert('請先로그인才能發佈網頁'); openAuthModal(); return; }
+  if (!uid) { alert('請先登入才能發佈网页'); openAuthModal(); return; }
   const html = getCurrentHTML();
-  if (!html) { alert('請先在左邊讓 AI 生成一個網頁，再進行發佈'); return; }
+  if (!html) { alert('請先在左边讓 AI 生成一個网页，再进行發佈'); return; }
   publishMsg.style.display = 'none';
   suffixInput.value = '';
   urlPreviewBox.style.display = 'none';
@@ -1656,9 +1656,9 @@ publishConfirm.addEventListener('click', async function() {
   const suffix = suffixInput.value;
   if (!suffix.trim()) { showPublishMsg('請填寫後綴', 'error'); return; }
   const html = getCurrentHTML();
-  if (!html) { showPublishMsg('找不到要發佈的網頁，請重新生成', 'error'); return; }
+  if (!html) { showPublishMsg('找不到要發佈的网页，請重新生成', 'error'); return; }
   const uid = getCurrentUid();
-  if (!uid) { showPublishMsg('로그인狀態已失效，請重新로그인', 'error'); return; }
+  if (!uid) { showPublishMsg('登入狀態已失效，請重新登入', 'error'); return; }
   publishConfirm.disabled = true;
   publishConfirm.textContent = '發佈中...';
   try {
@@ -1667,7 +1667,7 @@ publishConfirm.addEventListener('click', async function() {
     if (check.exists()) {
       showPublishMsg('此後綴已被使用，請換一個', 'error');
       publishConfirm.disabled = false;
-      publishConfirm.textContent = '확인發佈';
+      publishConfirm.textContent = '確認發佈';
       return;
     }
     const user = auth.currentUser;
@@ -1681,15 +1681,15 @@ publishConfirm.addEventListener('click', async function() {
     const fullUrl = buildBaseUrl() + safeKey;
     try {
       await navigator.clipboard.writeText(fullUrl);
-      showPublishMsg('✅ 發佈성공！網址已복사到剪貼簿：\n' + fullUrl, 'success');
+      showPublishMsg('✅ 發佈成功！网址已複製到剪贴簿：\n' + fullUrl, 'success');
     } catch (e) {
-      showPublishMsg('✅ 發佈성공！你的網址：\n' + fullUrl, 'success');
+      showPublishMsg('✅ 發佈成功！你的网址：\n' + fullUrl, 'success');
     }
   } catch (err) {
     showPublishMsg('發佈失敗：' + err.message, 'error');
   } finally {
     publishConfirm.disabled = false;
-    publishConfirm.textContent = '확인發佈';
+    publishConfirm.textContent = '確認發佈';
   }
 });
 
@@ -1731,23 +1731,23 @@ auth.onAuthStateChanged(user => {
   }
 });
 chatInput.focus();
-console.log('AI 웹 생성기已啟動');
+console.log('AI 网页生成器已啟動');
 </script>
 
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>개인정보 처리 방침</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 추적，也不與第三方共享數據。</p>
+            <h4>隐私政策</h4>
+            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
         </div>
         <div class="footer-col">
-            <h4>연락처</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我們</h4>
+            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 양철 스튜디오 LZTX Studio</span>
+        <span>© 2026 梁喆同學工作室LZTX Studio</span>
     </div>
 </div>
 </body>
