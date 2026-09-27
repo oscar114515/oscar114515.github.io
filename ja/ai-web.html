@@ -474,6 +474,25 @@ body {
             outline: none;
             border-color: #007bff;
         }
+
+        .lang-switcher-inline {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+            max-width: 140px;
+        }
+        .lang-switcher-inline:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .lang-inline {
+            display: flex;
+            align-items: center;
+        }
 </style>
     <script src="lang-switch.js"></script>
 </head>
@@ -487,7 +506,15 @@ if (new URLSearchParams(location.search).get('id')) {
 <nav class="navbar">
   <div class="logo"><a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
   <div class="nav-right">
-    <ul class="nav-links">
+    <ul class="nav-links">                    <li class="lang-inline">
+                        <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
+                            <option value="zh" >繁體中文</option>
+                            <option value="cn" >简体中文</option>
+                            <option value="en" >English</option>
+                            <option value="ko" >한국어</option>
+                            <option value="ja" >日本語</option>
+                        </select>
+                    </li>
       <li><a href="#" id="publishNavLink" class="auth-link publish">發佈</a></li>
       <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
       <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="頭像"></button></li>
@@ -714,13 +741,69 @@ const STUDIO_BADGE_SCRIPT = [
 
 function injectFix(html) {
   if (!html) return html;
-  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, IFRAME_FIX_SCRIPT + '</body>');
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, IFRAME_FIX_SCRIPT + '
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>');
   return html + IFRAME_FIX_SCRIPT;
 }
 
 function injectStudioBadge(html) {
   if (!html) return html;
-  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, STUDIO_BADGE_SCRIPT + '</body>');
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, STUDIO_BADGE_SCRIPT + '
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>');
   return html + STUDIO_BADGE_SCRIPT;
 }
 
@@ -1765,5 +1848,33 @@ console.log('AI 网页生成器已啟動');
         <span>© 2026 梁喆同學工作室LZTX Studio</span>
     </div>
 </div>
-</body>
+
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>
 </html>

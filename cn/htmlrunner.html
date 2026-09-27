@@ -263,6 +263,25 @@
             outline: none;
             border-color: #007bff;
         }
+
+        .lang-switcher-inline {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+            max-width: 140px;
+        }
+        .lang-switcher-inline:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .lang-inline {
+            display: flex;
+            align-items: center;
+        }
 </style>
     <script src="lang-switch.js"></script>
 </head>
@@ -273,7 +292,15 @@
                 <a href="/cn/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
-                <ul class="nav-links">
+                <ul class="nav-links">                    <li class="lang-inline">
+                        <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
+                            <option value="zh" >繁體中文</option>
+                            <option value="cn" >简体中文</option>
+                            <option value="en" >English</option>
+                            <option value="ko" >한국어</option>
+                            <option value="ja" >日本語</option>
+                        </select>
+                    </li>
                     <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
@@ -621,7 +648,35 @@
         // ===== HTML 运行器功能 =====
         const examples = {
             basic: '<!DOCTYPE html>\n<html>\n<head>\n    <title>基礎 HTML</title>\n    <script src="lang-switch.js"></script>
-</head>\n<body>\n    <h1>你好，世界！</h1>\n    <p>這是一個简單的 HTML 页面。</p>\n</body>\n</html>',
+</head>\n<body>\n    <h1>你好，世界！</h1>\n    <p>這是一個简單的 HTML 页面。</p>\n
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>\n</html>',
             css: '<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { background: linear-gradient(135deg, #667eea, #764ba2); }\n        h1 { color: white; text-align: center; margin-top: 50px; }\n    
             position: relative;
             display: inline-block;
@@ -737,10 +792,113 @@
             outline: none;
             border-color: #007bff;
         }
+
+        .lang-switcher-inline {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+            max-width: 140px;
+        }
+        .lang-switcher-inline:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .lang-inline {
+            display: flex;
+            align-items: center;
+        }
 </style>\n    <script src="lang-switch.js"></script>
-</head>\n<body>\n    <h1>CSS 样式示例</h1>\n</body>\n</html>',
-            js: '<!DOCTYPE html>\n<html>\n<body>\n    <h1 id="demo">點擊按钮</h1>\n    <button onclick="document.getElementById(\'demo\').innerHTML = Date()">時間</button>\n</body>\n</html>',
-            canvas: '<!DOCTYPE html>\n<html>\n<body>\n    <canvas id="c" width="300" height="200"></canvas>\n    <script>\n        const ctx = document.getElementById("c").getContext("2d");\n        ctx.fillStyle = "#FF6B6B";\n        ctx.fillRect(50, 50, 200, 100);\n    <\/script>\n</body>\n</html>'
+</head>\n<body>\n    <h1>CSS 样式示例</h1>\n
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>\n</html>',
+            js: '<!DOCTYPE html>\n<html>\n<body>\n    <h1 id="demo">點擊按钮</h1>\n    <button onclick="document.getElementById(\'demo\').innerHTML = Date()">時間</button>\n
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>\n</html>',
+            canvas: '<!DOCTYPE html>\n<html>\n<body>\n    <canvas id="c" width="300" height="200"></canvas>\n    <script>\n        const ctx = document.getElementById("c").getContext("2d");\n        ctx.fillStyle = "#FF6B6B";\n        ctx.fillRect(50, 50, 200, 100);\n    <\/script>\n
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>\n</html>'
         };
 
         function loadExample(type) {
@@ -817,5 +975,33 @@
         googleLoginBtn.addEventListener('click', googleLogin);
         googleRegisterBtn.addEventListener('click', googleLogin);
     </script>
-</body>
+
+<script>
+function switchLanguageInline(targetLang) {
+    const path = window.location.pathname;
+    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    let pagePath = 'index.html';
+    for (const lang of langOrder) {
+        const prefix = '/' + lang + '/';
+        if (path.includes(prefix)) {
+            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
+            break;
+        }
+    }
+    window.location.href = '/' + targetLang + '/' + pagePath;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const sel = document.getElementById('langSwitcherInline');
+    if (sel) {
+        const path = window.location.pathname;
+        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        for (const lang of langOrder) {
+            if (path.includes('/' + lang + '/')) {
+                sel.value = lang;
+                break;
+            }
+        }
+    }
+});
+</script></body>
 </html>
