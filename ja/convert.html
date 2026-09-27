@@ -173,7 +173,7 @@
         .modal-box .divider { height: 1px; background: #eef2f7; margin: 14px 0; }
         .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 
-        /* ===== 登入彈窗 ===== */
+        /* ===== ログイン彈窗 ===== */
         .auth-modal-box { background: white; border-radius: 20px; padding: 2rem; width: 90%; max-width: 400px; }
         .auth-modal-box .brand { text-align: center; margin-bottom: 1.5rem; }
         .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #0b1b33; }
@@ -320,20 +320,20 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="/ja/index.html">作品集</a></li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="/zh/index.html">作品集</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">ログイン</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn" style="display:none;">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="アバター">
                         </button>
                     </li>
-                    <li><a href="/ja/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/ja/privacy.html">プライバシーポリシー</a></li>
+                    <li><a href="#" id="contactBtn">連絡先</a></li>
 
                     <li>
                         <div class="lang-selector">
@@ -343,11 +343,11 @@
                                 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                             </button>
                             <div class="lang-dropdown" id="langDropdown">
-                                <div class="lang-option active" data-lang="zh-TW">
+                                <div class="lang-option active" data-lang="ja">
                                     <span>🇹🇼</span>
                                     <span>中文(繁)</span>
                                 </div>
-                                <div class="lang-option" data-lang="zh-CN">
+                                <div class="lang-option" data-lang="ja">
                                     <span>🇨🇳</span>
                                     <span>中文(简)</span>
                                 </div>
@@ -428,7 +428,7 @@
 
     </div>
 
-    <!-- ===== 聯繫我們彈窗 ===== -->
+    <!-- ===== 連絡先彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="title">📱 追蹤我</div>
@@ -447,7 +447,7 @@
         </div>
     </div>
 
-    <!-- ===== 登入彈窗 ===== -->
+    <!-- ===== ログイン彈窗 ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="auth-modal-box" onclick="event.stopPropagation()">
             <div class="brand"><h2>歡迎回來</h2></div>
@@ -459,8 +459,8 @@
                 <div id="loginMessage" class="message-box"></div>
                 <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                 <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                <button class="action-btn" id="loginSubmitBtn">登入</button>
-                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登入</button>
+                <button class="action-btn" id="loginSubmitBtn">ログイン</button>
+                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號ログイン</button>
             </div>
             <div id="registerPanel" class="form-panel hidden">
                 <div id="registerMessage" class="message-box"></div>
@@ -893,7 +893,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }, 500);
         }
 
-        // ===== 重置 =====
+        // ===== リセット =====
         document.getElementById('convertAnother').addEventListener('click', (e) => {
             e.preventDefault();
             currentFile = null;
@@ -976,11 +976,11 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
             auth.signInWithEmailAndPassword(name + '@example.com', pw)
                 .then(() => {
-                    alert('登入成功！');
+                    alert('ログイン成功！');
                     closeAuthModal();
                 })
                 .catch(e => {
-                    alert('登入失敗：' + e.message);
+                    alert('ログイン失敗：' + e.message);
                 });
         });
 
@@ -1007,13 +1007,13 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
 
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(e => alert('Google 登入失敗：' + e.message));
+            auth.signInWithPopup(provider).catch(e => alert('Google ログイン失敗：' + e.message));
         });
 
         auth.onAuthStateChanged(user => {
             if (user) {
                 avatarBtn.style.display = 'flex';
-                authNavLink.textContent = '登出';
+                authNavLink.textContent = 'ログアウト';
                 authNavLink.classList.add('logout');
                 if (user.photoURL) {
                     avatarImg.src = user.photoURL;
@@ -1022,7 +1022,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                 }
             } else {
                 avatarBtn.style.display = 'none';
-                authNavLink.textContent = '登入';
+                authNavLink.textContent = 'ログイン';
                 authNavLink.classList.remove('logout');
             }
         });
@@ -1086,17 +1086,17 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <h4>プライバシーポリシー</h4>
+            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追跡，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
+            <h4>連絡先</h4>
             <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆スタジオ LZTX Studio</span>
     </div>
 </div>
 </body>

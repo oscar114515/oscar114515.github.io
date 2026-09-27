@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易計算機 · 我的網站</title>
+    <title>簡易電卓 · 我的網站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -280,19 +280,19 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">ログイン</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="アバター">
                         </button>
                     </li>
-                    <li><a href="/ja/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/ja/privacy.html">プライバシーポリシー</a></li>
+                    <li><a href="#" id="contactBtn">連絡先</a></li>
 
                     
                 </ul>
@@ -302,7 +302,7 @@
 
     <div class="content-wrapper">
         <div class="card">
-            <h1><i class="fas fa-calculator" style="color:#ff9f0a"></i> 簡易計算機</h1>
+            <h1><i class="fas fa-calculator" style="color:#ff9f0a"></i> 簡易電卓</h1>
             <div class="subhead">基本運算 + 科學計算功能</div>
             
             <div class="mode-toggle">
@@ -380,17 +380,17 @@
             <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <h4>プライバシーポリシー</h4>
+            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追跡，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
+            <h4>連絡先</h4>
             <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆スタジオ LZTX Studio</span>
     </div>
 </div>
         </div>
@@ -418,7 +418,7 @@
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
-                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="action-btn danger" id="authLogoutBtn">ログアウト</button>
                 <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
             </div>
             <div id="authPanel">
@@ -430,7 +430,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">ログイン</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -439,7 +439,7 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google ログイン
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
@@ -473,14 +473,14 @@
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p></div>
         </div>
     </div>
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">載入中...</p>
+            <p id="loadingText">読み込み中...</p>
         </div>
     </div>
 
@@ -540,7 +540,7 @@
         }
 
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingText').textContent = text || '読み込み中...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -550,7 +550,7 @@
         }
 
         function showUI(user) {
-            authNavLink.textContent = '登出';
+            authNavLink.textContent = 'ログアウト';
             authNavLink.className = 'auth-link logout';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', handleLogout);
@@ -565,7 +565,7 @@
             hideLoading();
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = 'ログイン';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', openAuthModal);
@@ -593,7 +593,7 @@
         function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google ログイン中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -605,7 +605,7 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google ログイン失敗：' + e.message, 'error');
                 }
             }
         }
@@ -637,12 +637,12 @@
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            showLoading('ログイン中...');
             loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>ログイン中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = 'ログイン'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -658,9 +658,9 @@
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = 'ログイン'; }
         }
-        function handleLogout() { showLoading('登出中...'); auth.signOut().catch(() => {}); hideUI(); }
+        function handleLogout() { showLoading('ログアウト中...'); auth.signOut().catch(() => {}); hideUI(); }
         function showMsg(el, msg, type) { el.textContent = msg; el.className = 'message-box ' + type; setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000); }
 
         // ===== HTML 轉義（防止 XSS） =====
@@ -673,7 +673,7 @@
 
         let allUsers = [];
         async function loadUserTable() {
-            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];

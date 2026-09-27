@@ -259,15 +259,15 @@
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
                             <img id="avatarImg" style="display:none;" alt="頭像">
                         </button>
                     </li>
-                    <li><a href="/cn/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/cn/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     
                 </ul>
@@ -278,7 +278,7 @@
     <div class="content-wrapper">
         <div class="card">
             <h1><i class="fas fa-code" style="color:#007bff"></i> HTML 運行器</h1>
-            <div class="subhead">輸入 HTML 代碼，即時預覽運行結果</div>
+            <div class="subhead">輸入 HTML 代碼，即时預覽運行結果</div>
             
             <div class="example-buttons">
                 <button class="example-btn" onclick="loadExample('basic')"><i class="fas fa-file-code"></i> 基礎 HTML</button>
@@ -310,11 +310,11 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <p>本站不收集任何个人數據。所有工具均在本地浏览器運行，不会將你的數據上傳至任何服務器。我们不使用 Cookie 追踪，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同學的个人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
@@ -359,7 +359,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -368,14 +368,14 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 登录
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密碼"></div>
                     <button class="action-btn" id="registerSubmitBtn">註冊</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
@@ -488,7 +488,7 @@
             hideLoading();
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '登录';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', openAuthModal);
@@ -509,7 +509,7 @@
         function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google 登录中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -521,15 +521,15 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登录失敗：' + e.message, 'error');
                 }
             }
         }
         async function handleRegister() {
             const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
             if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2个字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4个字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
             showLoading('註冊中...');
             registerSubmitBtn.disabled = true;
@@ -550,12 +550,12 @@
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            showLoading('登录中...');
             loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登录中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -571,7 +571,7 @@
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; }
         }
         function handleLogout() { showLoading('登出中...'); auth.signOut().catch(() => {}); hideUI(); }
         function showMsg(el, msg, type) { el.textContent = msg; el.className = 'message-box ' + type; setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000); }
@@ -582,8 +582,8 @@
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
                 if (snap.exists()) { snap.forEach(c => { const d = c.val(); if (d.name) allUsers.push({ key: c.key, ...d }); }); }
-                if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>'; return; }
-                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">没有任何用戶</p>'; return; }
+                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊时間</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
@@ -594,7 +594,7 @@
             } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>'; }
         }
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            if (!confirm('确定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -606,7 +606,7 @@
         // ===== HTML 運行器功能 =====
         const examples = {
             basic: '<!DOCTYPE html>\n<html>\n<head>\n    <title>基礎 HTML</title>\n    <script src="lang-switch.js"></script>
-</head>\n<body>\n    <h1>你好，世界！</h1>\n    <p>這是一個簡單的 HTML 頁面。</p>\n</body>\n</html>',
+</head>\n<body>\n    <h1>你好，世界！</h1>\n    <p>这是一个简单的 HTML 頁面。</p>\n</body>\n</html>',
             css: '<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        body { background: linear-gradient(135deg, #667eea, #764ba2); }\n        h1 { color: white; text-align: center; margin-top: 50px; }\n    
             position: relative;
             display: inline-block;
@@ -709,7 +709,7 @@
         }
 </style>\n    <script src="lang-switch.js"></script>
 </head>\n<body>\n    <h1>CSS 樣式示例</h1>\n</body>\n</html>',
-            js: '<!DOCTYPE html>\n<html>\n<body>\n    <h1 id="demo">點擊按鈕</h1>\n    <button onclick="document.getElementById(\'demo\').innerHTML = Date()">時間</button>\n</body>\n</html>',
+            js: '<!DOCTYPE html>\n<html>\n<body>\n    <h1 id="demo">點擊按鈕</h1>\n    <button onclick="document.getElementById(\'demo\').innerHTML = Date()">时間</button>\n</body>\n</html>',
             canvas: '<!DOCTYPE html>\n<html>\n<body>\n    <canvas id="c" width="300" height="200"></canvas>\n    <script>\n        const ctx = document.getElementById("c").getContext("2d");\n        ctx.fillStyle = "#FF6B6B";\n        ctx.fillRect(50, 50, 200, 100);\n    <\/script>\n</body>\n</html>'
         };
 
@@ -737,7 +737,7 @@
 
         document.getElementById('runBtn').addEventListener('click', runCode);
         document.getElementById('clearBtn').addEventListener('click', () => {
-            if (confirm('確定要清空編輯器嗎？')) {
+            if (confirm('确定要清空編輯器嗎？')) {
                 document.getElementById('codeEditor').value = '';
                 document.getElementById('previewFrame').srcdoc = '';
             }

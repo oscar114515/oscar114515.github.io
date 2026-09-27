@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>線上格式轉換器 · 我的網站</title>
+    <title>线上格式轉換器 · 我的網站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -155,7 +155,7 @@
         .convert-another { display: block; margin-top: 15px; color: #007bff; text-decoration: none; }
         .convert-another:hover { text-decoration: underline; }
 
-        /* ===== 說明區 ===== */
+        /* ===== 说明區 ===== */
         .info-section {
             background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
@@ -173,7 +173,7 @@
         .modal-box .divider { height: 1px; background: #eef2f7; margin: 14px 0; }
         .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 
-        /* ===== 登入彈窗 ===== */
+        /* ===== 登录彈窗 ===== */
         .auth-modal-box { background: white; border-radius: 20px; padding: 2rem; width: 90%; max-width: 400px; }
         .auth-modal-box .brand { text-align: center; margin-bottom: 1.5rem; }
         .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #0b1b33; }
@@ -200,7 +200,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-box p { color: #6a7e9b; font-size: 1rem; }
     
-        /* ===== 語言選擇器 ===== */
+        /* ===== 语言選擇器 ===== */
         .lang-selector {
             position: relative;
             display: inline-block;
@@ -325,15 +325,15 @@
             <div class="nav-right">
                 <ul class="nav-links">
                     <li><a href="/cn/index.html">作品集</a></li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn" style="display:none;">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
                             <img id="avatarImg" style="display:none;" alt="頭像">
                         </button>
                     </li>
-                    <li><a href="/cn/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/cn/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     <li>
                         <div class="lang-selector">
@@ -343,7 +343,7 @@
                                 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                             </button>
                             <div class="lang-dropdown" id="langDropdown">
-                                <div class="lang-option active" data-lang="zh-TW">
+                                <div class="lang-option active" data-lang="zh-CN">
                                     <span>🇹🇼</span>
                                     <span>中文(繁)</span>
                                 </div>
@@ -376,8 +376,8 @@
 
         <!-- 頁面標題 -->
         <div class="page-header">
-            <h1>📁 線上格式轉換器</h1>
-            <p>支援圖片、音頻、文檔等格式的線上轉換</p>
+            <h1>📁 线上格式轉換器</h1>
+            <p>支援圖片、音頻、文檔等格式的线上轉換</p>
         </div>
 
         <!-- 文件上傳 -->
@@ -401,7 +401,7 @@
                 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 <p class="progress-text" id="progressText">轉換中...</p>
             </div>
-            <button class="convert-btn" id="convertBtn" disabled>開始轉換</button>
+            <button class="convert-btn" id="convertBtn" disabled>开始轉換</button>
         </div>
 
         <!-- 下載區 -->
@@ -409,12 +409,12 @@
             <i class="fas fa-check-circle"></i>
             <p>轉換完成！</p>
             <a href="#" class="download-btn" id="downloadBtn" download>下載文件</a>
-            <a href="#" class="convert-another" id="convertAnother">轉換另一個文件</a>
+            <a href="#" class="convert-another" id="convertAnother">轉換另一个文件</a>
         </div>
 
-        <!-- 說明區 -->
+        <!-- 说明區 -->
         <div class="info-section">
-            <h2>📋 支援格式說明</h2>
+            <h2>📋 支援格式说明</h2>
             <ul>
                 <li><strong>圖片格式：</strong>JPG、PNG、WEBP、BMP、GIF、SVG、ICO、TIFF 可互相轉換</li>
                 <li><strong>音頻格式：</strong>MP3、WAV、OGG 可進行基礎轉換</li>
@@ -422,13 +422,13 @@
                 <li><strong>視頻格式：</strong>部分格式需要後端 FFmpeg 支援</li>
             </ul>
             <div class="note">
-                <strong>⚠️ 注意事項：</strong>部分格式轉換（如 DOCX → PDF、PPTX → MP4 等）需要後端服務，本工具目前僅支援純前端可實現的格式轉換。
+                <strong>⚠️ 注意事項：</strong>部分格式轉換（如 DOCX → PDF、PPTX → MP4 等）需要後端服務，本工具目前僅支援純前端可实现的格式轉換。
             </div>
         </div>
 
     </div>
 
-    <!-- ===== 聯繫我們彈窗 ===== -->
+    <!-- ===== 联系我们彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="title">📱 追蹤我</div>
@@ -447,10 +447,10 @@
         </div>
     </div>
 
-    <!-- ===== 登入彈窗 ===== -->
+    <!-- ===== 登录彈窗 ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="auth-modal-box" onclick="event.stopPropagation()">
-            <div class="brand"><h2>歡迎回來</h2></div>
+            <div class="brand"><h2>歡迎回来</h2></div>
             <div class="tab-switch">
                 <button class="tab-btn active" id="loginTabBtn">登錄</button>
                 <button class="tab-btn" id="registerTabBtn">註冊</button>
@@ -459,8 +459,8 @@
                 <div id="loginMessage" class="message-box"></div>
                 <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                 <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                <button class="action-btn" id="loginSubmitBtn">登入</button>
-                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登入</button>
+                <button class="action-btn" id="loginSubmitBtn">登录</button>
+                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登录</button>
             </div>
             <div id="registerPanel" class="form-panel hidden">
                 <div id="registerMessage" class="message-box"></div>
@@ -498,7 +498,7 @@
         let currentFile = null;
         let selectedFormat = null;
 
-        // ===== 純前端可實現的格式轉換 =====
+        // ===== 純前端可实现的格式轉換 =====
         const frontendConversions = {
             'JPG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO'],
             'JPEG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO'],
@@ -976,11 +976,11 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
             auth.signInWithEmailAndPassword(name + '@example.com', pw)
                 .then(() => {
-                    alert('登入成功！');
+                    alert('登录成功！');
                     closeAuthModal();
                 })
                 .catch(e => {
-                    alert('登入失敗：' + e.message);
+                    alert('登录失敗：' + e.message);
                 });
         });
 
@@ -1007,7 +1007,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
 
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(e => alert('Google 登入失敗：' + e.message));
+            auth.signInWithPopup(provider).catch(e => alert('Google 登录失敗：' + e.message));
         });
 
         auth.onAuthStateChanged(user => {
@@ -1022,7 +1022,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                 }
             } else {
                 avatarBtn.style.display = 'none';
-                authNavLink.textContent = '登入';
+                authNavLink.textContent = '登录';
                 authNavLink.classList.remove('logout');
             }
         });
@@ -1038,7 +1038,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
         });
 
-        // 語言翻譯功能
+        // 语言翻譯功能
         const langDropdown = document.getElementById('langDropdown');
         const langBtn = document.getElementById('langBtn');
         const currentLang = document.getElementById('currentLang');
@@ -1087,11 +1087,11 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <p>本站不收集任何个人數據。所有工具均在本地浏览器運行，不会將你的數據上傳至任何服務器。我们不使用 Cookie 追踪，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同學的个人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>

@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>天文台數據看板 · 我的網站</title>
+    <title>観測所ダッシュボード · 我的網站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -503,7 +503,7 @@
         .platform-btn-small.douyin { color: #000000; }
         .platform-btn-small.yt { color: #ff0000; }
 
-        /* ===== 登入彈窗 ===== */
+        /* ===== ログイン彈窗 ===== */
         .auth-modal-overlay {
             position: fixed;
             top: 0;
@@ -1074,19 +1074,19 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/ja/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">ログイン</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="アバター">
                         </button>
                     </li>
-                    <li><a href="/ja/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/ja/privacy.html">プライバシーポリシー</a></li>
+                    <li><a href="#" id="contactBtn">連絡先</a></li>
 
                     
                 </ul>
@@ -1103,7 +1103,7 @@
         </div>
     </div>
 
-    <!-- ===== 聯繫我們彈窗 ===== -->
+    <!-- ===== 連絡先彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             
@@ -1120,14 +1120,14 @@
         </div>
     </div>
 
-    <!-- ===== 登入彈窗 ===== -->
+    <!-- ===== ログイン彈窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
             <div class="brand"><h2>歡迎你的使用</h2></div>
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
-                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="action-btn danger" id="authLogoutBtn">ログアウト</button>
                 <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
             </div>
             <div id="authPanel">
@@ -1139,7 +1139,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">ログイン</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -1148,7 +1148,7 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google ログイン
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
@@ -1183,7 +1183,7 @@
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p></div>
         </div>
     </div>
 
@@ -1191,7 +1191,7 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">載入中...</p>
+            <p id="loadingText">読み込み中...</p>
         </div>
     </div>
 
@@ -1223,7 +1223,7 @@
         let loadingTimer = null;
 
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingText').textContent = text || '読み込み中...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -1284,7 +1284,7 @@
         }
 
         // ============================================================
-        // 5. 頭像生成器
+        // 5. アバター生成器
         // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
@@ -1364,7 +1364,7 @@
         }
 
         function showUI(user) {
-            authNavLink.textContent = '登出';
+            authNavLink.textContent = 'ログアウト';
             authNavLink.className = 'auth-link logout';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1384,7 +1384,7 @@
         }
 
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = 'ログイン';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1420,7 +1420,7 @@
         // 7. Firebase 認證
         // ============================================================
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google ログイン中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -1433,7 +1433,7 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google ログイン失敗：' + e.message, 'error');
                 }
             }
         }
@@ -1476,15 +1476,15 @@
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            showLoading('ログイン中...');
             loginSubmit.disabled = true;
-            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmit.innerHTML = '<span class="spinner"></span>ログイン中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
                 if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                     hideLoading();
                     loginSubmit.disabled = false;
-                    loginSubmit.textContent = '登入'; return; }
+                    loginSubmit.textContent = 'ログイン'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -1503,11 +1503,11 @@
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading(); } finally { loginSubmit.disabled = false;
-                loginSubmit.textContent = '登入'; }
+                loginSubmit.textContent = 'ログイン'; }
         }
 
         function handleLogout() {
-            showLoading('登出中...');
+            showLoading('ログアウト中...');
             auth.signOut().catch(() => {});
             hideUI();
         }
@@ -1527,7 +1527,7 @@
         let allUsers = [];
 
         async function loadUserTable() {
-            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">読み込み中...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
@@ -1668,7 +1668,7 @@ function refreshRegisterCaptcha() {
         });
 
         // ============================================================
-        // 10. 聯繫我們
+        // 10. 連絡先
         // ============================================================
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
@@ -1846,7 +1846,7 @@ function refreshRegisterCaptcha() {
             if (data.forecastPeriod) html += `<div class="info-line"><strong>預報時段</strong> ${data.forecastPeriod}</div>`;
             if (data.forecastDesc) html += `<div class="info-line"><strong>預報內容</strong> ${data.forecastDesc}</div>`;
             if (data.outlook) html += `<div class="info-line"><strong>展望</strong> ${data.outlook}</div>`;
-            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
             return html;
         }
 
@@ -1883,7 +1883,7 @@ function refreshRegisterCaptcha() {
                 });
                 html += `</tbody></table>`;
             }
-            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
             return html;
         }
 
@@ -1912,8 +1912,8 @@ function refreshRegisterCaptcha() {
 
             const actionMap = {
                 'ISSUE': '發出',
-                'CANCEL': '取消',
-                'UPDATE': '更新'
+                'CANCEL': 'キャンセル',
+                'UPDATE': 'アップグレード'
             };
 
             let html = '';
@@ -1936,7 +1936,7 @@ function refreshRegisterCaptcha() {
                         html += `<span><strong>發出時間：</strong>${issueTime}</span>`;
                     }
                     if (updateTime) {
-                        html += `<span><strong>更新時間：</strong>${updateTime}</span>`;
+                        html += `<span><strong>アップグレード時間：</strong>${updateTime}</span>`;
                     }
                     html += `</div>`;
                     html += `</div>`;
@@ -1949,7 +1949,7 @@ function refreshRegisterCaptcha() {
             }
 
             if (data.updateTime) {
-                html += `<div class="update-time">更新：${data.updateTime}</div>`;
+                html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
             }
 
             return html;
@@ -1958,7 +1958,7 @@ function refreshRegisterCaptcha() {
         function renderRHRREAD(data) {
             if (!data || typeof data !== 'object') return '<div class="status-fail">無法載入數據</div>';
             let html = '';
-            if (data.updateTime) html += `<div class="info-line"><strong>更新時間</strong> ${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="info-line"><strong>アップグレード時間</strong> ${data.updateTime}</div>`;
             if (data.temperature && data.temperature.data) {
                 html +=
                     `<div class="info-line"><strong>溫度（${data.temperature.recordTime}）</strong></div><div class="grid-2col">`;
@@ -1989,7 +1989,7 @@ function refreshRegisterCaptcha() {
             }
             if (data.icon) {
                 html +=
-                    `<div class="info-line"><strong>天氣圖示編號</strong> ${data.icon.join(', ')}（更新：${data.iconUpdateTime || '—'}）</div>`;
+                    `<div class="info-line"><strong>天氣圖示編號</strong> ${data.icon.join(', ')}（アップグレード：${data.iconUpdateTime || '—'}）</div>`;
             }
             return html;
         }
@@ -2002,7 +2002,7 @@ function refreshRegisterCaptcha() {
                 `<div class="info-line"><strong>位置</strong> 北緯 ${data.lat}°，東經 ${data.lon}°</div>`;
             if (data.mag) html += `<div class="info-line"><strong>規模</strong> ${data.mag} 級</div>`;
             if (data.ptime) html += `<div class="info-line"><strong>發生時間</strong> ${data.ptime}</div>`;
-            if (data.updateTime) html += `<div class="update-time">更新：${data.updateTime}</div>`;
+            if (data.updateTime) html += `<div class="update-time">アップグレード：${data.updateTime}</div>`;
             return html;
         }
 
@@ -2097,7 +2097,7 @@ function refreshRegisterCaptcha() {
                 card.innerHTML = `
                     <h2>
                         <span>${ep.title}</span>
-                        <small>載入中...</small>
+                        <small>読み込み中...</small>
                     </h2>
                     <div class="card-content" id="content-${ep.id}"></div>
                 `;
@@ -2136,7 +2136,7 @@ function refreshRegisterCaptcha() {
             isRefreshing = false;
 
             const tooltip = document.getElementById('refreshTooltip');
-            tooltip.textContent = '已更新！';
+            tooltip.textContent = '已アップグレード！';
             tooltip.classList.add('show');
             setTimeout(() => {
                 tooltip.textContent = '點擊刷新所有數據';
@@ -2161,17 +2161,17 @@ function refreshRegisterCaptcha() {
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <h4>プライバシーポリシー</h4>
+            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追跡，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
+            <h4>連絡先</h4>
             <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆スタジオ LZTX Studio</span>
     </div>
 </div>
 </body>

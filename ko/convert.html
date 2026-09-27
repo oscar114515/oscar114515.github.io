@@ -173,7 +173,7 @@
         .modal-box .divider { height: 1px; background: #eef2f7; margin: 14px 0; }
         .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 
-        /* ===== 登入彈窗 ===== */
+        /* ===== 로그인彈窗 ===== */
         .auth-modal-box { background: white; border-radius: 20px; padding: 2rem; width: 90%; max-width: 400px; }
         .auth-modal-box .brand { text-align: center; margin-bottom: 1.5rem; }
         .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #0b1b33; }
@@ -193,7 +193,7 @@
         .auth-modal-box .message-success { color: #28a745; background: #d4edda; border: 1px solid #c3e6cb; display: block; }
         .auth-modal-box .message-error { color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; display: block; }
 
-        /* ===== 加載動畫 ===== */
+        /* ===== 로드動畫 ===== */
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 9999; background: rgba(0,0,0,0.5); }
         .loading-box { background: white; border-radius: 20px; padding: 2rem; text-align: center; min-width: 200px; }
         .loading-spinner { width: 40px; height: 40px; border: 3px solid #e9ecef; border-top: 3px solid #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 15px; }
@@ -320,20 +320,20 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/ko/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="/ko/index.html">作品集</a></li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="/zh/index.html">作品集</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">로그인</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn" style="display:none;">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="아바타">
                         </button>
                     </li>
-                    <li><a href="/ko/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/ko/privacy.html">개인정보 처리 방침</a></li>
+                    <li><a href="#" id="contactBtn">연락처</a></li>
 
                     <li>
                         <div class="lang-selector">
@@ -343,11 +343,11 @@
                                 <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                             </button>
                             <div class="lang-dropdown" id="langDropdown">
-                                <div class="lang-option active" data-lang="zh-TW">
+                                <div class="lang-option active" data-lang="ko">
                                     <span>🇹🇼</span>
                                     <span>中文(繁)</span>
                                 </div>
-                                <div class="lang-option" data-lang="zh-CN">
+                                <div class="lang-option" data-lang="ko">
                                     <span>🇨🇳</span>
                                     <span>中文(简)</span>
                                 </div>
@@ -401,7 +401,7 @@
                 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
                 <p class="progress-text" id="progressText">轉換中...</p>
             </div>
-            <button class="convert-btn" id="convertBtn" disabled>開始轉換</button>
+            <button class="convert-btn" id="convertBtn" disabled>시작轉換</button>
         </div>
 
         <!-- 下載區 -->
@@ -428,7 +428,7 @@
 
     </div>
 
-    <!-- ===== 聯繫我們彈窗 ===== -->
+    <!-- ===== 연락처彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="title">📱 追蹤我</div>
@@ -447,7 +447,7 @@
         </div>
     </div>
 
-    <!-- ===== 登入彈窗 ===== -->
+    <!-- ===== 로그인彈窗 ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="auth-modal-box" onclick="event.stopPropagation()">
             <div class="brand"><h2>歡迎回來</h2></div>
@@ -459,8 +459,8 @@
                 <div id="loginMessage" class="message-box"></div>
                 <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                 <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                <button class="action-btn" id="loginSubmitBtn">登入</button>
-                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登入</button>
+                <button class="action-btn" id="loginSubmitBtn">로그인</button>
+                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號로그인</button>
             </div>
             <div id="registerPanel" class="form-panel hidden">
                 <div id="registerMessage" class="message-box"></div>
@@ -472,7 +472,7 @@
         </div>
     </div>
 
-    <!-- ===== 加載動畫 ===== -->
+    <!-- ===== 로드動畫 ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner"></div>
@@ -690,7 +690,7 @@
             canvas.width = img.width;
             canvas.height = img.height;
 
-            // 處理透明背景
+            // 處理透明배경
             if (targetExt === 'JPG' || targetExt === 'BMP') {
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -893,7 +893,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }, 500);
         }
 
-        // ===== 重置 =====
+        // ===== 재설정 =====
         document.getElementById('convertAnother').addEventListener('click', (e) => {
             e.preventDefault();
             currentFile = null;
@@ -976,11 +976,11 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
             auth.signInWithEmailAndPassword(name + '@example.com', pw)
                 .then(() => {
-                    alert('登入成功！');
+                    alert('로그인성공！');
                     closeAuthModal();
                 })
                 .catch(e => {
-                    alert('登入失敗：' + e.message);
+                    alert('로그인失敗：' + e.message);
                 });
         });
 
@@ -997,7 +997,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                     return cred.user.updateProfile({ displayName: name });
                 })
                 .then(() => {
-                    alert('註冊成功！');
+                    alert('註冊성공！');
                     closeAuthModal();
                 })
                 .catch(e => {
@@ -1007,13 +1007,13 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
 
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(e => alert('Google 登入失敗：' + e.message));
+            auth.signInWithPopup(provider).catch(e => alert('Google 로그인失敗：' + e.message));
         });
 
         auth.onAuthStateChanged(user => {
             if (user) {
                 avatarBtn.style.display = 'flex';
-                authNavLink.textContent = '登出';
+                authNavLink.textContent = '로그아웃';
                 authNavLink.classList.add('logout');
                 if (user.photoURL) {
                     avatarImg.src = user.photoURL;
@@ -1022,7 +1022,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                 }
             } else {
                 avatarBtn.style.display = 'none';
-                authNavLink.textContent = '登入';
+                authNavLink.textContent = '로그인';
                 authNavLink.classList.remove('logout');
             }
         });
@@ -1086,17 +1086,17 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
-            <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <h4>개인정보 처리 방침</h4>
+            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 추적，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
+            <h4>연락처</h4>
             <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 양철 스튜디오 LZTX Studio</span>
     </div>
 </div>
 </body>

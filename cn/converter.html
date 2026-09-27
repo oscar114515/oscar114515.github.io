@@ -468,15 +468,15 @@
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
                             <img id="avatarImg" style="display:none;" alt="頭像">
                         </button>
                     </li>
-                    <li><a href="/cn/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/cn/privacy.html">隐私政策</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     
                 </ul>
@@ -487,16 +487,16 @@
     <div class="content-wrapper">
         <div class="card">
             <h1><i class="fas fa-exchange-alt" style="color:#007bff"></i> 單位轉換器</h1>
-            <div class="subhead">涵蓋全球所有常用單位，即時換算</div>
+            <div class="subhead">涵蓋全球所有常用單位，即时換算</div>
             
             <div class="category-tabs">
-                <button class="cat-btn active" data-cat="length">📏 長度</button>
+                <button class="cat-btn active" data-cat="length">📏 长度</button>
                 <button class="cat-btn" data-cat="weight">⚖️ 重量</button>
                 <button class="cat-btn" data-cat="temperature">🌡️ 溫度</button>
                 <button class="cat-btn" data-cat="area">📐 面積</button>
                 <button class="cat-btn" data-cat="volume">🧊 容量</button>
                 <button class="cat-btn" data-cat="speed">🚀 速度</button>
-                <button class="cat-btn" data-cat="time">⏱️ 時間</button>
+                <button class="cat-btn" data-cat="time">⏱️ 时間</button>
                 <button class="cat-btn" data-cat="data">💾 數據</button>
                 <button class="cat-btn" data-cat="energy">⚡ 能量</button>
                 <button class="cat-btn" data-cat="pressure">🔧 壓力</button>
@@ -533,11 +533,11 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人數據。所有工具均在本地浏览器運行，不會將你的數據上傳至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享數據。</p>
+            <p>本站不收集任何个人數據。所有工具均在本地浏览器運行，不会將你的數據上傳至任何服務器。我们不使用 Cookie 追踪，也不與第三方共享數據。</p>
         </div>
         <div class="footer-col">
-            <h4>聯繫我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創開發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同學的个人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認證功能。</p>
             <p>郵箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
@@ -582,7 +582,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -591,14 +591,14 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 登录
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密碼"></div>
                     <div class="captcha-row">
                         <label class="captcha-label">驗證碼</label>
                         <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
@@ -720,7 +720,7 @@
             hideLoading();
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '登录';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', openAuthModal);
@@ -759,7 +759,7 @@
         }
 
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google 登录中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -771,17 +771,17 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登录失敗：' + e.message, 'error');
                 }
             }
         }
         async function handleRegister() {
             const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
             if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有欄位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2个字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4个字元', 'error'); return; }
             if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼錯誤，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗證碼错誤，請重新獲取', 'error'); return; }
             showLoading('註冊中...');
             registerSubmitBtn.disabled = true;
             registerSubmitBtn.innerHTML = '<span class="spinner"></span>註冊中...';
@@ -803,12 +803,12 @@
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
             if (!name || !pw) { showMsg(loginMessage, '請輸入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            showLoading('登录中...');
             loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登录中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -824,7 +824,7 @@
                 if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
                 hideLoading();
             } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; }
         }
         function handleLogout() {
             showLoading('登出中...');
@@ -858,10 +858,10 @@
                     });
                 }
                 if (allUsers.length === 0) {
-                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">没有任何用戶</p>';
                     return;
                 }
-                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊时間</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
@@ -874,7 +874,7 @@
             }
         }
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+            if (!confirm('确定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
@@ -886,7 +886,7 @@
         // ===== 單位轉換功能 =====
         const categories = {
             length: {
-                name: '長度',
+                name: '长度',
                 units: {
                     m: { name: '米 (m)', factor: 1 },
                     km: { name: '公里 (km)', factor: 1000 },
@@ -920,7 +920,7 @@
                 units: {
                     C: { name: '攝氏 (°C)' },
                     F: { name: '華氏 (°F)' },
-                    K: { name: '開爾文 (K)' }
+                    K: { name: '开爾文 (K)' }
                 },
                 special: true
             },
@@ -954,19 +954,19 @@
                 name: '速度',
                 units: {
                     ms: { name: '米/秒 (m/s)', factor: 1 },
-                    kmh: { name: '公里/時 (km/h)', factor: 0.277778 },
-                    mph: { name: '英里/時 (mph)', factor: 0.44704 },
+                    kmh: { name: '公里/时 (km/h)', factor: 0.277778 },
+                    mph: { name: '英里/时 (mph)', factor: 0.44704 },
                     knot: { name: '節 (kn)', factor: 0.514444 },
                     mach: { name: '馬赫 (Mach)', factor: 343 }
                 }
             },
             time: {
-                name: '時間',
+                name: '时間',
                 units: {
                     s: { name: '秒 (s)', factor: 1 },
                     ms: { name: '毫秒 (ms)', factor: 0.001 },
                     min: { name: '分鐘 (min)', factor: 60 },
-                    h: { name: '小時 (h)', factor: 3600 },
+                    h: { name: '小时 (h)', factor: 3600 },
                     d: { name: '天 (d)', factor: 86400 },
                     wk: { name: '週 (wk)', factor: 604800 },
                     mo: { name: '月 (mo)', factor: 2592000 },
@@ -994,9 +994,9 @@
                     kJ: { name: '千焦 (kJ)', factor: 1000 },
                     cal: { name: '卡路里 (cal)', factor: 4.184 },
                     kcal: { name: '大卡 (kcal)', factor: 4184 },
-                    Wh: { name: '瓦時 (Wh)', factor: 3600 },
+                    Wh: { name: '瓦时 (Wh)', factor: 3600 },
                     kWh: { name: '度 (kWh)', factor: 3600000 },
-                    eV: { name: '電子伏特 (eV)', factor: 1.602e-19 },
+                    eV: { name: '电子伏特 (eV)', factor: 1.602e-19 },
                     BTU: { name: 'BTU', factor: 1055.06 }
                 }
             },

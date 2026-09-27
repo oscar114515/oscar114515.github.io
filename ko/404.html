@@ -270,19 +270,19 @@
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/ko/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">로그인</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="아바타">
                         </button>
                     </li>
-                    <li><a href="/ko/privacy.html">隱私政策</a></li>
-                    <li><a href="#" id="contactBtn">聯繫我們</a></li>
+                    <li><a href="/ko/privacy.html">개인정보 처리 방침</a></li>
+                    <li><a href="#" id="contactBtn">연락처</a></li>
                 </ul>
             </div>
         </nav>
@@ -293,14 +293,14 @@
         <div class="error-code">404</div>
         <div class="error-title">頁面不存在</div>
         <div class="error-desc">您訪問的頁面不存在或已被移除。<br>請檢查網址是否正確，或返回首頁繼續浏览。</div>
-        <a href="/ko/index.html" class="home-btn">
+        <a href="/zh/index.html" class="home-btn">
             <i class="fas fa-home"></i> 返回首頁
         </a>
     </div>
 
-    <div class="footer">© 2026 梁喆同學工作室LZTX Studio</div>
+    <div class="footer">© 2026 양철 스튜디오 LZTX Studio</div>
 
-    <!-- ===== 聯繫我們彈窗 ===== -->
+    <!-- ===== 연락처彈窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="divider"></div>
@@ -316,14 +316,14 @@
         </div>
     </div>
 
-    <!-- ===== 登入彈窗 ===== -->
+    <!-- ===== 로그인彈窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
             <div class="brand"><h2>歡迎你的使用</h2></div>
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
-                <button class="action-btn danger" id="authLogoutBtn">登出</button>
+                <button class="action-btn danger" id="authLogoutBtn">로그아웃</button>
                 <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
             </div>
             <div id="authPanel">
@@ -335,7 +335,7 @@
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <button class="action-btn" id="loginSubmitBtn">로그인</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -344,14 +344,14 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 로그인
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
                     <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="확인密碼"></div>
                     <div class="captcha-row">
                         <label class="captcha-label">驗證碼</label>
                         <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請輸入驗證碼" autocomplete="off">
@@ -379,15 +379,15 @@
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
             <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">로딩 중...</p></div>
         </div>
     </div>
 
-    <!-- ===== 加載中彈窗 ===== -->
+    <!-- ===== 로드中彈窗 ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">載入中...</p>
+            <p id="loadingText">로딩 중...</p>
         </div>
     </div>
 
@@ -410,11 +410,11 @@
         const db = firebase.database();
 
         // ============================================================
-        // 2. 加載彈窗控制
+        // 2. 로드彈窗控制
         // ============================================================
         let loadingTimer = null;
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingText').textContent = text || '로딩 중...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -471,7 +471,7 @@
         }
 
         // ============================================================
-        // 4. 頭像與 UI 控制
+        // 4. 아바타與 UI 控制
         // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
@@ -543,7 +543,7 @@
         }
 
         function showUI(user) {
-            authNavLink.textContent = '登出';
+            authNavLink.textContent = '로그아웃';
             authNavLink.className = 'auth-link logout';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -551,7 +551,7 @@
             if (user.photo) updateAvatar(user.photo, user.name);
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '로그인';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -573,7 +573,7 @@
         }
 
         // ============================================================
-        // 6. 登入 / 註冊
+        // 6. 로그인 / 註冊
         // ============================================================
         async function handleLogin() {
             const name = loginName.value.trim();
@@ -581,7 +581,7 @@
             if (!name) { showMsg(loginMessage, '請輸入姓名', 'error'); return; }
             if (!password) { showMsg(loginMessage, '請輸入密碼', 'error'); return; }
             loginSubmit.disabled = true;
-            showLoading('登入中...');
+            showLoading('로그인中...');
             try {
                 const snapshot = await db.ref('users').once('value');
                 const users = snapshot.val() || {};
@@ -599,14 +599,14 @@
                     const firebaseUser = userCredential.user;
                     const ud = { name: foundUser.name, email: firebaseUser.email, photo: foundUser.photo || firebaseUser.photoURL, uid: firebaseUser.uid };
                     localStorage.setItem('currentUser', JSON.stringify(ud));
-                    showMsg(loginMessage, '登入成功！', 'success');
+                    showMsg(loginMessage, '로그인성공！', 'success');
                     setTimeout(() => { closeAuthModal(); hideLoading(); loginName.value = ''; loginPassword.value = ''; }, 1000);
                 } else {
                     showMsg(loginMessage, '姓名或錯誤', 'error');
                     hideLoading();
                 }
             } catch (err) {
-                showMsg(loginMessage, '登入失敗: ' + err.message, 'error');
+                showMsg(loginMessage, '로그인失敗: ' + err.message, 'error');
                 hideLoading();
             }
             loginSubmit.disabled = false;
@@ -641,7 +641,7 @@
                 const firebaseUser = userCredential.user;
                 const ud = { name, email: firebaseUser.email, photo: firebaseUser.photoURL, uid: firebaseUser.uid };
                 localStorage.setItem('currentUser', JSON.stringify(ud));
-                showMsg(registerMessage, '註冊成功！', 'success');
+                showMsg(registerMessage, '註冊성공！', 'success');
                 setTimeout(() => { closeAuthModal(); hideLoading(); regName.value = ''; regPassword.value = ''; regConfirmPassword.value = ''; }, 1000);
             } catch (err) {
                 showMsg(registerMessage, '註冊失敗: ' + err.message, 'error');
@@ -651,7 +651,7 @@
         }
 
         async function googleLogin() {
-            showLoading('載入中...');
+            showLoading('로딩 중...');
             try {
                 const provider = new firebase.auth.GoogleAuthProvider();
                 const result = await auth.signInWithPopup(provider);
@@ -661,7 +661,7 @@
                 closeAuthModal();
                 hideLoading();
             } catch (err) {
-                showMsg(loginMessage, 'Google 登入失敗: ' + err.message, 'error');
+                showMsg(loginMessage, 'Google 로그인失敗: ' + err.message, 'error');
                 hideLoading();
             }
         }
@@ -713,7 +713,7 @@
         });
 
         // ============================================================
-        // 8. 聯繫我們
+        // 8. 연락처
         // ============================================================
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
