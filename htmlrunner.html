@@ -248,7 +248,22 @@
             top: 0 !important;
         }
 
-    </style>
+    
+        .lang-switcher {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+            max-width: 140px;
+        }
+        .lang-switcher:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+</style>
 </head>
 <body>
     <div class="navbar-wrapper">
@@ -704,6 +719,21 @@
             color: #8a9bb0;
             padding-top: 15px;
             border-top: 1px solid #eef2f7;
+        }
+
+        .lang-switcher {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+            max-width: 140px;
+        }
+        .lang-switcher:focus {
+            outline: none;
+            border-color: #007bff;
         }
 </style>\n</head>\n<body>\n    <h1>CSS 樣式示例</h1>\n</body>\n</html>',
             js: '<!DOCTYPE html>\n<html>\n<body>\n    <h1 id="demo">點擊按鈕</h1>\n    <button onclick="document.getElementById(\'demo\').innerHTML = Date()">時間</button>\n</body>\n</html>',
