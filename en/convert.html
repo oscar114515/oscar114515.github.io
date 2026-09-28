@@ -48,7 +48,7 @@
             border-bottom: 1px solid #ddd; width: 100%;
         }
         .logo a { display: flex; align-items: center; }
-        .logo img { height: 50px; width: auto; display: block; }
+        .logo img { width: 162px; height: 50px; display: block; flex-shrink: 0; min-width: 162px; min-height: 50px; }
         .nav-right { display: flex; align-items: center; gap: 1.2rem; }
         .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
         .nav-links a { text-decoration: none; color: #007bff; font-size: 1rem; cursor: pointer; }
@@ -346,7 +346,7 @@
             align-items: center;
         }
 </style>
-    <script src="lang-switch.js"></script>
+    
 </head>
 <body>
 
@@ -873,7 +873,7 @@
             } else if (targetExt === 'HTML') {
                 const htmlContent = `<!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>轉換结果</title>    <script src="lang-switch.js"></script>
+<head><meta charset="UTF-8"><title>轉換结果</title>    
 </head>
 <body>
 <pre>${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
@@ -881,7 +881,7 @@
 <script>
 function switchLanguageInline(targetLang) {
     const path = window.location.pathname;
-    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    const langOrder = ['zh', 'cn', 'en'];
     let pagePath = 'index.html';
     for (const lang of langOrder) {
         const prefix = '/' + lang + '/';
@@ -896,7 +896,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sel = document.getElementById('langSwitcherInline');
     if (sel) {
         const path = window.location.pathname;
-        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        const langOrder = ['zh', 'cn', 'en'];
         for (const lang of langOrder) {
             if (path.includes('/' + lang + '/')) {
                 sel.value = lang;
@@ -1173,7 +1173,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
 <script>
 function switchLanguageInline(targetLang) {
     const path = window.location.pathname;
-    const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+    const langOrder = ['zh', 'cn', 'en'];
     let pagePath = 'index.html';
     for (const lang of langOrder) {
         const prefix = '/' + lang + '/';
@@ -1188,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const sel = document.getElementById('langSwitcherInline');
     if (sel) {
         const path = window.location.pathname;
-        const langOrder = ['zh', 'cn', 'en', 'ko', 'ja'];
+        const langOrder = ['zh', 'cn', 'en'];
         for (const lang of langOrder) {
             if (path.includes('/' + lang + '/')) {
                 sel.value = lang;
