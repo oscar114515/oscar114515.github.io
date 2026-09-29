@@ -418,7 +418,7 @@ body {
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 验证碼 */
+        /* CAPTCHA 验证码 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -508,12 +508,12 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="nav-right">
     <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁体中文</option>
+                            <option value="zh">繁體中文</option>
                             <option value="cn">简体中文</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-      <li><a href="#" id="publishNavLink" class="auth-link publish">发佈</a></li>
+      <li><a href="#" id="publishNavLink" class="auth-link publish">发布</a></li>
       <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
       <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="头像"></button></li>
       <li><a href="/cn/privacy.html">隐私政策</a></li>
@@ -527,13 +527,13 @@ if (new URLSearchParams(location.search).get('id')) {
     <div class="chat-header">
       <div class="logo-icon">🤖</div>
       <span class="title">AI 网页生成器</span>
-      <span class="tag">即时預览</span>
+      <span class="tag">即时预览</span>
       <button class="history-btn" id="historyToggleBtn" title="对话纪录"><i class="fas fa-bars"></i></button>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。請告诉我你想要什么样的网页，我會幫你写出完整的 HTML 並在右边即时預览。
+      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。请告诉我你想要什么样的网页，我会帮你写出完整的 HTML 并在右边即时预览。
 
-例如：「幫我做一个蓝色主題的登录页面」或「写一个有动画的圣诞树网页」。</div></div>
+例如：「帮我做一个蓝色主题的登录页面」或「写一个有动画的圣诞树网页」。</div></div>
     </div>
     <div class="chat-input-area">
       <div class="chat-input-inner">
@@ -556,10 +556,10 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="right-panel">
     <div class="preview-header">
       <div class="preview-dots"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span></div>
-      <div class="preview-urlbar" id="previewUrl">預览 · 尚未生成</div>
+      <div class="preview-urlbar" id="previewUrl">预览 · 尚未生成</div>
     </div>
     <div class="preview-content">
-      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>在左边描述你想要的网页<br>生成的结果會在这裡即时显示</div></div>
+      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>在左边描述你想要的网页<br>生成的结果会在这里即时显示</div></div>
       <iframe id="previewFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
     </div>
   </div>
@@ -568,7 +568,7 @@ if (new URLSearchParams(location.search).get('id')) {
 <div class="modal-overlay" id="contactModal">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="height:1px;background:#e8ecf0;margin:14px 0;"></div>
-    <div style="font-size:1.1rem;font-weight:500;color:#333;margin-bottom:16px;">📱 追蹤我</div>
+    <div style="font-size:1.1rem;font-weight:500;color:#333;margin-bottom:16px;">📱 追踪我</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#00AEEC" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span></button>
       <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FE3C54" xmlns="http://www.w3.org/2000/svg"><title>Xiaohongshu</title><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"/></svg></span></button>
@@ -612,9 +612,9 @@ if (new URLSearchParams(location.search).get('id')) {
         <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="设定密码 (至少4位)"></div>
         <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密码"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">验证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入验证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="验证碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">验证码</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="请输入验证码" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="验证码" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
         <button class="action-btn" id="registerSubmitBtn">注册</button>
@@ -632,7 +632,7 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="admin-modal-box">
     <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
     <h3><i class="fas fa-users"></i> 用户管理</h3>
-    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">载入中...</p></div>
   </div>
 </div>
 
@@ -640,35 +640,35 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="admin-modal-box">
     <button class="modal-close" id="closeMySitesModal"><i class="fas fa-times"></i></button>
     <h3><i class="fas fa-globe"></i> 我的网站</h3>
-    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">载入中...</p></div>
   </div>
 </div>
 
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">載入中...</p></div>
+  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">载入中...</p></div>
 </div>
 
 <div id="publishOverlay">
   <button class="pub-close" id="publishClose">✕</button>
   <div class="pub-inner">
     <div class="pub-tag">PUBLISH</div>
-    <h1>发佈你的网页</h1>
-    <p class="pub-desc">填写一个后綴，任何人都能透过这个网址访问你的作品。</p>
-    <label>网址后綴</label>
+    <h1>发布你的网页</h1>
+    <p class="pub-desc">填写一个后缀，任何人都能透过这个网址访问你的作品。</p>
+    <label>网址后缀</label>
     <div class="suffix-box"><span class="suffix-prefix">?id=</span><input id="suffixInput" type="text" placeholder="例如 abc、我的作品" autocomplete="off"></div>
     <div id="urlPreviewBox">
-      <div class="preview-label">你的网址會是</div>
+      <div class="preview-label">你的网址会是</div>
       <div id="urlPreview"></div>
-      <div id="encodeNote">⚠️ 你填写了中文或特殊符号，网址會自动编碼成上面这样（访问时完全正常，别擔心）</div>
+      <div id="encodeNote">⚠️ 你填写了中文或特殊符号，网址会自动编码成上面这样（访问时完全正常，别担心）</div>
     </div>
     <div id="publishMsg"></div>
-    <div class="pub-bottom"><button id="publishConfirm">确认发佈</button></div>
+    <div class="pub-bottom"><button id="publishConfirm">确认发布</button></div>
   </div>
 </div>
 
 <div id="viewerOverlay">
   <iframe id="viewerFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
-  <div id="viewerLoading"><div class="viewer-spin"></div><div>載入中...</div></div>
+  <div id="viewerLoading"><div class="viewer-spin"></div><div>载入中...</div></div>
 </div>
 
 <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
@@ -697,11 +697,11 @@ const AI_API = 'https://note3-prev-api.askdiandian.com/v1/chat/completions';
 const AI_MODEL = 'dots3-note-prev';
 const MAX_CONTEXT_MESSAGES = 20;
 const REFRESH_MARKER = '[[__REFRESH_SIGNAL__]]';
-// 全域快取：最后生成的干净 HTML（不含注入腳本）
+// 全域快取：最后生成的干净 HTML（不含注入脚本）
 window.__LAST_GENERATED_HTML__ = null;
 
 // ============================================================
-// 3. 注入腳本
+// 3. 注入脚本
 // ============================================================
 const IFRAME_FIX_SCRIPT = [
 '<scr'+'ipt>',
@@ -821,11 +821,11 @@ function loadIntoIframe(iframeEl, html, which) {
 }
 
 // ============================================================
-// 4. 加載弹窗
+// 4. 加载弹窗
 // ============================================================
 let loadingTimer = null;
 function showLoading(t) {
-  document.getElementById('loadingText').textContent = t || '載入中...';
+  document.getElementById('loadingText').textContent = t || '载入中...';
   document.getElementById('loadingOverlay').style.display = 'flex';
 }
 function hideLoading() {
@@ -932,7 +932,7 @@ const newChatBtn = document.getElementById('newChatBtn');
     frame.style.display = 'block';
     loadIntoIframe(frame, injectStudioBadge(data.html), 'viewer');
   }).catch(err => {
-    loading.innerHTML = '<div style="font-size:52px">❌</div><div style="font-size:17px;color:#555;margin-top:8px;">載入失败：' + err.message + '</div>';
+    loading.innerHTML = '<div style="font-size:52px">❌</div><div style="font-size:17px;color:#555;margin-top:8px;">载入失败：' + err.message + '</div>';
   });
 })();
 
@@ -1075,11 +1075,11 @@ async function googleLogin() {
 }
 async function handleRegister() {
   const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
-  if (!name || !pw || !cf) { showMsg(registerMessage, '請填写所有栏位', 'error'); return; }
+  if (!name || !pw || !cf) { showMsg(registerMessage, '请填写所有栏位', 'error'); return; }
   if (name.length < 2) { showMsg(registerMessage, '姓名至少2个字元', 'error'); return; }
   if (pw.length < 4) { showMsg(registerMessage, '密码至少4个字元', 'error'); return; }
   if (pw !== cf) { showMsg(registerMessage, '密码不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '验证碼错误，請重新獲取', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '验证码错误，请重新获取', 'error'); return; }
   showLoading('注册中...');
   registerSubmit.disabled = true;
   registerSubmit.innerHTML = '<span class="spinner"></span>注册中...';
@@ -1113,7 +1113,7 @@ async function handleRegister() {
 }
 async function handleLogin() {
   const name = loginName.value.trim(), pw = loginPassword.value;
-  if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密码', 'error'); return; }
+  if (!name || !pw) { showMsg(loginMessage, '请输入姓名和密码', 'error'); return; }
   showLoading('登录中...');
   loginSubmit.disabled = true;
   loginSubmit.innerHTML = '<span class="spinner"></span>登录中...';
@@ -1181,7 +1181,7 @@ async
         }
 
 function loadUserTable() {
-  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">载入中...</p>';
   try {
     const snap = await db.ref('users').once('value');
     const data = snap.val();
@@ -1199,11 +1199,11 @@ function loadUserTable() {
     html += '</tbody></table>';
     userTableContainer.innerHTML = html;
   } catch (e) {
-    userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失败</p>';
+    userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">载入失败</p>';
   }
 }
 window._deleteUser = async function(key, name) {
-  if (!confirm('确定要删除用户「' + name + '」嗎？此操作无法撤销。')) return;
+  if (!confirm('确定要删除用户「' + name + '」吗？此操作无法撤销。')) return;
   try {
     await db.ref('users/' + key).remove();
     loadUserTable();
@@ -1219,17 +1219,17 @@ function openMySitesModal() {
 }
 function closeMySitesModalFn() { mySitesModal.classList.remove('show'); }
 async function loadMySites() {
-  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">载入中...</p>';
   const uid = getCurrentUid();
   if (!uid) {
-    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">請先登录</p>';
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">请先登录</p>';
     return;
   }
   try {
     const snap = await db.ref('published').orderByChild('ownerUid').equalTo(uid).once('value');
     const data = snap.val();
     if (!data) {
-      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你还没有发佈任何网站</p>';
+      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你还没有发布任何网站</p>';
       return;
     }
     const list = Object.entries(data).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
@@ -1254,11 +1254,11 @@ async function loadMySites() {
     html += '</div>';
     mySitesContainer.innerHTML = html;
   } catch (e) {
-    mySitesContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失败：' + e.message + '</p>';
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">载入失败：' + e.message + '</p>';
   }
 }
 window._deleteSite = async function(key, title) {
-  if (!confirm('确定要删除网站「' + title + '」嗎？此操作无法撤销。')) return;
+  if (!confirm('确定要删除网站「' + title + '」吗？此操作无法撤销。')) return;
   try {
     await db.ref('published/' + key).remove();
     loadMySites();
@@ -1277,7 +1277,7 @@ function resetChat() {
   chatMessages.innerHTML = '';
   const row = document.createElement('div');
   row.className = 'msg-row ai';
-  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。請告诉我你想要什么样的网页，我會幫你写出完整的 HTML 並在右边即时預览。</div>';
+  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的网页生成助手。请告诉我你想要什么样的网页，我会帮你写出完整的 HTML 并在右边即时预览。</div>';
   chatMessages.appendChild(row);
   hist = [];
 }
@@ -1319,7 +1319,7 @@ async function loadHistoryList() {
 
 function renderHistory(list) {
   if (!list.length) {
-    historyList.innerHTML = '<div class="history-empty">还没有对话纪录<br>开始聊天就會自动儲存</div>';
+    historyList.innerHTML = '<div class="history-empty">还没有对话纪录<br>开始聊天就会自动储存</div>';
     return;
   }
   let html = '';
@@ -1353,7 +1353,7 @@ window._openChat = async function(chatId) {
         hist.push({ role: 'user', content: m.content });
       } else if (m.role === 'assistant') {
         if (m.isCode) {
-          const bubble = addMessage('ai', '✅ 已生成网页，請看右边預览');
+          const bubble = addMessage('ai', '✅ 已生成网页，请看右边预览');
           bubble.classList.add('code-done');
           if (m.html) showPreview(m.html);
         } else {
@@ -1364,12 +1364,12 @@ window._openChat = async function(chatId) {
     }
     highlightHistoryItem(chatId);
     historyDrawer.classList.remove('show');
-  } catch (e) { alert('載入对话失败：' + e.message); }
+  } catch (e) { alert('载入对话失败：' + e.message); }
 };
 
 window._deleteChat = async function(chatId) {
   if (!currentUid) return;
-  if (!confirm('确定要删除此对话嗎？')) return;
+  if (!confirm('确定要删除此对话吗？')) return;
   try {
     await db.ref('users/' + currentUid + '/chats/' + chatId).remove();
     if (currentChatId === chatId) {
@@ -1419,15 +1419,15 @@ loginSubmit.addEventListener('click', handleLogin);
 
 
         // ===== 安全注意 =====
-        // Firebase Realtime Database 规则請设定为：
+        // Firebase Realtime Database 规则请设定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的规则以保护用户数据
-        // ===== CAPTCHA 验证碼 =====
+        // 或更严格的规则以保护用户数据
+        // ===== CAPTCHA 验证码 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1524,7 +1524,7 @@ historyToggleBtn.addEventListener('click', function() {
 });
 historyCloseBtn.addEventListener('click', function() { historyDrawer.classList.remove('show'); });
 newChatBtn.addEventListener('click', async function() {
-  if (!currentUid) { alert('請先登录'); return; }
+  if (!currentUid) { alert('请先登录'); return; }
   await startNewChat(true);
   historyDrawer.classList.remove('show');
 });
@@ -1535,7 +1535,7 @@ newChatBtn.addEventListener('click', async function() {
 let isStreaming = false;
 let abortController = null;
 let fullContent = '';
-const SYSTEM_PROMPT = '你是「AI 网页生成器」，一个专业的前端开发助手。\n\n【核心规则】\n1. 當用户要求你「写/生成/做/修改/新增/调整」网页时，你必須從 `<!DOCTYPE html>` 开始，输出完整的 HTML 到 `</html>`，不可以只給片段。\n2. 絕对不要在代碼前后加任何解释、说明、标題、或 Markdown 格式。\n3. 絕对不要说「这是你的网页」或「以下是代碼」等任何文字。\n4. 直接输出純 HTML，讓用户可以直接复制贴上使用。\n5. **每次输出 HTML 的最后，在 `</html>` 之后，加一行 `' + REFRESH_MARKER + '`（这行是給系统的信号，用户看不到，你务必每次都加）。**\n\n【代碼要求】\n• 完整 HTML，含 style 和 script\n• 响应式（viewport + @media）\n• 配色 3-5 色，行高 1.5-1.6\n• 语意化 HTML，可存取性\n• 不依賴外部 CDN（除了 Font Awesome 等常用库）\n• 版权年份用 ' + new Date().getFullYear() + '\n\n【一般对话】\n如果用户只是问问题、咨询，没有要求写网页，用自然语言回答即可，不需要输出代碼。';
+const SYSTEM_PROMPT = '你是「AI 网页生成器」，一个专业的前端开发助手。\n\n【核心规则】\n1. 当用户要求你「写/生成/做/修改/新增/调整」网页时，你必须从 `<!DOCTYPE html>` 开始，输出完整的 HTML 到 `</html>`，不可以只给片段。\n2. 绝对不要在代码前后加任何解释、说明、标题、或 Markdown 格式。\n3. 绝对不要说「这是你的网页」或「以下是代码」等任何文字。\n4. 直接输出纯 HTML，让用户可以直接复制贴上使用。\n5. **每次输出 HTML 的最后，在 `</html>` 之后，加一行 `' + REFRESH_MARKER + '`（这行是给系统的信号，用户看不到，你务必每次都加）。**\n\n【代码要求】\n• 完整 HTML，含 style 和 script\n• 响应式（viewport + @media）\n• 配色 3-5 色，行高 1.5-1.6\n• 语意化 HTML，可存取性\n• 不依赖外部 CDN（除了 Font Awesome 等常用库）\n• 版权年份用 ' + new Date().getFullYear() + '\n\n【一般对话】\n如果用户只是问问题、咨询，没有要求写网页，用自然语言回答即可，不需要输出代码。';
 
 function addMessage(role, text) {
   const row = document.createElement('div');
@@ -1571,10 +1571,10 @@ function extractHTML(text) {
   return null;
 }
 function forceRefreshPreview(html) {
-  // 关键：存进全域快取，讓发佈功能能读取
+  // 关键：存进全域快取，让发布功能能读取
   window.__LAST_GENERATED_HTML__ = html;
   emptyState.style.display = 'none';
-  previewUrl.textContent = '預览 · 已生成';
+  previewUrl.textContent = '预览 · 已生成';
   loadIntoIframe(previewFrame, injectFix(html), 'preview');
 }
 function showPreview(html) {
@@ -1661,7 +1661,7 @@ async function sendMsg() {
     const cleanText = fullContent.replace(REFRESH_MARKER, '').trim();
     const html = extractHTML(fullContent);
     if (html) {
-      bubble.textContent = '✅ 已生成网页，請看右边預览';
+      bubble.textContent = '✅ 已生成网页，请看右边预览';
       bubble.classList.add('code-done');
       forceRefreshPreview(html);
       hist.push({ role: 'assistant', content: html, isCode: true, html: html });
@@ -1703,7 +1703,7 @@ chatInput.oninput = function() {
 };
 
 // ============================================================
-// 16. 发佈功能
+// 16. 发布功能
 // ============================================================
 function getCurrentHTML() {
   // 直接读全域快取（Blob URL 模式下 srcdoc 永远空）
@@ -1738,9 +1738,9 @@ function showPublishMsg(text, type) {
 publishNavLink.addEventListener('click', function(e) {
   e.preventDefault();
   const uid = getCurrentUid();
-  if (!uid) { alert('請先登录才能发佈网页'); openAuthModal(); return; }
+  if (!uid) { alert('请先登录才能发布网页'); openAuthModal(); return; }
   const html = getCurrentHTML();
-  if (!html) { alert('請先在左边讓 AI 生成一个网页，再进行发佈'); return; }
+  if (!html) { alert('请先在左边让 AI 生成一个网页，再进行发布'); return; }
   publishMsg.style.display = 'none';
   suffixInput.value = '';
   urlPreviewBox.style.display = 'none';
@@ -1750,20 +1750,20 @@ publishNavLink.addEventListener('click', function(e) {
 publishClose.addEventListener('click', function() { publishOverlay.style.display = 'none'; });
 publishConfirm.addEventListener('click', async function() {
   const suffix = suffixInput.value;
-  if (!suffix.trim()) { showPublishMsg('請填写后綴', 'error'); return; }
+  if (!suffix.trim()) { showPublishMsg('请填写后缀', 'error'); return; }
   const html = getCurrentHTML();
-  if (!html) { showPublishMsg('找不到要发佈的网页，請重新生成', 'error'); return; }
+  if (!html) { showPublishMsg('找不到要发布的网页，请重新生成', 'error'); return; }
   const uid = getCurrentUid();
-  if (!uid) { showPublishMsg('登录狀態已失效，請重新登录', 'error'); return; }
+  if (!uid) { showPublishMsg('登录状态已失效，请重新登录', 'error'); return; }
   publishConfirm.disabled = true;
-  publishConfirm.textContent = '发佈中...';
+  publishConfirm.textContent = '发布中...';
   try {
     const safeKey = encodeURIComponent(suffix);
     const check = await db.ref('published/' + safeKey).once('value');
     if (check.exists()) {
-      showPublishMsg('此后綴已被使用，請换一个', 'error');
+      showPublishMsg('此后缀已被使用，请换一个', 'error');
       publishConfirm.disabled = false;
-      publishConfirm.textContent = '确认发佈';
+      publishConfirm.textContent = '确认发布';
       return;
     }
     const user = auth.currentUser;
@@ -1777,15 +1777,15 @@ publishConfirm.addEventListener('click', async function() {
     const fullUrl = buildBaseUrl() + safeKey;
     try {
       await navigator.clipboard.writeText(fullUrl);
-      showPublishMsg('✅ 发佈成功！网址已复制到剪贴簿：\n' + fullUrl, 'success');
+      showPublishMsg('✅ 发布成功！网址已复制到剪贴簿：\n' + fullUrl, 'success');
     } catch (e) {
-      showPublishMsg('✅ 发佈成功！你的网址：\n' + fullUrl, 'success');
+      showPublishMsg('✅ 发布成功！你的网址：\n' + fullUrl, 'success');
     }
   } catch (err) {
-    showPublishMsg('发佈失败：' + err.message, 'error');
+    showPublishMsg('发布失败：' + err.message, 'error');
   } finally {
     publishConfirm.disabled = false;
-    publishConfirm.textContent = '确认发佈';
+    publishConfirm.textContent = '确认发布';
   }
 });
 
@@ -1834,11 +1834,11 @@ console.log('AI 网页生成器已启动');
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何个人数据。所有工具均在本地浏览器运行，不會將你的数据上传至任何服务器。我们不使用 Cookie 追踪，也不与第三方共享数据。</p>
+            <p>本站不收集任何个人数据。所有工具均在本地浏览器运行，不会将你的数据上传至任何服务器。我们不使用 Cookie 追踪，也不与第三方共享数据。</p>
         </div>
         <div class="footer-col">
             <h4>联系我们</h4>
-            <p>这是梁喆同学的个人作品集网站，上面所有工具均由原创开发。网站使用 GitHub Pages 托管，並整合了 Firebase 认证功能。</p>
+            <p>这是梁喆同学的个人作品集网站，上面所有工具均由原创开发。网站使用 GitHub Pages 托管，并整合了 Firebase 认证功能。</p>
             <p>邮箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
