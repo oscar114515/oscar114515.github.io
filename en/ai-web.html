@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <script async src="https://ss.mrmnd.com/static/8e6e2b64-e447-4835-9383-b3690481621b.js"></script>
     <meta name="mnd-ver" content="tlr5gwjihbdf9nqy1inwfa" />
@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AI Webpage generator</title>
+<title>AI Web Page Generator</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -376,7 +376,7 @@ body {
 }
 .viewer-spin { width: 40px; height: 40px; border: 4px solid #ddd; border-top-color: #1e5ef7; border-radius: 50%; animation: spin 0.8s linear infinite; }
 
-        /* ===== 站尾资讯 ===== */
+        /* ===== Footer Info ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -418,7 +418,7 @@ body {
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗证碼 */
+        /* CAPTCHA Captcha */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -504,20 +504,20 @@ if (new URLSearchParams(location.search).get('id')) {
 </script>
 
 <nav class="navbar">
-  <div class="logo"><a href="/en/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
+  <div class="logo"><a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a></div>
   <div class="nav-right">
     <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
-                            <option value="cn">简体中文</option>
+                            <option value="zh">Traditional Chinese</option>
+                            <option value="cn">Simplified Chinese</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-      <li><a href="#" id="publishNavLink" class="auth-link publish">發佈</a></li>
-      <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
-      <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="頭像"></button></li>
-      <li><a href="/en/privacy.html">Privacy Policy</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+      <li><a href="#" id="publishNavLink" class="auth-link publish">Publish</a></li>
+      <li><a href="#" id="authNavLink" class="auth-link">Login</a></li>
+      <li><button class="avatar-btn" id="avatarBtn"><div class="default-avatar" id="avatarPlaceholder">👤</div><img id="avatarImg" style="display:none;" alt="Avatar"></button></li>
+      <li><a href="/zh/privacy.html">Privacy Policy</a></li>
+                    <li><a href="#" id="contactBtn">Contact Us</a></li>
     </ul>
   </div>
 </nav>
@@ -526,29 +526,29 @@ if (new URLSearchParams(location.search).get('id')) {
   <div class="left-panel">
     <div class="chat-header">
       <div class="logo-icon">🤖</div>
-      <span class="title">AI Webpage generator</span>
-      <span class="tag">即時預覽</span>
-      <button class="history-btn" id="historyToggleBtn" title="對话纪錄"><i class="fas fa-bars"></i></button>
+      <span class="title">AI Web Page Generator</span>
+      <span class="tag">Live Preview</span>
+      <button class="history-btn" id="historyToggleBtn" title="Conversation History"><i class="fas fa-bars"></i></button>
     </div>
     <div class="chat-messages" id="chatMessages">
-      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的Webpage generation assistant。請告诉我你想要什麼样的网页，我會幫你寫出Complete的 HTML 並在右边即時預覽。
+      <div class="msg-row ai"><div class="msg-avatar">🤖</div><div class="msg-bubble">Hi! I am your web page generation assistant. Tell me what kind of page you want, and I will write the complete HTML and preview it live on the right.
 
-For example:「幫我做一個藍色主題的登入页面」或「寫一個有動画的圣诞树网页」。</div></div>
+e.g.：「helpImakea blue color-theme login page」or「write an animated Christmas tree web page」。</div></div>
     </div>
     <div class="chat-input-area">
       <div class="chat-input-inner">
-        <textarea id="chatInput" rows="1" placeholder="Describe the webpage you want…"></textarea>
-        <button class="btn-send" id="sendBtn">传送</button>
-        <button class="btn-stop" id="stopBtn">停止</button>
+        <textarea id="chatInput" rows="1" placeholder="Describe the page you want..."></textarea>
+        <button class="btn-send" id="sendBtn">Send</button>
+        <button class="btn-stop" id="stopBtn">Stop</button>
       </div>
     </div>
 
     <div class="history-drawer" id="historyDrawer">
       <div class="history-drawer-header">
-        <span class="title">對话纪錄</span>
+        <span class="title">Conversation History</span>
         <button class="close-btn" id="historyCloseBtn">✕</button>
       </div>
-      <button class="history-new-btn" id="newChatBtn"><i class="fas fa-plus"></i> 新對话</button>
+      <button class="history-new-btn" id="newChatBtn"><i class="fas fa-plus"></i> New Chat</button>
       <div class="history-list" id="historyList"></div>
     </div>
   </div>
@@ -556,10 +556,10 @@ For example:「幫我做一個藍色主題的登入页面」或「寫一個有�
   <div class="right-panel">
     <div class="preview-header">
       <div class="preview-dots"><span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span></div>
-      <div class="preview-urlbar" id="previewUrl">預覽 · Not generated yet</div>
+      <div class="preview-urlbar" id="previewUrl">Preview · Not generated yet</div>
     </div>
     <div class="preview-content">
-      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>Describe the webpage you want on the left<br>Generate的结果會在這裡即時显示</div></div>
+      <div class="empty-state" id="emptyState"><div class="big">🖥️</div><div>Describe the page you want on the left<br>The result will appear here in real time</div></div>
       <iframe id="previewFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
     </div>
   </div>
@@ -568,7 +568,7 @@ For example:「幫我做一個藍色主題的登入页面」或「寫一個有�
 <div class="modal-overlay" id="contactModal">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="height:1px;background:#e8ecf0;margin:14px 0;"></div>
-    <div style="font-size:1.1rem;font-weight:500;color:#333;margin-bottom:16px;">📱 追蹤我</div>
+    <div style="font-size:1.1rem;font-weight:500;color:#333;margin-bottom:16px;">📱 Follow Me</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
       <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#00AEEC" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span></button>
       <button style="padding:12px 0;border:1px solid #dce3ed;border-radius:40px;background:#fff;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FE3C54" xmlns="http://www.w3.org/2000/svg"><title>Xiaohongshu</title><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031-.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034-.38 0 .078-.029-.641-.724-.998z"/></svg></span></button>
@@ -582,46 +582,46 @@ For example:「幫我做一個藍色主題的登入页面」或「寫一個有�
 
 <div class="modal-overlay" id="authModal">
   <div class="modal-box">
-    <div class="brand"><h2>Welcome to use</h2></div>
+    <div class="brand"><h2>Welcome</h2></div>
     <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
       <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
       <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
       <button class="action-btn danger" id="authLogoutBtn">Logout</button>
-      <button class="admin-btn-small" id="authMySitesBtn"><i class="fas fa-globe"></i> My website</button>
-      <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+      <button class="admin-btn-small" id="authMySitesBtn"><i class="fas fa-globe"></i> My Site</button>
+      <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> User Management</button>
     </div>
     <div id="authPanel">
       <div class="tab-switch">
-        <button class="tab-btn active" id="loginTabBtn">登錄</button>
-        <button class="tab-btn" id="registerTabBtn">註冊</button>
+        <button class="tab-btn active" id="loginTabBtn">Login</button>
+        <button class="tab-btn" id="registerTabBtn">Register</button>
       </div>
       <div id="loginPanel" class="form-panel">
         <div id="loginMessage" class="message-box"></div>
-        <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-        <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-        <button class="action-btn" id="loginSubmitBtn">登入</button>
-        <div class="divider"><span>或</span></div>
+        <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="Name"></div>
+        <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="Password"></div>
+        <button class="action-btn" id="loginSubmitBtn">Login</button>
+        <div class="divider"><span>or</span></div>
         <button class="google-btn" id="googleLoginBtn">
           <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Use Google 登入
+          Sign in with Google
         </button>
       </div>
       <div id="registerPanel" class="form-panel hidden">
         <div id="registerMessage" class="message-box"></div>
-        <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-        <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (At least4位)"></div>
-        <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+        <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="Name"></div>
+        <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="Set password (min 4 chars)"></div>
+        <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="Confirm Password"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請Input驗证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
-                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新Generate">↻</button>
+                        <label class="captcha-label">Captcha</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="Please enter the captcha" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="Captcha" onclick="refreshRegisterCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="Regenerate">↻</button>
                     </div>
-        <button class="action-btn" id="registerSubmitBtn">註冊</button>
-        <div class="divider"><span>或</span></div>
+        <button class="action-btn" id="registerSubmitBtn">Register</button>
+        <div class="divider"><span>or</span></div>
         <button class="google-btn" id="googleRegisterBtn">
           <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Use Google 註冊
+          Sign up with Google
         </button>
       </div>
     </div>
@@ -631,44 +631,44 @@ For example:「幫我做一個藍色主題的登入页面」或「寫一個有�
 <div class="admin-modal-overlay" id="adminModal">
   <div class="admin-modal-box">
     <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
-    <h3><i class="fas fa-users"></i> 用戶管理</h3>
-    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+    <h3><i class="fas fa-users"></i> User Management</h3>
+    <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p></div>
   </div>
 </div>
 
 <div class="admin-modal-overlay" id="mySitesModal">
   <div class="admin-modal-box">
     <button class="modal-close" id="closeMySitesModal"><i class="fas fa-times"></i></button>
-    <h3><i class="fas fa-globe"></i> My website</h3>
-    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+    <h3><i class="fas fa-globe"></i> My Site</h3>
+    <div id="mySitesContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p></div>
   </div>
 </div>
 
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">載入中...</p></div>
+  <div class="loading-box"><div class="loading-spinner-full"></div><p id="loadingText">Loading...</p></div>
 </div>
 
 <div id="publishOverlay">
   <button class="pub-close" id="publishClose">✕</button>
   <div class="pub-inner">
     <div class="pub-tag">PUBLISH</div>
-    <h1>發佈你的网页</h1>
-    <p class="pub-desc">填寫一個後綴，任何人都能透過這個网址访問你的作品。</p>
-    <label>网址後綴</label>
-    <div class="suffix-box"><span class="suffix-prefix">?id=</span><input id="suffixInput" type="text" placeholder="例如 abc、我的作品" autocomplete="off"></div>
+    <h1>Publish Your Page</h1>
+    <p class="pub-desc">Enter a suffix; anyone can visit your work via this URL.</p>
+    <label>URL Suffix</label>
+    <div class="suffix-box"><span class="suffix-prefix">?id=</span><input id="suffixInput" type="text" placeholder="e.g. abc, mywork" autocomplete="off"></div>
     <div id="urlPreviewBox">
-      <div class="preview-label">你的网址會是</div>
+      <div class="preview-label">Your URL will be</div>
       <div id="urlPreview"></div>
-      <div id="encodeNote">⚠️ 你填寫了中文或特殊符號，网址會自動编碼成上面這样（访問時完全正常，別擔心）</div>
+      <div id="encodeNote">⚠️ You entered Chinese or special characters; the URL is auto-encoded as above (works fine, don't worry)</div>
     </div>
     <div id="publishMsg"></div>
-    <div class="pub-bottom"><button id="publishConfirm">確認發佈</button></div>
+    <div class="pub-bottom"><button id="publishConfirm">Confirm Publish</button></div>
   </div>
 </div>
 
 <div id="viewerOverlay">
   <iframe id="viewerFrame" allow="clipboard-write; clipboard-read; fullscreen; autoplay; encrypted-media" referrerpolicy="no-referrer"></iframe>
-  <div id="viewerLoading"><div class="viewer-spin"></div><div>載入中...</div></div>
+  <div id="viewerLoading"><div class="viewer-spin"></div><div>Loading...</div></div>
 </div>
 
 <canvas id="avatarCanvas" width="420" height="420" style="display:none;"></canvas>
@@ -690,26 +690,26 @@ const auth = firebase.auth();
 const db = firebase.database();
 
 // ============================================================
-// 2. AI 設定
+// 2. AI Settings
 // ============================================================
 const AI_KEY = 'ak_txnGh9EwAE2IWe0e7lJHKfghJbGwU';
 const AI_API = 'https://note3-prev-api.askdiandian.com/v1/chat/completions';
 const AI_MODEL = 'dots3-note-prev';
 const MAX_CONTEXT_MESSAGES = 20;
 const REFRESH_MARKER = '[[__REFRESH_SIGNAL__]]';
-// 全域快取：最後Generate的乾淨 HTML（不含注入腳本）
+// Global Cache：lastGenerateclean HTML（No injected scripts）
 window.__LAST_GENERATED_HTML__ = null;
 
 // ============================================================
-// 3. 注入腳本
+// 3. Injected scripts
 // ============================================================
 const IFRAME_FIX_SCRIPT = [
 '<scr'+'ipt>',
 '(function(){',
 'function bm(h){var d=document.createElement("div");d.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2147483647;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;";d.innerHTML=h;document.body.appendChild(d);return d;}',
-'window.alert=function(m){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><button id=\\"__ok\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div>");d.querySelector("#__ok").onclick=function(){d.remove();};};',
-'window.confirm=function(m){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><div style=\\"display:flex;gap:10px;justify-content:center;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");d.querySelector("#__k").onclick=function(){d.remove();r(true);};d.querySelector("#__c").onclick=function(){d.remove();r(false);};});};',
-'window.prompt=function(m,df){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><input id=\\"__i\\" style=\\"width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;\\" value=\\""+(df?String(df).replace(/"/g,"&quot;"):"")+"\\"><div style=\\"display:flex;gap:10px;justify-content:flex-end;margin-top:16px;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">取消</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">確定</button></div></div>");var i=d.querySelector("#__i");i.focus();d.querySelector("#__k").onclick=function(){var v=i.value;d.remove();r(v);};d.querySelector("#__c").onclick=function(){d.remove();r(null);};i.onkeydown=function(e){if(e.key==="Enter"){var v=i.value;d.remove();r(v);}};});};',
+'window.alert=function(m){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><button id=\\"__ok\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 24px;border-radius:8px;cursor:pointer;font-size:14px;\\">OK</button></div>");d.querySelector("#__ok").onclick=function(){d.remove();};};',
+'window.confirm=function(m){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);text-align:center;\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:18px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><div style=\\"display:flex;gap:10px;justify-content:center;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">Cancel</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">OK</button></div></div>");d.querySelector("#__k").onclick=function(){d.remove();r(true);};d.querySelector("#__c").onclick=function(){d.remove();r(false);};});};',
+'window.prompt=function(m,df){return new Promise(function(r){var d=bm("<div style=\\"background:#fff;border-radius:14px;padding:24px 28px;max-width:340px;box-shadow:0 20px 50px rgba(0,0,0,.2);\\"><div style=\\"font-size:15px;color:#222;line-height:1.6;margin-bottom:14px;white-space:pre-wrap;\\">"+String(m).replace(/</g,"&lt;")+"</div><input id=\\"__i\\" style=\\"width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box;\\" value=\\""+(df?String(df).replace(/"/g,"&quot;"):"")+"\\"><div style=\\"display:flex;gap:10px;justify-content:flex-end;margin-top:16px;\\"><button id=\\"__c\\" style=\\"background:#f0f0f0;color:#333;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">Cancel</button><button id=\\"__k\\" style=\\"background:#1e5ef7;color:#fff;border:none;padding:8px 22px;border-radius:8px;cursor:pointer;font-size:14px;\\">OK</button></div></div>");var i=d.querySelector("#__i");i.focus();d.querySelector("#__k").onclick=function(){var v=i.value;d.remove();r(v);};d.querySelector("#__c").onclick=function(){d.remove();r(null);};i.onkeydown=function(e){if(e.key==="Enter"){var v=i.value;d.remove();r(v);}};});};',
 'var _o=window.open;window.open=function(u){if(u){var d=bm("<div style=\\"background:#fff;border-radius:14px;width:90%;height:80%;max-width:900px;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,.2);overflow:hidden;\\"><div style=\\"padding:10px 14px;background:#f5f5f5;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#333;\\"><span>🔗 "+String(u).replace(/</g,"&lt;")+"</span><button id=\\"__x\\" style=\\"background:#e0e0e0;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;\\">✕</button></div><iframe src=\\""+u+"\\" style=\\"flex:1;border:none;width:100%;\\"></iframe></div>");d.querySelector("#__x").onclick=function(){d.remove();};return d;}return _o.apply(window,arguments);};',
 '})();',
 '</scr'+'ipt>'
@@ -725,7 +725,7 @@ const STUDIO_BADGE_SCRIPT = [
 'var d=document.createElement("div");',
 'd.id="__studio_badge__";',
 'd.setAttribute("style","position:fixed!important;bottom:10px!important;left:50%!important;transform:translateX(-50%)!important;z-index:2147483647!important;background:#ffffff!important;border:1px solid #e5e7eb!important;border-radius:10px!important;box-shadow:0 4px 16px rgba(0,0,0,.15)!important;padding:6px 10px!important;display:flex!important;align-items:center!important;gap:8px!important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang HK,Microsoft JhengHei,sans-serif!important;font-size:11px!important;color:#333!important;line-height:1.4!important;max-width:94vw!important;pointer-events:auto!important;visibility:visible!important;opacity:1!important;");',
-'d.innerHTML=\'<img src="\'+LOGO+\'" style="height:22px;width:auto;display:block;flex-shrink:0;" alt="logo"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:10px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">此网站技术支援由梁喆同學工作室提供</span><button id="__studio_btn__" style="background:#1e5ef7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;white-space:nowrap;font-weight:500;">你也可以點擊這里前往AI工具免费建立网站</button></div>\';',
+'d.innerHTML=\'<img src="\'+LOGO+\'" style="height:22px;width:auto;display:block;flex-shrink:0;" alt="logo"><div style="display:flex;flex-direction:column;gap:2px;min-width:0;"><span style="font-size:10px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Technical support provided by Liang Zhe Studio</span><button id="__studio_btn__" style="background:#1e5ef7;color:#fff;border:none;border-radius:6px;padding:3px 8px;font-size:10px;cursor:pointer;font-family:inherit;white-space:nowrap;font-weight:500;">You can also click here to build a site for free with AI tools</button></div>\';',
 'document.body.appendChild(d);',
 'var btn=document.getElementById("__studio_btn__");',
 'if(btn){btn.onclick=function(){var a=document.createElement("a");a.href=LINK;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();document.body.removeChild(a);};}',
@@ -821,11 +821,11 @@ function loadIntoIframe(iframeEl, html, which) {
 }
 
 // ============================================================
-// 4. 加載弹窗
+// 4. Loading modal
 // ============================================================
 let loadingTimer = null;
 function showLoading(t) {
-  document.getElementById('loadingText').textContent = t || '載入中...';
+  document.getElementById('loadingText').textContent = t || 'Loading...';
   document.getElementById('loadingOverlay').style.display = 'flex';
 }
 function hideLoading() {
@@ -837,7 +837,7 @@ function hideLoading() {
 }
 
 // ============================================================
-// 5. DOM 元素
+// 5. DOM Element
 // ============================================================
 const authNavLink = document.getElementById('authNavLink');
 const avatarBtn = document.getElementById('avatarBtn');
@@ -899,7 +899,7 @@ const historyList = document.getElementById('historyList');
 const newChatBtn = document.getElementById('newChatBtn');
 
 // ============================================================
-// 6. 访問模式
+// 6. Visitmode
 // ============================================================
 (function checkViewerMode() {
   const viewerId = new URLSearchParams(location.search).get('id');
@@ -924,7 +924,7 @@ const newChatBtn = document.getElementById('newChatBtn');
   db.ref('published/' + safeKey).once('value').then(snap => {
     const data = snap.val();
     if (!data || !data.html) {
-      loading.innerHTML = '<div style="font-size:52px">🔍</div><div style="font-size:17px;color:#555;margin-top:8px;">此网页不存在或已被刪除</div>';
+      loading.innerHTML = '<div style="font-size:52px">🔍</div><div style="font-size:17px;color:#555;margin-top:8px;">This page does not exist or has been deleted</div>';
       return;
     }
     document.title = data.title || viewerId;
@@ -932,12 +932,12 @@ const newChatBtn = document.getElementById('newChatBtn');
     frame.style.display = 'block';
     loadIntoIframe(frame, injectStudioBadge(data.html), 'viewer');
   }).catch(err => {
-    loading.innerHTML = '<div style="font-size:52px">❌</div><div style="font-size:17px;color:#555;margin-top:8px;">載入失敗：' + err.message + '</div>';
+    loading.innerHTML = '<div style="font-size:52px">❌</div><div style="font-size:17px;color:#555;margin-top:8px;">Load failed: ' + err.message + '</div>';
   });
 })();
 
 // ============================================================
-// 7. Administrator
+// 7. Admin
 // ============================================================
 function isAdmin(user) {
   if (!user) return false;
@@ -949,7 +949,7 @@ function getCurrentUid() {
 }
 
 // ============================================================
-// 8. 頭像Generate
+// 8. AvatarGenerate
 // ============================================================
 function generateIdenticon(name) {
   const seed = name || 'default';
@@ -1035,7 +1035,7 @@ function showUI(user) {
   hideLoading();
 }
 function hideUI() {
-  authNavLink.textContent = '登入';
+  authNavLink.textContent = 'Login';
   authNavLink.className = 'auth-link';
   authNavLink.removeEventListener('click', openAuthModal);
   authNavLink.removeEventListener('click', handleLogout);
@@ -1052,10 +1052,10 @@ function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable();
 function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
 // ============================================================
-// 10. Firebase 認证
+// 10. Firebase Authentication
 // ============================================================
 async function googleLogin() {
-  showLoading('Google 登入中...');
+  showLoading('Signing in with Google...');
   const provider = new firebase.auth.GoogleAuthProvider();
   try {
     const result = await auth.signInWithPopup(provider);
@@ -1069,28 +1069,28 @@ async function googleLogin() {
   } catch (e) {
     hideLoading();
     if (e.code !== 'auth/popup-closed-by-user') {
-      showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+      showMsg(loginMessage, 'Google sign-in failed: ' + e.message, 'error');
     }
   }
 }
 async function handleRegister() {
   const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
-  if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
-  if (name.length < 2) { showMsg(registerMessage, 'Name must be at least2個字元', 'error'); return; }
-  if (pw.length < 4) { showMsg(registerMessage, '密碼At least4個字元', 'error'); return; }
-  if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
-  showLoading('註冊中...');
+  if (!name || !pw || !cf) { showMsg(registerMessage, 'Please fill in all fields', 'error'); return; }
+  if (name.length < 2) { showMsg(registerMessage, 'Name must be at least 2 characters', 'error'); return; }
+  if (pw.length < 4) { showMsg(registerMessage, 'Password must be at least 4 characters', 'error'); return; }
+  if (pw !== cf) { showMsg(registerMessage, 'Passwords do not match', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, 'Incorrect captcha, please refresh', 'error'); return; }
+  showLoading('Registering...');
   registerSubmit.disabled = true;
-  registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+  registerSubmit.innerHTML = '<span class="spinner"></span>Registering...';
   try {
     const safeName = name.replace(/[.#$\[\]]/g, '_');
     const snap = await db.ref('users/' + safeName).once('value');
     if (snap.exists()) {
-      showMsg(registerMessage, '此姓名已被Use', 'error');
+      showMsg(registerMessage, 'This name is already taken', 'error');
       hideLoading();
       registerSubmit.disabled = false;
-      registerSubmit.textContent = '註冊';
+      registerSubmit.textContent = 'Register';
       return;
     }
     const avatar = generateIdenticon(name);
@@ -1104,26 +1104,26 @@ async function handleRegister() {
     regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
                 document.getElementById('registerCaptcha').value = '';
   } catch (e) {
-    showMsg(registerMessage, '註冊失敗', 'error');
+    showMsg(registerMessage, 'Registration failed', 'error');
     hideLoading();
   } finally {
     registerSubmit.disabled = false;
-    registerSubmit.textContent = '註冊';
+    registerSubmit.textContent = 'Register';
   }
 }
 async function handleLogin() {
   const name = loginName.value.trim(), pw = loginPassword.value;
-  if (!name || !pw) { showMsg(loginMessage, '請Input姓名和密碼', 'error'); return; }
-  showLoading('登入中...');
+  if (!name || !pw) { showMsg(loginMessage, 'Please enter name and password', 'error'); return; }
+  showLoading('Logging in...');
   loginSubmit.disabled = true;
-  loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+  loginSubmit.innerHTML = '<span class="spinner"></span>Logging in...';
   try {
     const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
     if (!snap.exists()) {
-      showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+      showMsg(loginMessage, 'Incorrect account or password', 'error');
       hideLoading();
       loginSubmit.disabled = false;
-      loginSubmit.textContent = '登入';
+      loginSubmit.textContent = 'Login';
       return;
     }
     let found = false;
@@ -1140,14 +1140,14 @@ async function handleLogin() {
         loginName.value = ''; loginPassword.value = '';
       }
     });
-    if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+    if (!found) showMsg(loginMessage, 'Incorrect account or password', 'error');
     hideLoading();
   } catch (e) {
-    showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+    showMsg(loginMessage, 'Incorrect account or password', 'error');
     hideLoading();
   } finally {
     loginSubmit.disabled = false;
-    loginSubmit.textContent = '登入';
+    loginSubmit.textContent = 'Login';
   }
 }
 function handleLogout() {
@@ -1169,10 +1169,10 @@ function onUserLogin(uid) {
 }
 
 // ============================================================
-// 11. 用戶管理
+// 11. User Management
 // ============================================================
 async 
-        // ===== HTML 轉義（防止 XSS） =====
+        // ===== HTML Escape（Prevent XSS） =====
         function escapeHtml(str) {
             if (str == null) return '';
             const div = document.createElement('div');
@@ -1181,37 +1181,37 @@ async
         }
 
 function loadUserTable() {
-  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p>';
   try {
     const snap = await db.ref('users').once('value');
     const data = snap.val();
     if (!data) {
-      userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+      userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">No users</p>';
       return;
     }
-    let html = '<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>';
+    let html = '<table><thead><tr><th>Name</th><th>Email</th><th>Password</th><th>Registration Time</th><th>Action</th></tr></thead><tbody>';
     for (const [key, user] of Object.entries(data)) {
-      const d = user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-HK') : '-';
+      const d = user.createdAt ? new Date(user.createdAt).toLocaleDateString('zh-HK') : '-';
       const pwDisplay = user.password ? user.password : 'Google';
       const safeName = (user.name || '').replace(/'/g, "\\'");
-      html += '<tr><td>' + (escapeHtml(user.name) || '-') + '</td><td>' + (escapeHtml(user.email) || '-') + '</td><td>' + escapeHtml(pwDisplay) + '</td><td>' + d + '</td><td><button class="delete-user-btn" onclick="window._deleteUser(\'' + key + '\',\'' + safeName + '\')"><i class="fas fa-trash"></i> 刪除</button></td></tr>';
+      html += '<tr><td>' + (escapeHtml(user.name) || '-') + '</td><td>' + (escapeHtml(user.email) || '-') + '</td><td>' + escapeHtml(pwDisplay) + '</td><td>' + d + '</td><td><button class="delete-user-btn" onclick="window._deleteUser(\'' + key + '\',\'' + safeName + '\')"><i class="fas fa-trash"></i> Delete</button></td></tr>';
     }
     html += '</tbody></table>';
     userTableContainer.innerHTML = html;
   } catch (e) {
-    userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+    userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">Load failed</p>';
   }
 }
 window._deleteUser = async function(key, name) {
-  if (!confirm('確定要刪除用戶「' + name + '」嗎？This operation cannot be undone.')) return;
+  if (!confirm('Confirm deleting user "' + name + '"? This action cannot be undone.')) return;
   try {
     await db.ref('users/' + key).remove();
     loadUserTable();
-  } catch (e) { alert('刪除失敗：' + e.message); }
+  } catch (e) { alert('Delete failed: ' + e.message); }
 };
 
 // ============================================================
-// 12. My website
+// 12. My Site
 // ============================================================
 function openMySitesModal() {
   mySitesModal.classList.add('show');
@@ -1219,24 +1219,24 @@ function openMySitesModal() {
 }
 function closeMySitesModalFn() { mySitesModal.classList.remove('show'); }
 async function loadMySites() {
-  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+  mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p>';
   const uid = getCurrentUid();
   if (!uid) {
-    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">請先登入</p>';
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Please log in first</p>';
     return;
   }
   try {
     const snap = await db.ref('published').orderByChild('ownerUid').equalTo(uid).once('value');
     const data = snap.val();
     if (!data) {
-      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">你還沒有發佈任何网站</p>';
+      mySitesContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">You have not published any site yet</p>';
       return;
     }
     const list = Object.entries(data).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
     let html = '<div class="my-sites-list">';
     const baseUrl = location.origin + location.pathname + '?id=';
     for (const [key, site] of list) {
-      const d = site.createdAt ? new Date(site.createdAt).toLocaleString('en-HK') : '-';
+      const d = site.createdAt ? new Date(site.createdAt).toLocaleString('zh-HK') : '-';
       const safeKey = key.replace(/'/g, "\\'");
       const safeTitle = (site.title || key).replace(/'/g, "\\'");
       html += '<div class="site-card">' +
@@ -1247,26 +1247,26 @@ async function loadMySites() {
         '<div class="s-url" style="color:#9ca3af;">' + d + '</div>' +
         '</div>' +
         '<div class="s-actions">' +
-        '<button class="s-btn" onclick="window.open(\'' + baseUrl + safeKey + '\',\'_blank\')">访問</button>' +
-        '<button class="s-btn danger" onclick="window._deleteSite(\'' + safeKey + '\',\'' + safeTitle + '\')">刪除</button>' +
+        '<button class="s-btn" onclick="window.open(\'' + baseUrl + safeKey + '\',\'_blank\')">Visit</button>' +
+        '<button class="s-btn danger" onclick="window._deleteSite(\'' + safeKey + '\',\'' + safeTitle + '\')">Delete</button>' +
         '</div></div>';
     }
     html += '</div>';
     mySitesContainer.innerHTML = html;
   } catch (e) {
-    mySitesContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗：' + e.message + '</p>';
+    mySitesContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">Load failed: ' + e.message + '</p>';
   }
 }
 window._deleteSite = async function(key, title) {
-  if (!confirm('確定要刪除网站「' + title + '」嗎？This operation cannot be undone.')) return;
+  if (!confirm('Confirm deleting site "' + title + '"? This action cannot be undone.')) return;
   try {
     await db.ref('published/' + key).remove();
     loadMySites();
-  } catch (e) { alert('刪除失敗：' + e.message); }
+  } catch (e) { alert('Delete failed: ' + e.message); }
 };
 
 // ============================================================
-// 13. 對话纪錄
+// 13. Conversation History
 // ============================================================
 let currentUid = null;
 let currentChatId = null;
@@ -1277,7 +1277,7 @@ function resetChat() {
   chatMessages.innerHTML = '';
   const row = document.createElement('div');
   row.className = 'msg-row ai';
-  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">你好！我是你的Webpage generation assistant。請告诉我你想要什麼样的网页，我會幫你寫出Complete的 HTML 並在右边即時預覽。</div>';
+  row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble">Hi! I am your web page generation assistant. Tell me what kind of page you want, and I will write the complete HTML and preview it live on the right.</div>';
   chatMessages.appendChild(row);
   hist = [];
 }
@@ -1289,7 +1289,7 @@ async function startNewChat(createNode) {
   if (createNode !== false) {
     const ref = db.ref('users/' + currentUid + '/chats').push();
     currentChatId = ref.key;
-    await ref.set({ title: '新對话', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+    await ref.set({ title: 'New Chat', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
     await loadHistoryList();
     highlightHistoryItem(currentChatId);
   }
@@ -1307,7 +1307,7 @@ async function loadHistoryList() {
     const snap = await db.ref('users/' + currentUid + '/chats').once('value');
     const data = snap.val() || {};
     const list = Object.entries(data).map(([id, c]) => ({
-      id, title: c.title || 'Unnamed', updatedAt: c.updatedAt || c.createdAt || 0, messages: c.messages || []
+      id, title: c.title || 'Untitled', updatedAt: c.updatedAt || c.createdAt || 0, messages: c.messages || []
     })).sort((a, b) => b.updatedAt - a.updatedAt);
     historyCache = {};
     list.forEach(c => { historyCache[c.id] = c; });
@@ -1319,14 +1319,14 @@ async function loadHistoryList() {
 
 function renderHistory(list) {
   if (!list.length) {
-    historyList.innerHTML = '<div class="history-empty">還沒有對话纪錄<br>开始聊天就會自動儲存</div>';
+    historyList.innerHTML = '<div class="history-empty">No conversation history yet<br>Chats are saved automatically once you start</div>';
     return;
   }
   let html = '';
   for (const c of list) {
-    const d = c.updatedAt ? new Date(c.updatedAt).toLocaleString('en-HK', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+    const d = c.updatedAt ? new Date(c.updatedAt).toLocaleString('zh-HK', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
     const safeId = c.id;
-    const safeTitle = (c.title || 'Unnamed').replace(/</g, '&lt;');
+    const safeTitle = (c.title || 'Untitled').replace(/</g, '&lt;');
     html += '<div class="history-item" data-chat-id="' + safeId + '" onclick="window._openChat(\'' + safeId + '\')">' +
       '<div class="h-icon">💬</div>' +
       '<div class="h-body"><div class="h-title">' + safeTitle + '</div><div class="h-time">' + d + '</div></div>' +
@@ -1353,7 +1353,7 @@ window._openChat = async function(chatId) {
         hist.push({ role: 'user', content: m.content });
       } else if (m.role === 'assistant') {
         if (m.isCode) {
-          const bubble = addMessage('ai', '✅ Generated网页，請看右边預覽');
+          const bubble = addMessage('ai', '✅ doneGenerateWeb Page，see the rightPreview');
           bubble.classList.add('code-done');
           if (m.html) showPreview(m.html);
         } else {
@@ -1364,12 +1364,12 @@ window._openChat = async function(chatId) {
     }
     highlightHistoryItem(chatId);
     historyDrawer.classList.remove('show');
-  } catch (e) { alert('載入對话失敗：' + e.message); }
+  } catch (e) { alert('Failed to load conversation: ' + e.message); }
 };
 
 window._deleteChat = async function(chatId) {
   if (!currentUid) return;
-  if (!confirm('確定要刪除此對话嗎？')) return;
+  if (!confirm('Delete this conversation?')) return;
   try {
     await db.ref('users/' + currentUid + '/chats/' + chatId).remove();
     if (currentChatId === chatId) {
@@ -1377,14 +1377,14 @@ window._deleteChat = async function(chatId) {
       resetChat();
     }
     await loadHistoryList();
-  } catch (e) { alert('刪除失敗：' + e.message); }
+  } catch (e) { alert('Delete failed: ' + e.message); }
 };
 
 async function saveChat() {
   if (!currentUid || !currentChatId) return;
   try {
     const firstUser = hist.find(m => m.role === 'user');
-    let title = '新對话';
+    let title = 'New Chat';
     if (firstUser) title = firstUser.content.slice(0, 20).replace(/\n/g, ' ');
     const msgs = hist.map(m => {
       if (m.role === 'assistant' && m.isCode) {
@@ -1411,23 +1411,23 @@ async function loadPreviewFromLastSession() {
 }
 
 // ============================================================
-// 14. 事件綁定
+// 14. Event Binding
 // ============================================================
 loginTabBtn.addEventListener('click', switchToLogin);
 registerTabBtn.addEventListener('click', switchToRegister);
 loginSubmit.addEventListener('click', handleLogin);
 
 
-        // ===== Safety note =====
-        // Firebase Realtime Database 規則請設定为：
+        // ===== Security Note =====
+        // Firebase Realtime Database rules: Settings: 
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保护用户数據
-        // ===== CAPTCHA 驗证碼 =====
+        // orstricter rules to protect user data
+        // ===== CAPTCHA Captcha =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1524,18 +1524,18 @@ historyToggleBtn.addEventListener('click', function() {
 });
 historyCloseBtn.addEventListener('click', function() { historyDrawer.classList.remove('show'); });
 newChatBtn.addEventListener('click', async function() {
-  if (!currentUid) { alert('請先登入'); return; }
+  if (!currentUid) { alert('Please log in first'); return; }
   await startNewChat(true);
   historyDrawer.classList.remove('show');
 });
 
 // ============================================================
-// 15. AI Feature
+// 15. AI Function
 // ============================================================
 let isStreaming = false;
 let abortController = null;
 let fullContent = '';
-const SYSTEM_PROMPT = 'You are "AI Webpage generator」，一個專業的前端开發助手。\n\n【核心規則】\n1. 當用戶要求你「寫/Generate/做/Modify/新增/調整」网页時，你必須從 `<!DOCTYPE html>` 开始，输出Complete的 HTML 到 `</html>`，不可以只給片段。\n2. 絕對不要在代碼前後加任何解釋、說明、標題、或 Markdown 格式。\n3. 絕對不要說「這是你的网页」或「以下是代碼」等任何文字。\n4. 直接输出純 HTML，讓用戶可以直接複製贴上Use。\n5. **Each output HTML 的最後，在 `</html>` 之後，加一行 `' + REFRESH_MARKER + '`（這行是給系統的信號，用戶看不到，你務必每次都加）。**\n\n【代碼要求】\n• Complete HTML, including style 和 script\n• 響应式（viewport + @media）\n• Color scheme 3-5 color, line height 1.5-1.6\n• 語意化 HTML, accessibility\n• 不依賴外部 CDN(except Font Awesome and other commonly used libraries)\n• 版权年份用 ' + new Date().getFullYear() + '\n\n【General對话】\n如果用戶只是問問題、諮詢，沒有要求寫网页，用自然語言回答即可，不需要输出代碼。';
+const SYSTEM_PROMPT = 'You are「AI Web Page Generator」，a professional frontend development assistant。\n\n【Core Rules】\n1. When the user asks you to「write/Generate/make/modify/Add/Adjust」when the page，You must start from `<!DOCTYPE html>` start, output the complete HTML to `</html>`，Cannot provide only a fragment。\n2. Never add any explanation before or after the code、Description、Title、or Markdown Format。\n3. Never say「This is your Web Page」or「Below is the code」and any other text。\n4. output pure directly HTML，so the user can directlyCopypaste to use。\n5. **eachtime(s)Output HTML the last，in `</html>` after，Add a line `' + REFRESH_MARKER + '`（This line is a signal for the system，Invisible to users，You must add it every time）。**\n\n【Code Requirements】\n• Complete HTML，including style and script\n• Responsive（viewport + @media）\n• color scheme 3-5 color，line height 1.5-1.6\n• Semantic HTML，accessibility\n• No external dependencies CDN（except Font Awesome and other common libraries）\n• copyright year is ' + new Date().getFullYear() + '\n\n【general conversation】\nIf the user is only asking a question、Inquiry，no request to write a page，Just answer in natural language，no need to outputCode。';
 
 function addMessage(role, text) {
   const row = document.createElement('div');
@@ -1571,10 +1571,10 @@ function extractHTML(text) {
   return null;
 }
 function forceRefreshPreview(html) {
-  // 关鍵：存进全域快取，讓發佈Feature能读取
+  // Key：save intoGlobal Cache，letPublishcan read
   window.__LAST_GENERATED_HTML__ = html;
   emptyState.style.display = 'none';
-  previewUrl.textContent = '預覽 · Generated';
+  previewUrl.textContent = 'Preview · Generated';
   loadIntoIframe(previewFrame, injectFix(html), 'preview');
 }
 function showPreview(html) {
@@ -1598,7 +1598,7 @@ async function sendMsg() {
   if (currentUid && !currentChatId) {
     const ref = db.ref('users/' + currentUid + '/chats').push();
     currentChatId = ref.key;
-    await ref.set({ title: '新對话', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
+    await ref.set({ title: 'New Chat', messages: [], createdAt: Date.now(), updatedAt: Date.now() });
   }
   addMessage('user', text);
   hist.push({ role: 'user', content: text });
@@ -1661,7 +1661,7 @@ async function sendMsg() {
     const cleanText = fullContent.replace(REFRESH_MARKER, '').trim();
     const html = extractHTML(fullContent);
     if (html) {
-      bubble.textContent = '✅ Generated网页，請看右边預覽';
+      bubble.textContent = '✅ doneGenerateWeb Page，see the rightPreview';
       bubble.classList.add('code-done');
       forceRefreshPreview(html);
       hist.push({ role: 'assistant', content: html, isCode: true, html: html });
@@ -1672,7 +1672,7 @@ async function sendMsg() {
     await saveChat();
   } catch (e) {
     if (e.name === 'AbortError') {
-      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n⏸️ 已停止';
+      bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n⏸️ Stopped';
     } else {
       bubble.textContent = fullContent.replace(REFRESH_MARKER, '').trim() + '\n\n❌ ' + e.message;
     }
@@ -1703,10 +1703,10 @@ chatInput.oninput = function() {
 };
 
 // ============================================================
-// 16. 發佈Feature
+// 16. PublishFunction
 // ============================================================
 function getCurrentHTML() {
-  // 直接读全域快取（Blob URL 模式下 srcdoc always empty)
+  // read directlyGlobal Cache（Blob URL mode srcdoc always empty）
   const html = window.__LAST_GENERATED_HTML__;
   if (!html || html.trim().length < 20) return null;
   if (!html.includes('<html') && !html.includes('<!DOCTYPE')) return null;
@@ -1738,9 +1738,9 @@ function showPublishMsg(text, type) {
 publishNavLink.addEventListener('click', function(e) {
   e.preventDefault();
   const uid = getCurrentUid();
-  if (!uid) { alert('請先登入才能發佈网页'); openAuthModal(); return; }
+  if (!uid) { alert('Please log in to publish a page'); openAuthModal(); return; }
   const html = getCurrentHTML();
-  if (!html) { alert('請先在左边讓 AI Generate一個网页，再进行發佈'); return; }
+  if (!html) { alert('First generate a page with AI on the left, then publish'); return; }
   publishMsg.style.display = 'none';
   suffixInput.value = '';
   urlPreviewBox.style.display = 'none';
@@ -1750,20 +1750,20 @@ publishNavLink.addEventListener('click', function(e) {
 publishClose.addEventListener('click', function() { publishOverlay.style.display = 'none'; });
 publishConfirm.addEventListener('click', async function() {
   const suffix = suffixInput.value;
-  if (!suffix.trim()) { showPublishMsg('請填寫後綴', 'error'); return; }
+  if (!suffix.trim()) { showPublishMsg('Please enter a suffix', 'error'); return; }
   const html = getCurrentHTML();
-  if (!html) { showPublishMsg('找不到要發佈的网页，請重新Generate', 'error'); return; }
+  if (!html) { showPublishMsg('No page to publish, please regenerate', 'error'); return; }
   const uid = getCurrentUid();
-  if (!uid) { showPublishMsg('登入狀態已失效，請重新登入', 'error'); return; }
+  if (!uid) { showPublishMsg('Session expired, please log in again', 'error'); return; }
   publishConfirm.disabled = true;
-  publishConfirm.textContent = '發佈中...';
+  publishConfirm.textContent = 'Publishing...';
   try {
     const safeKey = encodeURIComponent(suffix);
     const check = await db.ref('published/' + safeKey).once('value');
     if (check.exists()) {
-      showPublishMsg('此後綴已被Use，請換一個', 'error');
+      showPublishMsg('This suffix is taken, please choose another', 'error');
       publishConfirm.disabled = false;
-      publishConfirm.textContent = '確認發佈';
+      publishConfirm.textContent = 'Confirm Publish';
       return;
     }
     const user = auth.currentUser;
@@ -1777,15 +1777,15 @@ publishConfirm.addEventListener('click', async function() {
     const fullUrl = buildBaseUrl() + safeKey;
     try {
       await navigator.clipboard.writeText(fullUrl);
-      showPublishMsg('✅ 發佈成功！网址已複製到剪贴簿：\n' + fullUrl, 'success');
+      showPublishMsg('✅ Published Successfully！URLCopied to clipboard：\n' + fullUrl, 'success');
     } catch (e) {
-      showPublishMsg('✅ 發佈成功！你的网址：\n' + fullUrl, 'success');
+      showPublishMsg('✅ Published Successfully！Your URL: \n' + fullUrl, 'success');
     }
   } catch (err) {
-    showPublishMsg('發佈失敗：' + err.message, 'error');
+    showPublishMsg('Publish failed: ' + err.message, 'error');
   } finally {
     publishConfirm.disabled = false;
-    publishConfirm.textContent = '確認發佈';
+    publishConfirm.textContent = 'Confirm Publish';
   }
 });
 
@@ -1827,23 +1827,23 @@ auth.onAuthStateChanged(user => {
   }
 });
 chatInput.focus();
-console.log('AI Webpage generator已啟動');
+console.log('AI Web Generator started');
 </script>
 
     <div class="site-footer">
     <div class="footer-inner">
         <div class="footer-col">
             <h4>Privacy Policy</h4>
-            <p>本站不收集任何個人数據。所有工具均在本地浏览器Run，不會將你的数據上传至任何服務器。我們不Use Cookie 追踪，也不與第三方Share数據。</p>
+            <p>This site collects no personal data. All tools run locally in your browser, and your data is never uploaded to any server. We do not use cookies for tracking, nor share data with third parties.</p>
         </div>
         <div class="footer-col">
-            <h4>联系我們</h4>
-            <p>這是梁喆同學的個人Portfolio网站，上面所有工具均由原創开發。网站Use GitHub Pages 托管，並整合了 Firebase 認证Feature。</p>
-            <p>郵箱: oscarmtr114514@gmail.com</p>
+            <h4>Contact Us</h4>
+            <p>This is the personal portfolio site of Liang Zhe; all tools are originally developed. Hosted on GitHub Pages with Firebase authentication.</p>
+            <p>Email: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 Liang Zhe Studio LZTX Studio</span>
     </div>
 </div>
 

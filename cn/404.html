@@ -80,7 +80,7 @@
         .auth-link.logout { border-color: #dc3545; color: #dc3545; }
         .auth-link.logout:hover { background: #dc3545; color: white; }
 
-        /* ===== 404 內容 ===== */
+        /* ===== 404 内容 ===== */
         .error-container {
             max-width: 800px;
             width: 100%;
@@ -199,7 +199,7 @@
         .loading-spinner-full { width: 40px; height: 40px; border: 4px solid #e0e0e0; border-top: 4px solid #0066cc; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
         .loading-box p { color: #333; font-size: 1rem; font-weight: 500; margin: 0; }
 
-        /* CAPTCHA 驗证碼 */
+        /* CAPTCHA 验证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -309,38 +309,38 @@
             <div class="nav-right">
                 <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
+                            <option value="zh">繁体中文</option>
                             <option value="cn">简体中文</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="头像">
                         </button>
                     </li>
                     <li><a href="/cn/privacy.html">隐私政策</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
                 </ul>
             </div>
         </nav>
     </div>
 
-    <!-- ===== 404 主要內容 ===== -->
+    <!-- ===== 404 主要内容 ===== -->
     <div class="error-container">
         <div class="error-code">404</div>
         <div class="error-title">页面不存在</div>
-        <div class="error-desc">您访問的页面不存在或已被移除。<br>請檢查网址是否正確，或返回首页繼續浏览。</div>
+        <div class="error-desc">您访问的页面不存在或已被移除。<br>請检查网址是否正确，或返回首页继续浏览。</div>
         <a href="/cn/index.html" class="home-btn">
             <i class="fas fa-home"></i> 返回首页
         </a>
     </div>
 
-    <div class="footer">© 2026 梁喆同學工作室LZTX Studio</div>
+    <div class="footer">© 2026 梁喆同学工作室LZTX Studio</div>
 
-    <!-- ===== 联系我們弹窗 ===== -->
+    <!-- ===== 联系我们弹窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="divider"></div>
@@ -356,7 +356,7 @@
         </div>
     </div>
 
-    <!-- ===== 登入弹窗 ===== -->
+    <!-- ===== 登录弹窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
             <div class="brand"><h2>欢迎你的使用</h2></div>
@@ -364,18 +364,18 @@
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
                 <button class="action-btn danger" id="authLogoutBtn">登出</button>
-                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用户管理</button>
             </div>
             <div id="authPanel">
                 <div class="tab-switch">
-                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
-                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                    <button class="tab-btn active" id="loginTabBtn">登录</button>
+                    <button class="tab-btn" id="registerTabBtn">注册</button>
                 </div>
                 <div id="loginPanel" class="form-panel">
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -384,21 +384,21 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 登录
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="设定密码 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密码"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入驗证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">验证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入验证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="验证碼" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
-                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <button class="action-btn" id="registerSubmitBtn">注册</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -407,18 +407,18 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 註冊
+                        使用 Google 注册
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== 用戶管理弹窗 ===== -->
+    <!-- ===== 用户管理弹窗 ===== -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
-            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <h3><i class="fas fa-users"></i> 用户管理</h3>
             <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
         </div>
     </div>
@@ -511,7 +511,7 @@
         }
 
         // ============================================================
-        // 4. 頭像與 UI 控制
+        // 4. 头像与 UI 控制
         // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
@@ -591,7 +591,7 @@
             if (user.photo) updateAvatar(user.photo, user.name);
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '登录';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -613,15 +613,15 @@
         }
 
         // ============================================================
-        // 6. 登入 / 註冊
+        // 6. 登录 / 注册
         // ============================================================
         async function handleLogin() {
             const name = loginName.value.trim();
             const password = loginPassword.value;
             if (!name) { showMsg(loginMessage, '請输入姓名', 'error'); return; }
-            if (!password) { showMsg(loginMessage, '請输入密碼', 'error'); return; }
+            if (!password) { showMsg(loginMessage, '請输入密码', 'error'); return; }
             loginSubmit.disabled = true;
-            showLoading('登入中...');
+            showLoading('登录中...');
             try {
                 const snapshot = await db.ref('users').once('value');
                 const users = snapshot.val() || {};
@@ -639,14 +639,14 @@
                     const firebaseUser = userCredential.user;
                     const ud = { name: foundUser.name, email: firebaseUser.email, photo: foundUser.photo || firebaseUser.photoURL, uid: firebaseUser.uid };
                     localStorage.setItem('currentUser', JSON.stringify(ud));
-                    showMsg(loginMessage, '登入成功！', 'success');
+                    showMsg(loginMessage, '登录成功！', 'success');
                     setTimeout(() => { closeAuthModal(); hideLoading(); loginName.value = ''; loginPassword.value = ''; }, 1000);
                 } else {
-                    showMsg(loginMessage, '姓名或錯誤', 'error');
+                    showMsg(loginMessage, '姓名或错误', 'error');
                     hideLoading();
                 }
             } catch (err) {
-                showMsg(loginMessage, '登入失敗: ' + err.message, 'error');
+                showMsg(loginMessage, '登录失败: ' + err.message, 'error');
                 hideLoading();
             }
             loginSubmit.disabled = false;
@@ -657,16 +657,16 @@
             const password = regPassword.value;
             const confirmPassword = regConfirmPassword.value;
             if (!name) { showMsg(registerMessage, '請输入姓名', 'error'); return; }
-            if (password.length < 4) { showMsg(registerMessage, '密碼至少4位', 'error'); return; }
-            if (password !== confirmPassword) { showMsg(registerMessage, '兩次输入的密碼不一致', 'error'); return; }
+            if (password.length < 4) { showMsg(registerMessage, '密码至少4位', 'error'); return; }
+            if (password !== confirmPassword) { showMsg(registerMessage, '两次输入的密码不一致', 'error'); return; }
             registerSubmit.disabled = true;
-            showLoading('註冊中...');
+            showLoading('注册中...');
             try {
                 const snapshot = await db.ref('users').once('value');
                 const users = snapshot.val() || {};
                 for (const key in users) {
                     if (users[key].name === name) {
-                        showMsg(registerMessage, '此名稱已被註冊', 'error');
+                        showMsg(registerMessage, '此名称已被注册', 'error');
                         hideLoading();
                         registerSubmit.disabled = false;
                         return;
@@ -681,10 +681,10 @@
                 const firebaseUser = userCredential.user;
                 const ud = { name, email: firebaseUser.email, photo: firebaseUser.photoURL, uid: firebaseUser.uid };
                 localStorage.setItem('currentUser', JSON.stringify(ud));
-                showMsg(registerMessage, '註冊成功！', 'success');
+                showMsg(registerMessage, '注册成功！', 'success');
                 setTimeout(() => { closeAuthModal(); hideLoading(); regName.value = ''; regPassword.value = ''; regConfirmPassword.value = ''; }, 1000);
             } catch (err) {
-                showMsg(registerMessage, '註冊失敗: ' + err.message, 'error');
+                showMsg(registerMessage, '注册失败: ' + err.message, 'error');
                 hideLoading();
             }
             registerSubmit.disabled = false;
@@ -701,7 +701,7 @@
                 closeAuthModal();
                 hideLoading();
             } catch (err) {
-                showMsg(loginMessage, 'Google 登入失敗: ' + err.message, 'error');
+                showMsg(loginMessage, 'Google 登录失败: ' + err.message, 'error');
                 hideLoading();
             }
         }
@@ -713,7 +713,7 @@
         }
 
         // ============================================================
-        // 7. 事件綁定
+        // 7. 事件绑定
         // ============================================================
         loginTabBtn.addEventListener('click', switchToLogin);
         registerTabBtn.addEventListener('click', switchToRegister);
@@ -753,7 +753,7 @@
         });
 
         // ============================================================
-        // 8. 联系我們
+        // 8. 联系我们
         // ============================================================
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');

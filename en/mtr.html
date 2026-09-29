@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <script async src="https://ss.mrmnd.com/static/8e6e2b64-e447-4835-9383-b3690481621b.js"></script>
     <meta name="mnd-ver" content="tlr5gwjihbdf9nqy1inwfa" />
@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>港铁實時车務狀況 · My website</title>
+    <title>MTR Live Status · My Site</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -32,7 +32,7 @@
             padding-top: 80px;
         }
 
-        /* ===== 导航栏 ===== */
+        /* ===== Navigation bar ===== */
         .navbar-wrapper {
             position: fixed;
             top: 0;
@@ -158,7 +158,7 @@
             color: white;
         }
 
-        /* ===== 主要內容 ===== */
+        /* ===== Main Content ===== */
         .content-wrapper {
             width: 100%;
             max-width: 1400px;
@@ -461,7 +461,7 @@
             padding-top: 1.5rem;
         }
 
-        /* ===== 弹窗 ===== */
+        /* ===== Modal ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -560,7 +560,7 @@
             color: #ff0000;
         }
 
-        /* ===== 登入弹窗 ===== */
+        /* ===== LoginModal ===== */
         .auth-modal-overlay {
             position: fixed;
             top: 0;
@@ -771,7 +771,7 @@
             background: #f5f5f5;
         }
 
-        /* ===== 用戶管理弹窗 ===== */
+        /* ===== User ManagementModal ===== */
         .admin-modal-overlay {
             position: fixed;
             top: 0;
@@ -857,7 +857,7 @@
             background: #fee2e2;
         }
 
-        /* ===== 加載中弹窗 ===== */
+        /* ===== LoadMediumModal ===== */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -1018,7 +1018,7 @@
         }
 
     
-        /* ===== 站尾资讯 ===== */
+        /* ===== Footer Info ===== */
         .site-footer {
             text-align: center;
             margin-top: 40px;
@@ -1060,7 +1060,7 @@
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗证碼 */
+        /* CAPTCHA Captcha */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -1140,29 +1140,29 @@
 </head>
 <body>
 
-    <!-- ===== 导航栏 ===== -->
+    <!-- ===== Navigation bar ===== -->
     <div class="navbar-wrapper">
         <nav class="navbar">
             <div class="logo">
-                <a href="/en/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
+                <a href="/zh/index.html"><img src="https://i.postimg.cc/HxVC7TcN/IMG-8863.png" alt="Logo"></a>
             </div>
             <div class="nav-right">
                 <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
-                            <option value="cn">简体中文</option>
+                            <option value="zh">Traditional Chinese</option>
+                            <option value="cn">Simplified Chinese</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">Login</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="Avatar">
                         </button>
                     </li>
-                    <li><a href="/en/privacy.html">Privacy Policy</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+                    <li><a href="/zh/privacy.html">Privacy Policy</a></li>
+                    <li><a href="#" id="contactBtn">Contact Us</a></li>
 
                     
                 </ul>
@@ -1170,21 +1170,21 @@
         </nav>
     </div>
 
-    <!-- ===== 主要內容 ===== -->
+    <!-- ===== Main Content ===== -->
     <div class="content-wrapper">
         <div class="card">
             <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
                 <h1>
-                    港铁 · 實時车務狀況
+                    MTR · Live Service Status
                     <small>Traditional Chinese</small>
                 </h1>
                 <div style="display: flex; align-items: center; gap: 0.4rem;">
-                    <span class="update-badge" id="globalTime">載入中...</span>
-                    <button class="refresh-btn" id="refreshAllBtn">全部更新</button>
+                    <span class="update-badge" id="globalTime">Loading...</span>
+                    <button class="refresh-btn" id="refreshAllBtn">Update All</button>
                 </div>
             </div>
             <div class="subhead">
-                <span>點擊车站 · 即時到站</span>
+                <span>Tap station · Live arrival</span>
             </div>
             <div id="errorContainer" class="error-banner"></div>
             <div id="lineGrid" class="line-grid"></div>
@@ -1192,27 +1192,27 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>Privacy Policy</h4>
-            <p>本站不收集任何個人数據。所有工具均在本地浏览器Run，不會將你的数據上传至任何服務器。我們不Use Cookie 追踪，也不與第三方Share数據。</p>
+            <p>This site collects no personal data. All tools run locally in your browser, and your data is never uploaded to any server. We do not use cookies for tracking, nor share data with third parties.</p>
         </div>
         <div class="footer-col">
-            <h4>联系我們</h4>
-            <p>這是梁喆同學的個人Portfolio网站，上面所有工具均由原創开發。网站Use GitHub Pages 托管，並整合了 Firebase 認证Feature。</p>
-            <p>郵箱: oscarmtr114514@gmail.com</p>
+            <h4>Contact Us</h4>
+            <p>This is the personal portfolio site of Liang Zhe; all tools are originally developed. Hosted on GitHub Pages with Firebase authentication.</p>
+            <p>Email: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 Liang Zhe Studio LZTX Studio</span>
     </div>
 </div>
         </div>
     </div>
 
-    <!-- ===== 联系我們弹窗 ===== -->
+    <!-- ===== Contact UsModal ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             
             <div class="divider"></div>
-            <div class="title">📱 追蹤我</div>
+            <div class="title">📱 Follow Me</div>
             <div class="platform-grid-small">
                 <button class="platform-btn-small bili" onclick="window.open('https://space.bilibili.com/3632309945239723','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#00AEEC" xmlns="http://www.w3.org/2000/svg"><title>Bilibili</title><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span></button>
                 <button class="platform-btn-small xhs" onclick="window.open('https://xhslink.com/m/5aECPzZiqGQ','_blank')"><span style="display:inline-block;vertical-align:middle;"><svg role="img" viewBox="0 0 24 24" width="24" height="24" fill="#FE3C54" xmlns="http://www.w3.org/2000/svg"><title>Xiaohongshu</title><path d="M22.405 9.879c.002.016.01.02.07.019h.725a.797.797 0 0 0 .78-.972.794.794 0 0 0-.884-.618.795.795 0 0 0-.692.794c0 .101-.002.666.001.777zm-11.509 4.808c-.203.001-1.353.004-1.685.003a2.528 2.528 0 0 1-.766-.126.025.025 0 0 0-.03.014L7.7 16.127a.025.025 0 0 0 .01.032c.111.06.336.124.495.124.66.01 1.32.002 1.981 0 .01 0 .02-.006.023-.015l.712-1.545a.025.025 0 0 0-.024-.036zM.477 9.91c-.071 0-.076.002-.076.01a.834.834 0 0 0-.01.08c-.027.397-.038.495-.234 3.06-.012.24-.034.389-.135.607-.026.057-.033.042.003.112.046.092.681 1.523.787 1.74.008.015.011.02.017.02.008 0 .033-.026.047-.044.147-.187.268-.391.371-.606.306-.635.44-1.325.486-1.706.014-.11.021-.22.03-.33l.204-2.616.022-.293c.003-.029 0-.033-.03-.034zm7.203 3.757a1.427 1.427 0 0 1-.135-.607c-.004-.084-.031.39-.235-3.06a.443.443 0 0 0-.01-.082c-.004-.011-.052-.008-.076-.008h-1.48c-.03.001-.034.005-.03.034l.021.293c.076.982.153 1.964.233 2.946.05.4.186 1.085.487 1.706.103.215.223.419.37.606.015.018.037.051.048.049.02-.003.742-1.642.804-1.765.036-.07.03-.055.003-.112zm3.861-.913h-.872a.126.126 0 0 1-.116-.178l1.178-2.625a.025.025 0 0 0-.023-.035l-1.318-.003a.148.148 0 0 1-.135-.21l.876-1.954a.025.025 0 0 0-.023-.035h-1.56c-.01 0-.02.006-.024.015l-.926 2.068c-.085.169-.314.634-.399.938a.534.534 0 0 0-.02.191.46.46 0 0 0 .23.378.981.981 0 0 0 .46.119h.59c.041 0-.688 1.482-.834 1.972a.53.53 0 0 0-.023.172.465.465 0 0 0 .23.398c.15.092.342.12.475.12l1.66-.001c.01 0 .02-.006.023-.015l.575-1.28a.025.025 0 0 0-.024-.035zm-6.93-4.937H3.1a.032.032 0 0 0-.034.033c0 1.048-.01 2.795-.01 6.829 0 .288-.269.262-.28.262h-.74c-.04.001-.044.004-.04.047.001.037.465 1.064.555 1.263.01.02.03.033.051.033.157.003.767.009.938-.014.153-.02.3-.06.438-.132.3-.156.49-.419.595-.765.052-.172.075-.353.075-.533.002-2.33 0-4.66-.007-6.991a.032.032 0 0 0-.032-.032zm11.784 6.896c0-.014-.01-.021-.024-.022h-1.465c-.048-.001-.049-.002-.05-.049v-4.66c0-.072-.005-.07.07-.07h.863c.08 0 .075.004.075-.074V8.393c0-.082.006-.076-.08-.076h-3.5c-.064 0-.075-.006-.075.073v1.445c0 .083-.006.077.08.077h.854c.075 0 .07-.004.07.07v4.624c0 .095.008.084-.085.084-.37 0-1.11-.002-1.304 0-.048.001-.06.03-.06.03l-.697 1.519s-.014.025-.008.036c.006.01.013.008.058.008 1.748.003 3.495.002 5.243.002.03-.001.034-.006.035-.033v-1.539zm4.177-3.43c0 .013-.007.023-.02.024-.346.006-.692.004-1.037.004-.014-.002-.022-.01-.022-.024-.005-.434-.007-.869-.01-1.303 0-.072-.006-.071.07-.07l.733-.003c.041 0 .081.002.12.015.093.025.16.107.165.204.006.431.002 1.153.001 1.153zm2.67.244a1.953 1.953 0 0 0-.883-.222h-.18c-.04-.001-.04-.003-.042-.04V10.21c0-.132-.007-.263-.025-.394a1.823 1.823 0 0 0-.153-.53 1.533 1.533 0 0 0-.677-.71 2.167 2.167 0 0 0-1-.258c-.153-.003-.567 0-.72 0-.07 0-.068.004-.068-.065V7.76c0-.031-.01-.041-.046-.039H17.93s-.016 0-.023.007c-.006.006-.008.012-.008.023v.546c-.008.036-.057.015-.082.022h-.95c-.022.002-.028.008-.03.032v1.481c0 .09-.004.082.082.082h.913c.082 0 .072.128.072.128V11.19s.003.117-.06.117h-1.482c-.068 0-.06.082-.06.082v1.445s-.01.068.064.068h1.457c.082 0 .076-.006.076.079v3.225c0 .088-.007.081.082.081h1.43c.09 0 .082.007.082-.08v-3.27c0-.029.006-.035.033-.035l2.323-.003c.098 0 .191.02.28.061a.46.46 0 0 1 .274.407c.008.395.003.79.003 1.185 0 .259-.107.367-.33.367h-1.218c-.023.002-.029.008-.028.033.184.437.374.871.57 1.303a.045.045 0 0 0 .04.026c.17.005.34.002.51.003.15-.002.517.004.666-.01a2.03 2.03 0 0 0 .408-.075c.59-.18.975-.698.976-1.313v-1.981c0-.128-.01-.254-.034.38 0 .078-.029-.641-.724-.998z"/></svg></span></button>
@@ -1224,27 +1224,27 @@
         </div>
     </div>
 
-    <!-- ===== 登入弹窗 ===== -->
+    <!-- ===== LoginModal ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
-            <div class="brand"><h2>Welcome to use</h2></div>
+            <div class="brand"><h2>Welcome</h2></div>
             <div id="authLoggedInPanel" style="display:none;text-align:center;padding:1rem 0;">
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
                 <button class="action-btn danger" id="authLogoutBtn">Logout</button>
-                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> User Management</button>
             </div>
             <div id="authPanel">
                 <div class="tab-switch">
-                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
-                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                    <button class="tab-btn active" id="loginTabBtn">Login</button>
+                    <button class="tab-btn" id="registerTabBtn">Register</button>
                 </div>
                 <div id="loginPanel" class="form-panel">
                     <div id="loginMessage" class="message-box"></div>
-                    <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
-                    <div class="divider"><span>或</span></div>
+                    <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="Name"></div>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="Password"></div>
+                    <button class="action-btn" id="loginSubmitBtn">Login</button>
+                    <div class="divider"><span>or</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
                             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -1252,22 +1252,22 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        Use Google 登入
+                        Sign in with Google
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
-                    <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (At least4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="Name"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="Set password (min 4 chars)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="Confirm Password"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請Input驗证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
-                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新Generate">↻</button>
+                        <label class="captcha-label">Captcha</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="Please enter the captcha" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="Captcha" onclick="refreshRegisterCaptcha()">
+                        <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="Regenerate">↻</button>
                     </div>
-                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
-                    <div class="divider"><span>或</span></div>
+                    <button class="action-btn" id="registerSubmitBtn">Register</button>
+                    <div class="divider"><span>or</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
                             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -1275,27 +1275,27 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        Use Google 註冊
+                        Sign up with Google
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== 用戶管理弹窗 ===== -->
+    <!-- ===== User ManagementModal ===== -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
-            <h3><i class="fas fa-users"></i> 用戶管理</h3>
-            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
+            <h3><i class="fas fa-users"></i> User Management</h3>
+            <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p></div>
         </div>
     </div>
 
-    <!-- ===== 加載中弹窗 ===== -->
+    <!-- ===== LoadMediumModal ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
-            <p id="loadingText">載入中...</p>
+            <p id="loadingText">Loading...</p>
         </div>
     </div>
 
@@ -1303,7 +1303,7 @@
 
     <script>
         // ============================================================
-        // 1. Firebase Configuration
+        // 1. Firebase Config
         // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
@@ -1318,12 +1318,12 @@
         const db = firebase.database();
 
         // ============================================================
-        // 2. 加載弹窗Control
+        // 2. Loading modal control
         // ============================================================
         let loadingTimer = null;
 
         function showLoading(text) {
-            document.getElementById('loadingText').textContent = text || '載入中...';
+            document.getElementById('loadingText').textContent = text || 'Loading...';
             document.getElementById('loadingOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -1338,7 +1338,7 @@
         }
 
         // ============================================================
-        // 3. DOM 元素
+        // 3. DOM Element
         // ============================================================
         const authNavLink = document.getElementById('authNavLink');
         const avatarBtn = document.getElementById('avatarBtn');
@@ -1376,7 +1376,7 @@
         const avatarCtx = avatarCanvas.getContext('2d');
 
         // ============================================================
-        // 4. Administrator判斷
+        // 4. Admin Check
         // ============================================================
         function isAdmin(user) {
             if (!user) return false;
@@ -1384,7 +1384,7 @@
         }
 
         // ============================================================
-        // 5. 頭像Generator
+        // 5. Avatar Generator
         // ============================================================
         function generateIdenticon(name) {
             const seed = name || 'default';
@@ -1484,7 +1484,7 @@
         }
 
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = 'Login';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1517,10 +1517,10 @@
         }
 
         // ============================================================
-        // 7. Firebase 認证
+        // 7. Firebase Authentication
         // ============================================================
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Signing in with Google...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -1533,7 +1533,7 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google sign-in failed: ' + e.message, 'error');
                 }
             }
         }
@@ -1542,21 +1542,21 @@
             const name = regName.value.trim(),
                 pw = regPassword.value,
                 cf = regConfirmPassword.value;
-            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, 'Name must be at least2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼At least4個字元', 'error'); return; }
-            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
-            showLoading('註冊中...');
+            if (!name || !pw || !cf) { showMsg(registerMessage, 'Please fill in all fields', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, 'Name must be at least 2 characters', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, 'Password must be at least 4 characters', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, 'Passwords do not match', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, 'Incorrect captcha, please refresh', 'error'); return; }
+            showLoading('Registering...');
             registerSubmit.disabled = true;
-            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+            registerSubmit.innerHTML = '<span class="spinner"></span>Registering...';
             try {
                                 const safeName = name.replace(/[.#$\[\]]/g, '_');
                 const snap = await db.ref('users/' + safeName).once('value');
-                if (snap.exists()) { showMsg(registerMessage, '此姓名已被Use', 'error');
+                if (snap.exists()) { showMsg(registerMessage, 'This name is already taken', 'error');
                     hideLoading();
                     registerSubmit.disabled = false;
-                    registerSubmit.textContent = '註冊'; return; }
+                    registerSubmit.textContent = 'Register'; return; }
                 const avatar = generateIdenticon(name);
                                 const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
@@ -1567,24 +1567,24 @@
                 regPassword.value = '';
                 regConfirmPassword.value = '';
                 document.getElementById('registerCaptcha').value = '';
-            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error');
+            } catch (e) { showMsg(registerMessage, 'Registration failed', 'error');
                 hideLoading(); } finally { registerSubmit.disabled = false;
-                registerSubmit.textContent = '註冊'; }
+                registerSubmit.textContent = 'Register'; }
         }
 
         async function handleLogin() {
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
-            if (!name || !pw) { showMsg(loginMessage, '請Input姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            if (!name || !pw) { showMsg(loginMessage, 'Please enter name and password', 'error'); return; }
+            showLoading('Logging in...');
             loginSubmit.disabled = true;
-            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmit.innerHTML = '<span class="spinner"></span>Logging in...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                if (!snap.exists()) { showMsg(loginMessage, 'Incorrect account or password', 'error');
                     hideLoading();
                     loginSubmit.disabled = false;
-                    loginSubmit.textContent = '登入'; return; }
+                    loginSubmit.textContent = 'Login'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -1599,11 +1599,11 @@
                         document.getElementById('loginCaptcha').value = '';
                     }
                 });
-                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                if (!found) showMsg(loginMessage, 'Incorrect account or password', 'error');
                 hideLoading();
-            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+            } catch (e) { showMsg(loginMessage, 'Incorrect account or password', 'error');
                 hideLoading(); } finally { loginSubmit.disabled = false;
-                loginSubmit.textContent = '登入'; }
+                loginSubmit.textContent = 'Login'; }
         }
 
         function handleLogout() {
@@ -1613,10 +1613,10 @@
         }
 
         // ============================================================
-        // 8. 用戶管理
+        // 8. User Management
         // ============================================================
 
-        // ===== HTML 轉義（防止 XSS） =====
+        // ===== HTML Escape（Prevent XSS） =====
         function escapeHtml(str) {
             if (str == null) return '';
             const div = document.createElement('div');
@@ -1627,7 +1627,7 @@
         let allUsers = [];
 
         async function loadUserTable() {
-            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+            userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p>';
             try {
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
@@ -1638,47 +1638,47 @@
                     });
                 }
                 if (allUsers.length === 0) {
-                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">No users</p>';
                     return;
                 }
                 let html =
-                    `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                    `<table><thead><tr><th>Name</th><th>Email</th><th>Password</th><th>Registration Time</th><th>Action</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
-                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-HK') : '-';
+                    const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
                     html +=
-                        `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                        `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> Delete</button></td></tr>`;
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
             } catch (e) {
-                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">Load failed</p>';
             }
         }
 
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？This operation cannot be undone.')) return;
+            if (!confirm('Confirm deleting user "' + name + '"? This action cannot be undone.')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (local && local.uid === key) { hideUI(); }
                 loadUserTable();
-            } catch (e) { alert('刪除失敗：' + e.message); }
+            } catch (e) { alert('Delete failed: ' + e.message); }
         };
 
         // ============================================================
 
 
-        // ===== Safety note =====
-        // Firebase Realtime Database 規則請設定为：
+        // ===== Security Note =====
+        // Firebase Realtime Database rules: Settings: 
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保护用户数據
-        // ===== CAPTCHA 驗证碼 =====
+        // orstricter rules to protect user data
+        // ===== CAPTCHA Captcha =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1719,7 +1719,7 @@ function refreshRegisterCaptcha() {
             if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
         };
 
-        // 9. 事件綁定
+        // 9. Event Binding
         // ============================================================
         loginTabBtn.addEventListener('click', switchToLogin);
         registerTabBtn.addEventListener('click', switchToRegister);
@@ -1768,7 +1768,7 @@ function refreshRegisterCaptcha() {
         });
 
         // ============================================================
-        // 10. 联系我們
+        // 10. Contact Us
         // ============================================================
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
@@ -1805,111 +1805,111 @@ function refreshRegisterCaptcha() {
         initAuth();
 
         // ============================================================
-        // 12. 港铁實時车務Feature
+        // 12. MTR Live ServiceFunction
         // ============================================================
-        // Complete中文站名對照表
+        // CompleteChineseStation Name Table
         const STATION_NAMES = {
             'HOK': 'Hong Kong',
-            'KOW': '九龍',
+            'KOW': 'Kowloon',
             'TSY': 'Tsing Yi',
-            'AIR': '機场',
-            'AWE': '博覽館',
-            'OLY': '奧运',
+            'AIR': 'Airport',
+            'AWE': 'AsiaWorld-Expo',
+            'OLY': 'Olympic',
             'NAC': 'Nam Cheong',
             'LAK': 'Lai King',
             'SUN': 'Sunny Bay',
-            'TUC': '東涌',
-            'ADM': '金鐘',
-            'EXC': '會展',
-            'HUH': '红磡',
-            'MKK': 'Mong Kok東',
-            'KOT': '九龍塘',
-            'TAW': '大圍',
+            'TUC': 'Tung Chung',
+            'ADM': 'Admiralty',
+            'EXC': 'Exhibition Centre',
+            'HUH': 'Hung Hom',
+            'MKK': 'Mok Kok East',
+            'KOT': 'Kowloon Tong',
+            'TAW': 'Tai Wai',
             'SHT': 'Sha Tin',
             'FOT': 'Fo Tan',
-            'RAC': '馬场',
-            'UNI': '大學',
+            'RAC': 'Racecourse',
+            'UNI': 'University',
             'TAP': 'Tai Po Market',
             'TWO': 'Tai Wo',
-            'FAN': '粉嶺',
+            'FAN': 'Fanling',
             'SHS': 'Sheung Shui',
-            'LOW': '羅湖',
-            'LMC': '落馬洲',
-            'WHA': '黃埔',
+            'LOW': 'Lo Wu',
+            'LMC': 'Lok Ma Chau',
+            'WHA': 'Whampoa',
             'HOM': 'Ho Man Tin',
             'YMT': 'Yau Ma Tei',
             'MOK': 'Mong Kok',
             'PRE': 'Prince Edward',
-            'SKM': '石硤尾',
-            'LOF': '樂富',
-            'WTS': '黃大仙',
-            'DIH': '鑽石山',
-            'CHH': 'Rainbow',
-            'KOB': '九龍灣',
-            'NTK': '牛頭角',
-            'KWT': '觀塘',
-            'LAT': '藍田',
+            'SKM': 'Shek Kip Mei',
+            'LOF': 'Lok Fu',
+            'WTS': 'Wong Tai Sin',
+            'DIH': 'Diamond Hill',
+            'CHH': 'Choi Hung',
+            'KOB': 'Kowloon Bay',
+            'NTK': 'Ngau Tau Kok',
+            'KWT': 'Kwun Tong',
+            'LAT': 'Lam Tin',
             'YAT': 'Yau Tong',
-            'TIK': '調景嶺',
-            'CEN': '中環',
+            'TIK': 'Tiu Keng Leng',
+            'CEN': 'Central',
             'TST': 'Tsim Sha Tsui',
             'JOR': 'Jordan',
             'SSP': 'Sham Shui Po',
-            'CSW': '長沙灣',
+            'CSW': 'Cheung Sha Wan',
             'LCK': 'Lai Chi Kok',
             'MEF': 'Mei Foo',
             'KWF': 'Kwai Fong',
-            'KWH': '葵興',
-            'TWH': '大窩口',
-            'TSW': '荃灣',
-            'KET': '堅尼地城',
-            'HKU': 'Hong Kong大學',
-            'SYP': '西营盤',
-            'SHW': '上環',
-            'WAC': '灣仔',
-            'CAB': '銅鑼灣',
-            'TIH': '天后',
+            'KWH': 'Kwai Hing',
+            'TWH': 'Tai Wo Hau',
+            'TSW': 'Tsuen Wan',
+            'KET': 'Kennedy Town',
+            'HKU': 'HKU',
+            'SYP': 'Sai Ying Pun',
+            'SHW': 'Sheung Wan',
+            'WAC': 'Wan Chai',
+            'CAB': 'Causeway Bay',
+            'TIH': 'Tin Hau',
             'FOH': 'Fortress Hill',
             'NOP': 'North Point',
-            'QUB': '鰂魚涌',
+            'QUB': 'Quarry Bay',
             'TAK': 'Tai Koo',
-            'SWH': '西灣河',
-            'SKW': '筲箕灣',
+            'SWH': 'Sai Wan Ho',
+            'SKW': 'Shau Kei Wan',
             'HFC': 'Heng Fa Chuen',
-            'CHW': '柴灣',
-            'TKO': '將軍澳',
+            'CHW': 'Chai Wan',
+            'TKO': 'Tseung Kwan O',
             'HAO': 'Hang Hau',
-            'POA': '寶琳',
+            'POA': 'Po Lam',
             'LHP': 'LOHAS Park',
-            'DIS': 'Disneyland',
-            'WKS': '烏溪沙',
-            'MOS': '馬鞍山',
-            'HEO': '恆安',
+            'DIS': 'Disneyland Resort',
+            'WKS': 'Wu Kai Sha',
+            'MOS': 'Ma On Shan',
+            'HEO': 'Heng On',
             'TSH': 'Tai Shui Hang',
-            'SHM': '石门',
+            'SHM': 'Shek Mun',
             'CIO': 'City One',
-            'STW': 'Sha Tin圍',
-            'CKT': '车公廟',
-            'HIK': '显徑',
-            'KAT': '啟德',
-            'SUW': '宋皇臺',
-            'TKW': '土瓜灣',
-            'ETS': '尖東',
+            'STW': 'Sha Tin Wai',
+            'CKT': 'Che Kung Temple',
+            'HIK': 'Hin Keng',
+            'KAT': 'Kai Tak',
+            'SUW': 'Sung Wong Toi',
+            'TKW': 'To Kwa Wan',
+            'ETS': 'East Tsim Sha Tsui',
             'AUS': 'Jordan',
-            'TWW': '荃灣西',
-            'KSR': '錦上路',
+            'TWW': 'Tsuen Wan West',
+            'KSR': 'Kam Sheung Road',
             'YUL': 'Yuen Long',
             'LOP': 'Long Ping',
-            'TIS': '天水圍',
+            'TIS': 'Tin Shui Wai',
             'SIH': 'Siu Hong',
-            'TUM': '屯门',
-            'OPC': '海洋公園',
-            'WCH': '黃竹坑',
-            'LET': '利東',
-            'SOH': '海怡半島'
+            'TUM': 'Tuen Mun',
+            'OPC': 'Ocean Park',
+            'WCH': 'Wong Chuk Hang',
+            'LET': 'Lei Tung',
+            'SOH': 'South Horizons'
         };
 
-        // 路線顏色（官方色碼）
+        // Route Color（Official Color Code）
         const LINE_COLORS = {
             EAL: '#6EB5D9',
             KTL: '#00A650',
@@ -1923,32 +1923,32 @@ function refreshRegisterCaptcha() {
             SIL: '#B5C334'
         };
 
-        // 路線 & 车站（Complete版）
+        // Route & Station（Full version）
         const LINE_STATIONS = {
-            AEL: { name: '機场快線', stations: ['HOK', 'KOW', 'TSY', 'AIR', 'AWE'] },
-            TCL: { name: '東涌線', stations: ['HOK', 'KOW', 'OLY', 'NAC', 'LAK', 'TSY', 'SUN', 'TUC'] },
-            TML: { name: '屯馬線', stations: ['WKS', 'MOS', 'HEO', 'TSH', 'SHM', 'CIO', 'STW', 'CKT', 'TAW', 'HIK', 'DIH',
+            AEL: { name: 'Airport Express', stations: ['HOK', 'KOW', 'TSY', 'AIR', 'AWE'] },
+            TCL: { name: 'Tung Chung Line', stations: ['HOK', 'KOW', 'OLY', 'NAC', 'LAK', 'TSY', 'SUN', 'TUC'] },
+            TML: { name: 'Tuen Ma Line', stations: ['WKS', 'MOS', 'HEO', 'TSH', 'SHM', 'CIO', 'STW', 'CKT', 'TAW', 'HIK', 'DIH',
                     'KAT', 'SUW', 'TKW', 'HOM', 'HUH', 'ETS', 'AUS', 'MEF', 'TWW', 'KSR', 'YUL', 'LOP', 'TIS', 'SIH',
                     'TUM'
                 ] },
-            TKL: { name: '將軍澳線', stations: ['NOP', 'QUB', 'YAT', 'TIK', 'TKO', 'HAO', 'POA', 'LHP'] },
-            EAL: { name: '東铁線', stations: ['ADM', 'EXC', 'HUH', 'MKK', 'KOT', 'TAW', 'SHT', 'FOT', 'RAC', 'UNI', 'TAP',
+            TKL: { name: 'Tseung Kwan O Line', stations: ['NOP', 'QUB', 'YAT', 'TIK', 'TKO', 'HAO', 'POA', 'LHP'] },
+            EAL: { name: 'East Rail Line', stations: ['ADM', 'EXC', 'HUH', 'MKK', 'KOT', 'TAW', 'SHT', 'FOT', 'RAC', 'UNI', 'TAP',
                     'TWO', 'FAN', 'SHS', 'LOW', 'LMC'
                 ] },
-            SIL: { name: '南港島線', stations: ['ADM', 'OPC', 'WCH', 'LET', 'SOH'] },
-            TWL: { name: '荃灣線', stations: ['CEN', 'ADM', 'TST', 'JOR', 'YMT', 'MOK', 'PRE', 'SSP', 'CSW', 'LCK', 'MEF',
+            SIL: { name: 'South Island Line', stations: ['ADM', 'OPC', 'WCH', 'LET', 'SOH'] },
+            TWL: { name: 'Tsuen Wan Line', stations: ['CEN', 'ADM', 'TST', 'JOR', 'YMT', 'MOK', 'PRE', 'SSP', 'CSW', 'LCK', 'MEF',
                     'LAK', 'KWF', 'KWH', 'TWH', 'TSW'
                 ] },
-            ISL: { name: '港島線', stations: ['KET', 'HKU', 'SYP', 'SHW', 'CEN', 'ADM', 'WAC', 'CAB', 'TIH', 'FOH', 'NOP',
+            ISL: { name: 'Island Line', stations: ['KET', 'HKU', 'SYP', 'SHW', 'CEN', 'ADM', 'WAC', 'CAB', 'TIH', 'FOH', 'NOP',
                     'QUB', 'TAK', 'SWH', 'SKW', 'HFC', 'CHW'
                 ] },
-            KTL: { name: '觀塘線', stations: ['WHA', 'HOM', 'YMT', 'MOK', 'PRE', 'SKM', 'KOT', 'LOF', 'WTS', 'DIH', 'CHH',
+            KTL: { name: 'Kwun Tong Line', stations: ['WHA', 'HOM', 'YMT', 'MOK', 'PRE', 'SKM', 'KOT', 'LOF', 'WTS', 'DIH', 'CHH',
                     'KOB', 'NTK', 'KWT', 'LAT', 'YAT', 'TIK'
                 ] },
-            DRL: { name: 'Disneyland線', stations: ['SUN', 'DIS'] }
+            DRL: { name: 'Disneyland Resort Line', stations: ['SUN', 'DIS'] }
         };
 
-        // 終點站定義
+        // Terminus Definition
         const LINE_TERMINALS = {
             AEL: { UP: ['AIR', 'AWE'], DOWN: ['HOK'] },
             TCL: { UP: ['TUC'], DOWN: ['HOK'] },
@@ -2043,7 +2043,7 @@ function refreshRegisterCaptcha() {
                 const scheduleDiv = document.createElement('div');
                 scheduleDiv.className = 'schedule-area';
                 scheduleDiv.id = `schedule-${line}`;
-                scheduleDiv.innerHTML = `<div class="empty-message">載入中...</div>`;
+                scheduleDiv.innerHTML = `<div class="empty-message">Loading...</div>`;
                 card.appendChild(scheduleDiv);
 
                 grid.appendChild(card);
@@ -2056,11 +2056,11 @@ function refreshRegisterCaptcha() {
             const data = lineData[line];
             const station = selectedStation[line];
             if (!station) {
-                container.innerHTML = `<div class="empty-message">无效车站</div>`;
+                container.innerHTML = `<div class="empty-message">Invalid station</div>`;
                 return;
             }
             if (!data || !data[station]) {
-                container.innerHTML = `<div class="empty-message">暫无数據</div>`;
+                container.innerHTML = `<div class="empty-message">No data</div>`;
                 return;
             }
             const stationData = data[station];
@@ -2069,16 +2069,16 @@ function refreshRegisterCaptcha() {
             dirs.forEach(dir => {
                 const trains = stationData[dir];
                 const isTerm = isTerminal(line, station, dir);
-                const dirDisplay = dir === 'UP' ? 'Upload' : 'Download';
-                const destMap = { 'UP': '往', 'DOWN': '往' };
+                const dirDisplay = dir === 'UP' ? 'Up' : 'Down';
+                const destMap = { 'UP': 'to', 'DOWN': 'to' };
                 html +=
                     `<div class="direction-block"><div class="dir-label">${dirDisplay} <span>${destMap[dir] || ''}</span></div>`;
 
                 if (!trains || trains.length === 0) {
                     if (isTerm) {
-                        html += `<div class="terminal-message">本站为 ${dirDisplay} 終點站</div>`;
+                        html += `<div class="terminal-message">This site is ${dirDisplay} Terminus</div>`;
                     } else {
-                        html += `<div class="empty-message">暫无列车</div>`;
+                        html += `<div class="empty-message">No trains</div>`;
                     }
                 } else {
                     const displayTrains = trains.slice(0, 4);
@@ -2111,7 +2111,7 @@ function refreshRegisterCaptcha() {
                 if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
                 const json = await resp.json();
                 if (json.status === 0) {
-                    const msg = json.message || '服務暫停或錯誤';
+                    const msg = json.message || 'Service suspended or error';
                     if (!lineData[line]) lineData[line] = {};
                     lineData[line][station] = { UP: [], DOWN: [], error: msg };
                     updateScheduleUI(line);
@@ -2149,9 +2149,9 @@ function refreshRegisterCaptcha() {
             } catch (err) {
                 console.warn(`fetch error for ${line}`, err);
                 if (!lineData[line]) lineData[line] = {};
-                lineData[line][station] = { UP: [], DOWN: [], error: '无法連線' };
+                lineData[line][station] = { UP: [], DOWN: [], error: 'Unable to connect' };
                 updateScheduleUI(line);
-                showError(`[${line}] 无法取得数據: ${err.message}`);
+                showError(`[${line}] UnableObtainData: ${err.message}`);
             }
         }
 

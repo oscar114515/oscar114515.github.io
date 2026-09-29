@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>線上格式轉換器 · 我的网站</title>
+    <title>线上格式转换器 · 我的网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -75,7 +75,7 @@
         .auth-link.logout:hover { background: #dc3545; color: white; }
         .container { max-width: 1200px; width: 100%; padding: 20px; }
 
-        /* ===== 页面標題 ===== */
+        /* ===== 页面标題 ===== */
         .page-header {
             text-align: center; margin-bottom: 40px; padding: 30px 20px;
             background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
@@ -83,7 +83,7 @@
         .page-header h1 { font-size: 2rem; color: #0b1b33; margin-bottom: 10px; }
         .page-header p { color: #6a7e9b; font-size: 1rem; }
 
-        /* ===== 文件上传區 ===== */
+        /* ===== 文件上传区 ===== */
         .upload-area {
             background: white; border-radius: 20px; padding: 40px; margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06); text-align: center;
@@ -104,7 +104,7 @@
         .file-info .filename { font-weight: 600; color: #0b1b33; }
         .file-info .filesize { color: #6a7e9b; font-size: 0.85rem; margin-left: 10px; }
 
-        /* ===== 轉換選項 ===== */
+        /* ===== 转换选项 ===== */
         .convert-section {
             background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: none;
@@ -138,7 +138,7 @@
         .progress-fill { height: 100%; background: linear-gradient(90deg, #28a745, #20c997); width: 0%; transition: width 0.3s; }
         .progress-text { text-align: center; margin-top: 10px; color: #6a7e9b; font-size: 0.9rem; }
 
-        /* ===== 下載區 ===== */
+        /* ===== 下载区 ===== */
         .download-section {
             background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06); display: none; text-align: center;
@@ -155,7 +155,7 @@
         .convert-another { display: block; margin-top: 15px; color: #007bff; text-decoration: none; }
         .convert-another:hover { text-decoration: underline; }
 
-        /* ===== 說明區 ===== */
+        /* ===== 说明区 ===== */
         .info-section {
             background: white; border-radius: 20px; padding: 30px; margin-bottom: 30px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
@@ -173,7 +173,7 @@
         .modal-box .divider { height: 1px; background: #eef2f7; margin: 14px 0; }
         .contact-info { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
 
-        /* ===== 登入弹窗 ===== */
+        /* ===== 登录弹窗 ===== */
         .auth-modal-box { background: white; border-radius: 20px; padding: 2rem; width: 90%; max-width: 400px; }
         .auth-modal-box .brand { text-align: center; margin-bottom: 1.5rem; }
         .auth-modal-box .brand h2 { font-size: 1.1rem; font-weight: 500; color: #0b1b33; }
@@ -193,14 +193,14 @@
         .auth-modal-box .message-success { color: #28a745; background: #d4edda; border: 1px solid #c3e6cb; display: block; }
         .auth-modal-box .message-error { color: #dc3545; background: #f8d7da; border: 1px solid #f5c6cb; display: block; }
 
-        /* ===== 加載動画 ===== */
+        /* ===== 加載动画 ===== */
         .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; justify-content: center; align-items: center; z-index: 9999; background: rgba(0,0,0,0.5); }
         .loading-box { background: white; border-radius: 20px; padding: 2rem; text-align: center; min-width: 200px; }
         .loading-spinner { width: 40px; height: 40px; border: 3px solid #e9ecef; border-top: 3px solid #007bff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 15px; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loading-box p { color: #6a7e9b; font-size: 1rem; }
     
-        /* ===== 語言選擇器 ===== */
+        /* ===== 语言选择器 ===== */
         .lang-selector {
             position: relative;
             display: inline-block;
@@ -359,21 +359,21 @@
             <div class="nav-right">
                 <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
+                            <option value="zh">繁体中文</option>
                             <option value="cn">简体中文</option>
                             <option value="en">English</option>
                         </select>
                     </li>
                     <li><a href="/cn/index.html">作品集</a></li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn" style="display:none;">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="头像">
                         </button>
                     </li>
                     <li><a href="/cn/privacy.html">隐私政策</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     <li>
                         <div class="lang-selector">
@@ -401,7 +401,7 @@
                                 </div>
                                 <div class="lang-option" data-lang="ja">
                                     <span>🇯🇵</span>
-                                    <span>日本語</span>
+                                    <span>日本语</span>
                                 </div>
                             </div>
                         </div>
@@ -414,17 +414,17 @@
     <!-- ===== 主容器 ===== -->
     <div class="container">
 
-        <!-- 页面標題 -->
+        <!-- 页面标題 -->
         <div class="page-header">
-            <h1>📁 線上格式轉換器</h1>
-            <p>支援圖片、音頻、文檔等格式的線上轉換</p>
+            <h1>📁 线上格式转换器</h1>
+            <p>支援图片、音频、文档等格式的线上转换</p>
         </div>
 
         <!-- 文件上传 -->
         <div class="upload-area" id="uploadArea">
             <i class="fas fa-cloud-upload-alt"></i>
-            <p>拖拽文件至此，或點擊選擇文件</p>
-            <label for="fileInput" class="upload-btn">選擇文件</label>
+            <p>拖拽文件至此，或点击选择文件</p>
+            <label for="fileInput" class="upload-btn">选择文件</label>
             <input type="file" id="fileInput">
             <div class="file-info" id="fileInfo">
                 <span class="filename" id="fileName"></span>
@@ -432,43 +432,43 @@
             </div>
         </div>
 
-        <!-- 轉換選項 -->
+        <!-- 转换选项 -->
         <div class="convert-section" id="convertSection">
-            <h2>選擇目標格式</h2>
-            <p class="format-label">綠色 = 可直接轉換 | 灰色 = 需要後端支援</p>
+            <h2>选择目标格式</h2>
+            <p class="format-label">綠色 = 可直接转换 | 灰色 = 需要后端支援</p>
             <div class="format-grid" id="formatGrid"></div>
             <div class="progress-container" id="progressContainer">
                 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-                <p class="progress-text" id="progressText">轉換中...</p>
+                <p class="progress-text" id="progressText">转换中...</p>
             </div>
-            <button class="convert-btn" id="convertBtn" disabled>开始轉換</button>
+            <button class="convert-btn" id="convertBtn" disabled>开始转换</button>
         </div>
 
-        <!-- 下載區 -->
+        <!-- 下载区 -->
         <div class="download-section" id="downloadSection">
             <i class="fas fa-check-circle"></i>
-            <p>轉換完成！</p>
-            <a href="#" class="download-btn" id="downloadBtn" download>下載文件</a>
-            <a href="#" class="convert-another" id="convertAnother">轉換另一個文件</a>
+            <p>转换完成！</p>
+            <a href="#" class="download-btn" id="downloadBtn" download>下载文件</a>
+            <a href="#" class="convert-another" id="convertAnother">转换另一个文件</a>
         </div>
 
-        <!-- 說明區 -->
+        <!-- 说明区 -->
         <div class="info-section">
-            <h2>📋 支援格式說明</h2>
+            <h2>📋 支援格式说明</h2>
             <ul>
-                <li><strong>圖片格式：</strong>JPG、PNG、WEBP、BMP、GIF、SVG、ICO、TIFF 可互相轉換</li>
-                <li><strong>音頻格式：</strong>MP3、WAV、OGG 可进行基礎轉換</li>
-                <li><strong>文檔格式：</strong>TXT、HTML、JSON、XML、CSV、MD 可互相轉換</li>
-                <li><strong>视頻格式：</strong>部分格式需要後端 FFmpeg 支援</li>
+                <li><strong>图片格式：</strong>JPG、PNG、WEBP、BMP、GIF、SVG、ICO、TIFF 可互相转换</li>
+                <li><strong>音频格式：</strong>MP3、WAV、OGG 可进行基礎转换</li>
+                <li><strong>文档格式：</strong>TXT、HTML、JSON、XML、CSV、MD 可互相转换</li>
+                <li><strong>视频格式：</strong>部分格式需要后端 FFmpeg 支援</li>
             </ul>
             <div class="note">
-                <strong>⚠️ 注意事項：</strong>部分格式轉換（如 DOCX → PDF、PPTX → MP4 等）需要後端服務，本工具目前僅支援純前端可實現的格式轉換。
+                <strong>⚠️ 注意事项：</strong>部分格式转换（如 DOCX → PDF、PPTX → MP4 等）需要后端服务，本工具目前僅支援純前端可实现的格式转换。
             </div>
         </div>
 
     </div>
 
-    <!-- ===== 联系我們弹窗 ===== -->
+    <!-- ===== 联系我们弹窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             <div class="title">📱 追蹤我</div>
@@ -487,36 +487,36 @@
         </div>
     </div>
 
-    <!-- ===== 登入弹窗 ===== -->
+    <!-- ===== 登录弹窗 ===== -->
     <div class="modal-overlay" id="authModal">
         <div class="auth-modal-box" onclick="event.stopPropagation()">
-            <div class="brand"><h2>欢迎回來</h2></div>
+            <div class="brand"><h2>欢迎回来</h2></div>
             <div class="tab-switch">
-                <button class="tab-btn active" id="loginTabBtn">登錄</button>
-                <button class="tab-btn" id="registerTabBtn">註冊</button>
+                <button class="tab-btn active" id="loginTabBtn">登录</button>
+                <button class="tab-btn" id="registerTabBtn">注册</button>
             </div>
             <div id="loginPanel" class="form-panel">
                 <div id="loginMessage" class="message-box"></div>
                 <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-                <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                <button class="action-btn" id="loginSubmitBtn">登入</button>
-                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳號登入</button>
+                <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
+                <button class="action-btn" id="loginSubmitBtn">登录</button>
+                <button class="google-btn" id="googleLoginBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">使用 Google 帳号登录</button>
             </div>
             <div id="registerPanel" class="form-panel hidden">
                 <div id="registerMessage" class="message-box"></div>
                 <div class="input-group"><input type="text" id="registerName" class="input-field" placeholder="姓名"></div>
                 <div class="input-group"><input type="email" id="registerEmail" class="input-field" placeholder="Email"></div>
-                <div class="input-group"><input type="password" id="registerPassword" class="input-field" placeholder="密碼"></div>
-                <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                <div class="input-group"><input type="password" id="registerPassword" class="input-field" placeholder="密码"></div>
+                <button class="action-btn" id="registerSubmitBtn">注册</button>
             </div>
         </div>
     </div>
 
-    <!-- ===== 加載動画 ===== -->
+    <!-- ===== 加載动画 ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner"></div>
-            <p>處理中...</p>
+            <p>处理中...</p>
         </div>
     </div>
 
@@ -534,11 +534,11 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // ===== 全局變量 =====
+        // ===== 全局变量 =====
         let currentFile = null;
         let selectedFormat = null;
 
-        // ===== 純前端可實現的格式轉換 =====
+        // ===== 純前端可实现的格式转换 =====
         const frontendConversions = {
             'JPG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO'],
             'JPEG': ['PNG', 'WEBP', 'BMP', 'GIF', 'SVG', 'ICO'],
@@ -574,7 +574,7 @@
             return filename.split('.').pop().toUpperCase();
         }
 
-        // ===== 文件上传處理 =====
+        // ===== 文件上传处理 =====
         const fileInput = document.getElementById('fileInput');
         const uploadArea = document.getElementById('uploadArea');
         const fileInfo = document.getElementById('fileInfo');
@@ -589,7 +589,7 @@
         const progressFill = document.getElementById('progressFill');
         const progressText = document.getElementById('progressText');
 
-        // 點擊上传
+        // 点击上传
         uploadArea.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', handleFileSelect);
 
@@ -622,7 +622,7 @@
             fileSize.textContent = formatFileSize(file.size);
             fileInfo.classList.add('show');
 
-            // 显示轉換選項
+            // 显示转换选项
             updateFormatOptions(ext);
             convertSection.classList.add('show');
             downloadSection.classList.remove('show');
@@ -636,9 +636,9 @@
 
             const availableFormats = frontendConversions[sourceExt] || [];
 
-            // 定義所有格式及其显示名稱
+            // 定义所有格式及其显示名称
             const allFormats = [
-                // 圖片
+                // 图片
                 { ext: 'JPG', name: 'JPG', category: 'image' },
                 { ext: 'PNG', name: 'PNG', category: 'image' },
                 { ext: 'WEBP', name: 'WEBP', category: 'image' },
@@ -647,7 +647,7 @@
                 { ext: 'SVG', name: 'SVG', category: 'image' },
                 { ext: 'ICO', name: 'ICO', category: 'image' },
                 { ext: 'TIFF', name: 'TIFF', category: 'image' },
-                // 文檔
+                // 文档
                 { ext: 'TXT', name: 'TXT', category: 'doc' },
                 { ext: 'HTML', name: 'HTML', category: 'doc' },
                 { ext: 'JSON', name: 'JSON', category: 'doc' },
@@ -655,7 +655,7 @@
                 { ext: 'CSV', name: 'CSV', category: 'doc' },
                 { ext: 'TSV', name: 'TSV', category: 'doc' },
                 { ext: 'MD', name: 'Markdown', category: 'doc' },
-                // 音頻
+                // 音频
                 { ext: 'MP3', name: 'MP3', category: 'audio' },
                 { ext: 'WAV', name: 'WAV', category: 'audio' },
                 { ext: 'OGG', name: 'OGG', category: 'audio' },
@@ -670,7 +670,7 @@
                     btn.addEventListener('click', () => selectFormat(format.ext, btn));
                 } else {
                     btn.classList.add('disabled');
-                    btn.title = '此格式轉換需要後端服務';
+                    btn.title = '此格式转换需要后端服务';
                 }
 
                 formatGrid.appendChild(btn);
@@ -684,7 +684,7 @@
             convertBtn.disabled = false;
         }
 
-        // ===== 轉換功能 =====
+        // ===== 转换功能 =====
         convertBtn.addEventListener('click', startConversion);
 
         async function startConversion() {
@@ -693,7 +693,7 @@
             convertBtn.disabled = true;
             progressContainer.classList.add('show');
             progressFill.style.width = '0%';
-            progressText.textContent = '準备轉換...';
+            progressText.textContent = '准备转换...';
 
             const ext = getFileExtension(currentFile.name);
             try {
@@ -705,15 +705,15 @@
                     await convertDocument(ext, selectedFormat);
                 }
             } catch (error) {
-                alert('轉換失敗：' + error.message);
+                alert('转换失败：' + error.message);
                 progressContainer.classList.remove('show');
                 convertBtn.disabled = false;
             }
         }
 
-        // ===== 圖片轉換 =====
+        // ===== 图片转换 =====
         async function convertImage(sourceExt, targetExt) {
-            progressText.textContent = '正在轉換圖片...';
+            progressText.textContent = '正在转换图片...';
             progressFill.style.width = '30%';
 
             const canvas = document.createElement('canvas');
@@ -730,7 +730,7 @@
             canvas.width = img.width;
             canvas.height = img.height;
 
-            // 處理透明背景
+            // 处理透明背景
             if (targetExt === 'JPG' || targetExt === 'BMP') {
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -747,7 +747,7 @@
             else if (targetExt === 'BMP') { mimeType = 'image/bmp'; }
             else if (targetExt === 'GIF') { mimeType = 'image/gif'; }
             else if (targetExt === 'SVG') {
-                // SVG 需要特殊處理
+                // SVG 需要特殊处理
                 const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
     <image href="${canvas.toDataURL()}" width="${canvas.width}" height="${canvas.height}"/>
@@ -763,7 +763,7 @@
                 return;
             }
             else if (targetExt === 'TIFF') {
-                alert('TIFF 格式轉換需要後端支援');
+                alert('TIFF 格式转换需要后端支援');
                 progressContainer.classList.remove('show');
                 convertBtn.disabled = false;
                 return;
@@ -780,9 +780,9 @@
             });
         }
 
-        // ===== 音頻轉換 =====
+        // ===== 音频转换 =====
         async function convertAudio(sourceExt, targetExt) {
-            progressText.textContent = '正在轉換音頻...';
+            progressText.textContent = '正在转换音频...';
             progressFill.style.width = '30%';
 
             if (sourceExt === targetExt) {
@@ -800,11 +800,11 @@
                 downloadBlob(wavBlob, currentFile.name.replace(/\.[^/.]+$/, '') + '.wav');
                 finishConversion();
             } else if (targetExt === 'OGG' || targetExt === 'MP3') {
-                alert(targetExt + ' 格式轉換需要後端 FFmpeg 支援，目前无法在瀏覽器中完成');
+                alert(targetExt + ' 格式转换需要后端 FFmpeg 支援，目前无法在浏览器中完成');
                 progressContainer.classList.remove('show');
                 convertBtn.disabled = false;
             } else {
-                throw new Error('不支援的音頻格式轉換');
+                throw new Error('不支援的音频格式转换');
             }
         }
 
@@ -815,7 +815,7 @@
             const arrayBuffer = new ArrayBuffer(44 + length * 2);
             const view = new DataView(arrayBuffer);
 
-            // WAV 頭部
+            // WAV 头部
             writeString(view, 0, 'RIFF');
             view.setUint32(4, 36 + length * 2, true);
             writeString(view, 8, 'WAVE');
@@ -830,7 +830,7 @@
             writeString(view, 36, 'data');
             view.setUint32(40, length * 2, true);
 
-            // 寫入音頻数據
+            // 写入音频数据
             const channels = [];
             for (let ch = 0; ch < numChannels; ch++) {
                 channels.push(buffer.getChannelData(ch));
@@ -854,9 +854,9 @@
             }
         }
 
-        // ===== 文檔轉換 =====
+        // ===== 文档转换 =====
         async function convertDocument(sourceExt, targetExt) {
-            progressText.textContent = '正在轉換文檔...';
+            progressText.textContent = '正在转换文档...';
             progressFill.style.width = '30%';
 
             if (sourceExt === targetExt) {
@@ -871,7 +871,7 @@
             } else if (targetExt === 'HTML') {
                 const htmlContent = `<!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"><title>轉換结果</title>    
+<head><meta charset="UTF-8"><title>转换结果</title>    
 </head>
 <body>
 <pre>${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
@@ -928,12 +928,12 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             } else if (targetExt === 'MD') {
                 downloadFile(text, currentFile.name.replace(/\.[^/.]+$/, '') + '.md', 'text/markdown');
             } else {
-                throw new Error('不支援的格式轉換');
+                throw new Error('不支援的格式转换');
             }
             finishConversion();
         }
 
-        // ===== 下載文件 =====
+        // ===== 下载文件 =====
         function downloadFile(content, filename, mimeType) {
             const blob = new Blob([content], { type: mimeType });
             downloadBlob(blob, filename);
@@ -953,7 +953,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
 
         function finishConversion() {
             progressFill.style.width = '100%';
-            progressText.textContent = '轉換完成！';
+            progressText.textContent = '转换完成！';
             setTimeout(() => {
                 progressContainer.classList.remove('show');
                 downloadSection.classList.add('show');
@@ -988,7 +988,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
         });
 
-        // ===== Firebase 認证 =====
+        // ===== Firebase 认证 =====
         const authNavLink = document.getElementById('authNavLink');
         const authModal = document.getElementById('authModal');
         const loginTabBtn = document.getElementById('loginTabBtn');
@@ -1039,16 +1039,16 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             const name = document.getElementById('loginName').value.trim();
             const pw = document.getElementById('loginPassword').value;
             if (!name || !pw) {
-                alert('請输入姓名和密碼');
+                alert('請输入姓名和密码');
                 return;
             }
             auth.signInWithEmailAndPassword(name + '@example.com', pw)
                 .then(() => {
-                    alert('登入成功！');
+                    alert('登录成功！');
                     closeAuthModal();
                 })
                 .catch(e => {
-                    alert('登入失敗：' + e.message);
+                    alert('登录失败：' + e.message);
                 });
         });
 
@@ -1057,7 +1057,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             const email = document.getElementById('registerEmail').value.trim();
             const pw = document.getElementById('registerPassword').value;
             if (!name || !email || !pw) {
-                alert('請填寫所有栏位');
+                alert('請填写所有栏位');
                 return;
             }
             auth.createUserWithEmailAndPassword(email, pw)
@@ -1065,17 +1065,17 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                     return cred.user.updateProfile({ displayName: name });
                 })
                 .then(() => {
-                    alert('註冊成功！');
+                    alert('注册成功！');
                     closeAuthModal();
                 })
                 .catch(e => {
-                    alert('註冊失敗：' + e.message);
+                    alert('注册失败：' + e.message);
                 });
         });
 
         document.getElementById('googleLoginBtn').addEventListener('click', () => {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(e => alert('Google 登入失敗：' + e.message));
+            auth.signInWithPopup(provider).catch(e => alert('Google 登录失败：' + e.message));
         });
 
         auth.onAuthStateChanged(user => {
@@ -1090,12 +1090,12 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
                 }
             } else {
                 avatarBtn.style.display = 'none';
-                authNavLink.textContent = '登入';
+                authNavLink.textContent = '登录';
                 authNavLink.classList.remove('logout');
             }
         });
 
-        // ===== 退出鍵 =====
+        // ===== 退出键 =====
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 if (contactModal.style.display === 'flex') {
@@ -1106,7 +1106,7 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
             }
         });
 
-        // 語言翻譯功能
+        // 语言翻譯功能
         const langDropdown = document.getElementById('langDropdown');
         const langBtn = document.getElementById('langBtn');
         const currentLang = document.getElementById('currentLang');
@@ -1155,16 +1155,16 @@ ${text.split('\n').map(l => '  <line>' + l.replace(/&/g, '&amp;').replace(/</g, 
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
+            <p>本站不收集任何个人数据。所有工具均在本地浏览器运行，不會將你的数据上传至任何服务器。我们不使用 Cookie 追踪，也不与第三方共享数据。</p>
         </div>
         <div class="footer-col">
-            <h4>联系我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
-            <p>郵箱: oscarmtr114514@gmail.com</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同学的个人作品集网站，上面所有工具均由原创开发。网站使用 GitHub Pages 托管，並整合了 Firebase 认证功能。</p>
+            <p>邮箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆同学工作室LZTX Studio</span>
     </div>
 </div>
 

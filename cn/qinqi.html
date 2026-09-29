@@ -7,7 +7,7 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7041222551434229" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>亲戚计算機 · 我的网站</title>
+    <title>亲戚计算机 · 我的网站</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
@@ -308,7 +308,7 @@
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗证碼 */
+        /* CAPTCHA 验证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -395,20 +395,20 @@
             <div class="nav-right">
                 <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
+                            <option value="zh">繁体中文</option>
                             <option value="cn">简体中文</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="头像">
                         </button>
                     </li>
                     <li><a href="/cn/privacy.html">隐私政策</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     
                 </ul>
@@ -418,8 +418,8 @@
 
     <div class="content-wrapper">
         <div class="card">
-            <h1><i class="fas fa-users" style="color:#007bff"></i> 亲戚计算機</h1>
-            <div class="subhead">輕鬆计算中國亲戚关係，逢年過节不再叫錯人</div>
+            <h1><i class="fas fa-users" style="color:#007bff"></i> 亲戚计算机</h1>
+            <div class="subhead">轻鬆计算中国亲戚关系，逢年过节不再叫错人</div>
             
             <div class="gender-selector">
                 <button class="gender-btn active" data-gender="male"><i class="fas fa-mars"></i> 我是男生</button>
@@ -427,12 +427,12 @@
             </div>
             
             <div class="direction-toggle">
-                <button class="dir-btn active" data-dir="forward">我稱呼對方</button>
-                <button class="dir-btn" data-dir="reverse">對方稱呼我</button>
+                <button class="dir-btn active" data-dir="forward">我称呼对方</button>
+                <button class="dir-btn" data-dir="reverse">对方称呼我</button>
             </div>
             
             <div class="relation-chain" id="relationChain">
-                <span style="color:#8a9bb0;">點擊关係按钮構建关係鏈...</span>
+                <span style="color:#8a9bb0;">点击关系按钮构建关系链...</span>
             </div>
             
             <div class="relation-buttons">
@@ -478,7 +478,7 @@
             </div>
             
             <div class="result-box" id="resultBox" style="display:none;">
-                <div class="result-label"><i class="fas fa-check-circle"></i> 正確的稱呼是</div>
+                <div class="result-label"><i class="fas fa-check-circle"></i> 正确的称呼是</div>
                 <div class="result-value" id="resultValue">--</div>
                 <div class="result-detail" id="resultDetail"></div>
             </div>
@@ -487,16 +487,16 @@
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
+            <p>本站不收集任何个人数据。所有工具均在本地浏览器运行，不會將你的数据上传至任何服务器。我们不使用 Cookie 追踪，也不与第三方共享数据。</p>
         </div>
         <div class="footer-col">
-            <h4>联系我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
-            <p>郵箱: oscarmtr114514@gmail.com</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同学的个人作品集网站，上面所有工具均由原创开发。网站使用 GitHub Pages 托管，並整合了 Firebase 认证功能。</p>
+            <p>邮箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆同学工作室LZTX Studio</span>
     </div>
 </div>
         </div>
@@ -525,18 +525,18 @@
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
                 <button class="action-btn danger" id="authLogoutBtn">登出</button>
-                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用户管理</button>
             </div>
             <div id="authPanel">
                 <div class="tab-switch">
-                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
-                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                    <button class="tab-btn active" id="loginTabBtn">登录</button>
+                    <button class="tab-btn" id="registerTabBtn">注册</button>
                 </div>
                 <div id="loginPanel" class="form-panel">
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -545,21 +545,21 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 登录
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="设定密码 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密码"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入驗证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">验证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入验证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="验证碼" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
-                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <button class="action-btn" id="registerSubmitBtn">注册</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -568,7 +568,7 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 註冊
+                        使用 Google 注册
                     </button>
                 </div>
             </div>
@@ -578,7 +578,7 @@
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
-            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <h3><i class="fas fa-users"></i> 用户管理</h3>
             <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
         </div>
     </div>
@@ -671,7 +671,7 @@
             hideLoading();
         }
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '登录';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.addEventListener('click', openAuthModal);
@@ -692,7 +692,7 @@
         function closeAdminModalFn() { adminModal.classList.remove('show'); }
 
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google 登录中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -704,24 +704,24 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登录失败：' + e.message, 'error');
                 }
             }
         }
         async function handleRegister() {
             const name = regName.value.trim(), pw = regPassword.value, cf = regConfirmPassword.value;
-            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
-            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
-            showLoading('註冊中...');
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填写所有栏位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2个字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密码至少4个字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密码不一致', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '验证碼错误，請重新獲取', 'error'); return; }
+            showLoading('注册中...');
             registerSubmitBtn.disabled = true;
-            registerSubmitBtn.innerHTML = '<span class="spinner"></span>註冊中...';
+            registerSubmitBtn.innerHTML = '<span class="spinner"></span>注册中...';
             try {
                                 const safeName = name.replace(/[.#$\[\]]/g, '_');
                 const snap = await db.ref('users/' + safeName).once('value');
-                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; return; }
+                if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error'); hideLoading(); registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '注册'; return; }
                 const avatar = generateIdenticon(name);
                                 const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
@@ -730,18 +730,18 @@
                 closeAuthModal();
                 regName.value = ''; regPassword.value = ''; regConfirmPassword.value = '';
                 document.getElementById('registerCaptcha').value = '';
-            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error'); hideLoading(); }
-            finally { registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '註冊'; }
+            } catch (e) { showMsg(registerMessage, '注册失败', 'error'); hideLoading(); }
+            finally { registerSubmitBtn.disabled = false; registerSubmitBtn.textContent = '注册'; }
         }
         async function handleLogin() {
             const name = loginName.value.trim(), pw = loginPassword.value;
-            if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密码', 'error'); return; }
+            showLoading('登录中...');
             loginSubmitBtn.disabled = true;
-            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmitBtn.innerHTML = '<span class="spinner"></span>登录中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; return; }
+                if (!snap.exists()) { showMsg(loginMessage, '账户或密码不正确', 'error'); hideLoading(); loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -754,15 +754,15 @@
                         loginName.value = ''; loginPassword.value = '';
                     }
                 });
-                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                if (!found) showMsg(loginMessage, '账户或密码不正确', 'error');
                 hideLoading();
-            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error'); hideLoading(); }
-            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登入'; }
+            } catch (e) { showMsg(loginMessage, '账户或密码不正确', 'error'); hideLoading(); }
+            finally { loginSubmitBtn.disabled = false; loginSubmitBtn.textContent = '登录'; }
         }
         function handleLogout() { showLoading('登出中...'); auth.signOut().catch(() => {}); hideUI(); }
         function showMsg(el, msg, type) { el.textContent = msg; el.className = 'message-box ' + type; setTimeout(() => { el.textContent = ''; el.className = 'message-box'; }, 3000); }
 
-        // ===== HTML 轉義（防止 XSS） =====
+        // ===== HTML 转义（防止 XSS） =====
         function escapeHtml(str) {
             if (str == null) return '';
             const div = document.createElement('div');
@@ -777,28 +777,28 @@
                 const snap = await db.ref('users').once('value');
                 allUsers = [];
                 if (snap.exists()) { snap.forEach(c => { const d = c.val(); if (d.name) allUsers.push({ key: c.key, ...d }); }); }
-                if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>'; return; }
-                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                if (allUsers.length === 0) { userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">没有任何用户</p>'; return; }
+                let html = `<table><thead><tr><th>姓名</th><th>Email</th><th>密码</th><th>注册时间</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('cn-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
-                    html += `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                    html += `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 删除</button></td></tr>`;
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
-            } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>'; }
+            } catch (e) { userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失败</p>'; }
         }
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作无法撤销。')) return;
+            if (!confirm('确定要删除用户「' + name + '」嗎？此操作无法撤销。')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (local && local.uid === key) { hideUI(); }
                 loadUserTable();
-            } catch (e) { alert('刪除失敗：' + e.message); }
+            } catch (e) { alert('删除失败：' + e.message); }
         };
 
-        // ===== 亲戚计算機功能 =====
+        // ===== 亲戚计算机功能 =====
         let userGender = 'male';
         let queryDirection = 'forward';
         let relationChain = [];
@@ -839,7 +839,7 @@
             '女婿': { male: '女婿', female: '女婿', reverse: '岳父', femaleReverse: '岳母', gender: 'male' }
         };
 
-        // 擴展关係表
+        // 擴展关系表
         const extendedRelations = {
             '伯父': { male: '伯父', female: '阿姨', reverse: '侄子', femaleReverse: '外甥', gender: 'male' },
             '婶婶': { male: '婶婶', female: '婶婶', reverse: '侄子', femaleReverse: '外甥', gender: 'female' },
@@ -854,7 +854,7 @@
         function updateChainDisplay() {
             const chain = document.getElementById('relationChain');
             if (relationChain.length === 0) {
-                chain.innerHTML = '<span style="color:#8a9bb0;">點擊关係按钮構建关係鏈...</span>';
+                chain.innerHTML = '<span style="color:#8a9bb0;">点击关系按钮构建关系链...</span>';
                 return;
             }
             
@@ -878,7 +878,7 @@
             document.getElementById('resultBox').style.display = 'none';
         }
 
-        // 关係組合表：多步关係的正確稱呼
+        // 关系组合表：多步关系的正确称呼
         const chainMap = {
             '父亲,母亲': { male: '奶奶', female: '奶奶' },
             '父亲,父亲': { male: '爺爺', female: '爺爺' },
@@ -928,7 +928,7 @@
 
         function calculate() {
             if (relationChain.length === 0) {
-                alert('請先選擇关係！');
+                alert('請先选择关系！');
                 return;
             }
 
@@ -936,16 +936,16 @@
             let result;
             let detail = relationChain.join(' → ');
 
-            // 優先使用組合表（多步关係）
+            // 优先使用组合表（多步关系）
             if (chainMap[chainKey]) {
                 result = chainMap[chainKey][userGender] || chainMap[chainKey].male;
             }
-            // 單步关係：直接查表
+            // 单步关系：直接查表
             else if (relationChain.length === 1) {
                 const rel = relationChain[0];
                 const info = relations[rel];
                 if (!info) {
-                    alert('未知的关係：' + rel);
+                    alert('未知的关系：' + rel);
                     return;
                 }
                 if (queryDirection === 'forward') {
@@ -954,7 +954,7 @@
                     result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
                 }
             }
-            // 未收錄的多步关係：显示最後一步的结果
+            // 未收录的多步关系：显示最后一步的结果
             else {
                 const lastRel = relationChain[relationChain.length - 1];
                 const info = relations[lastRel];
@@ -963,7 +963,7 @@
                 } else {
                     result = userGender === 'male' ? (info.reverse || info.male) : (info.femaleReverse || info.reverse || info.female);
                 }
-                detail += '（僅显示最後一步）';
+                detail += '（僅显示最后一步）';
             }
 
             document.getElementById('resultValue').textContent = result;
@@ -971,7 +971,7 @@
             document.getElementById('resultBox').style.display = 'block';
         }
 
-        // 事件監听
+        // 事件监听
         document.querySelectorAll('.gender-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.gender-btn').forEach(b => b.classList.remove('active'));
@@ -1046,15 +1046,15 @@
 
 
         // ===== 安全注意 =====
-        // Firebase Realtime Database 規則請設定为：
+        // Firebase Realtime Database 规则請设定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保护用户数據
-        // ===== CAPTCHA 驗证碼 =====
+        // 或更嚴格的规则以保护用户数据
+        // ===== CAPTCHA 验证碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {

@@ -406,7 +406,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* ===== 登入弹窗 ===== */
+        /* ===== 登录弹窗 ===== */
         .auth-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
@@ -454,7 +454,7 @@
         .auth-modal-box .admin-btn-small { margin-top: 0.8rem; background: transparent; border: 1px solid #e5e7eb; padding: 0.5rem; border-radius: 1rem; width: 100%; color: #6b7280; cursor: pointer; font-size: 0.85rem; display: none; }
         .auth-modal-box .admin-btn-small:hover { background: #f5f5f5; }
 
-        /* ===== 用戶管理弹窗 ===== */
+        /* ===== 用户管理弹窗 ===== */
         .admin-modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.3); display: none; align-items: center;
@@ -471,7 +471,7 @@
         .admin-modal-box .delete-user-btn { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 0.3rem 0.7rem; border-radius: 0.6rem; cursor: pointer; font-size: 0.7rem; font-weight: 500; }
         .admin-modal-box .delete-user-btn:hover { background: #fee2e2; }
 
-        /* ===== 联系我們弹窗 ===== */
+        /* ===== 联系我们弹窗 ===== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
@@ -497,7 +497,7 @@
         .platform-btn-small.qq:hover { background: #f5f0ff; border-color: #7155E5; }
         .platform-btn-small img { display: block; }
 
-        /* ===== 加載中弹窗（只畀登入/登出用） ===== */
+        /* ===== 加載中弹窗（只畀登录/登出用） ===== */
         .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
@@ -672,7 +672,7 @@
             border-top: 1px solid #eef2f7;
         }
 
-        /* CAPTCHA 驗证碼 */
+        /* CAPTCHA 验证碼 */
         .captcha-row {
             display: flex;
             align-items: center;
@@ -763,20 +763,20 @@
             <div class="nav-right">
                 <ul class="nav-links">                    <li class="lang-inline">
                         <select id="langSwitcherInline" class="lang-switcher-inline" onchange="switchLanguageInline(this.value)">
-                            <option value="zh">繁體中文</option>
+                            <option value="zh">繁体中文</option>
                             <option value="cn">简体中文</option>
                             <option value="en">English</option>
                         </select>
                     </li>
-                    <li><a href="#" id="authNavLink" class="auth-link">登入</a></li>
+                    <li><a href="#" id="authNavLink" class="auth-link">登录</a></li>
                     <li>
                         <button class="avatar-btn" id="avatarBtn">
                             <div class="default-avatar" id="avatarPlaceholder">👤</div>
-                            <img id="avatarImg" style="display:none;" alt="頭像">
+                            <img id="avatarImg" style="display:none;" alt="头像">
                         </button>
                     </li>
                     <li><a href="/cn/privacy.html">隐私政策</a></li>
-                    <li><a href="#" id="contactBtn">联系我們</a></li>
+                    <li><a href="#" id="contactBtn">联系我们</a></li>
 
                     
                 </ul>
@@ -784,25 +784,25 @@
         </nav>
     </div>
 
-    <!-- ===== 主要內容 ===== -->
+    <!-- ===== 主要内容 ===== -->
     <div class="content-wrapper">
         <div class="card crack-tool">
             <h2>🔍 网页原始碼抓取工具</h2>
 
             <div class="info-box" id="corsInfo">
-                <strong>📌 第一個代理需要授权：</strong>
-                <a href="https://cors-anywhere.herokuapp.com" target="_blank" id="corsLink">點此开啟 CORS Anywhere</a>，點擊「Request temporary access」
-                <span style="display:block;font-size:12px;color:#666;margin-top:4px;">✓ 授权後本提示會自動消失</span>
+                <strong>📌 第一个代理需要授权：</strong>
+                <a href="https://cors-anywhere.herokuapp.com" target="_blank" id="corsLink">点此开启 CORS Anywhere</a>，点击「Request temporary access」
+                <span style="display:block;font-size:12px;color:#666;margin-top:4px;">✓ 授权后本提示會自动消失</span>
             </div>
 
             <div class="proxy-selector">
                 <label for="proxySelect">🔄 代理：</label>
                 <select id="proxySelect">
-                    <option value="-1">⏳ 檢測中...</option>
+                    <option value="-1">⏳ 检测中...</option>
                 </select>
                 <span id="proxyStatus" class="proxy-status-badge status-unknown"></span>
             </div>
-            <div class="proxy-note checking" id="proxyNote">⏳ 正在檢測代理狀態...</div>
+            <div class="proxy-note checking" id="proxyNote">⏳ 正在检测代理狀態...</div>
 
             <div class="input-group">
                 <input type="text" id="urlInput" placeholder="請输入网址 (例如：https://example.com)" value="https://example.com">
@@ -813,7 +813,7 @@
                 <label class="mode-item"><input type="radio" name="mode" value="baidu" checked> 🕷️ 百度</label>
                 <label class="mode-item"><input type="radio" name="mode" value="google"> 🕷️ Google</label>
                 <label class="mode-item"><input type="radio" name="mode" value="normal"> 🌐 电腦</label>
-                <label class="mode-item"><input type="radio" name="mode" value="mobile"> 📱 手機</label>
+                <label class="mode-item"><input type="radio" name="mode" value="mobile"> 📱 手机</label>
             </div>
 
             <div id="error" class="error" style="display: none;"></div>
@@ -830,20 +830,20 @@
                     </div>
                     <div>
                         <span id="stats" class="stats">等待抓取</span>
-                        <button id="copyBtn" class="copy-btn" disabled>複製</button>
+                        <button id="copyBtn" class="copy-btn" disabled>复制</button>
                     </div>
                 </div>
-                <pre id="codeDisplay" class="empty-state">👆 输入网址，點擊「抓取」进行人機驗证</pre>
+                <pre id="codeDisplay" class="empty-state">👆 输入网址，点击「抓取」进行人机验证</pre>
             </div>
 
             <div class="signature">
-                <div class="name">by 梁喆同學</div>
-                <div>小红書 · bilibili · YouTube · 抖音</div>
+                <div class="name">by 梁喆同学</div>
+                <div>小红书 · bilibili · YouTube · 抖音</div>
             </div>
         </div>
     </div>
 
-    <!-- ===== 联系我們弹窗 ===== -->
+    <!-- ===== 联系我们弹窗 ===== -->
     <div class="modal-overlay" id="contactModal">
         <div class="modal-box" onclick="event.stopPropagation()">
             
@@ -860,7 +860,7 @@
         </div>
     </div>
 
-    <!-- ===== 登入弹窗 ===== -->
+    <!-- ===== 登录弹窗 ===== -->
     <div class="auth-modal-overlay" id="authModal">
         <div class="auth-modal-box">
             <div class="brand"><h2>欢迎你的使用</h2></div>
@@ -868,18 +868,18 @@
                 <p style="font-weight:500;margin-bottom:0.3rem;" id="authDisplayName"></p>
                 <p style="font-size:0.85rem;color:#6b7280;margin-bottom:1rem;" id="authDisplayEmail"></p>
                 <button class="action-btn danger" id="authLogoutBtn">登出</button>
-                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用戶管理</button>
+                <button class="admin-btn-small" id="authAdminBtn"><i class="fas fa-table"></i> 用户管理</button>
             </div>
             <div id="authPanel">
                 <div class="tab-switch">
-                    <button class="tab-btn active" id="loginTabBtn">登錄</button>
-                    <button class="tab-btn" id="registerTabBtn">註冊</button>
+                    <button class="tab-btn active" id="loginTabBtn">登录</button>
+                    <button class="tab-btn" id="registerTabBtn">注册</button>
                 </div>
                 <div id="loginPanel" class="form-panel">
                     <div id="loginMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="loginName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密碼"></div>
-                    <button class="action-btn" id="loginSubmitBtn">登入</button>
+                    <div class="input-group"><input type="password" id="loginPassword" class="input-field" placeholder="密码"></div>
+                    <button class="action-btn" id="loginSubmitBtn">登录</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleLoginBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -888,21 +888,21 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 登入
+                        使用 Google 登录
                     </button>
                 </div>
                 <div id="registerPanel" class="form-panel hidden">
                     <div id="registerMessage" class="message-box"></div>
                     <div class="input-group"><input type="text" id="regName" class="input-field" placeholder="姓名"></div>
-                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="設定密碼 (至少4位)"></div>
-                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="確認密碼"></div>
+                    <div class="input-group"><input type="password" id="regPassword" class="input-field" placeholder="设定密码 (至少4位)"></div>
+                    <div class="input-group"><input type="password" id="regConfirmPassword" class="input-field" placeholder="确认密码"></div>
                     <div class="captcha-row">
-                        <label class="captcha-label">驗证碼</label>
-                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入驗证碼" autocomplete="off">
-                        <img id="registerCaptchaImg" class="captcha-image" alt="驗证碼" onclick="refreshRegisterCaptcha()">
+                        <label class="captcha-label">验证碼</label>
+                        <input type="text" id="registerCaptcha" class="captcha-input" placeholder="請输入验证碼" autocomplete="off">
+                        <img id="registerCaptchaImg" class="captcha-image" alt="验证碼" onclick="refreshRegisterCaptcha()">
                         <button class="captcha-refresh" onclick="refreshRegisterCaptcha()" title="重新生成">↻</button>
                     </div>
-                    <button class="action-btn" id="registerSubmitBtn">註冊</button>
+                    <button class="action-btn" id="registerSubmitBtn">注册</button>
                     <div class="divider"><span>或</span></div>
                     <button class="google-btn" id="googleRegisterBtn">
                         <svg width="20" height="20" viewBox="0 0 48 48">
@@ -911,23 +911,23 @@
                             <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                             <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                         </svg>
-                        使用 Google 註冊
+                        使用 Google 注册
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== 用戶管理弹窗 ===== -->
+    <!-- ===== 用户管理弹窗 ===== -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
             <button class="modal-close" id="closeAdminModal"><i class="fas fa-times"></i></button>
-            <h3><i class="fas fa-users"></i> 用戶管理</h3>
+            <h3><i class="fas fa-users"></i> 用户管理</h3>
             <div id="userTableContainer"><p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p></div>
         </div>
     </div>
 
-    <!-- ===== 加載中弹窗（只畀登入/登出用） ===== -->
+    <!-- ===== 加載中弹窗（只畀登录/登出用） ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-box">
             <div class="loading-spinner-full"></div>
@@ -935,7 +935,7 @@
         </div>
     </div>
 
-    <!-- ===== hCaptcha 驗证弹窗 ===== -->
+    <!-- ===== hCaptcha 验证弹窗 ===== -->
     <div class="captcha-modal-overlay" id="captchaModal" onclick="closeCaptchaModal()">
         <div class="captcha-modal-box" onclick="event.stopPropagation()">
             <div class="h-captcha" data-sitekey="75682f5c-dac2-410e-a0c6-ceb4a0ba5e7e" data-callback="onCaptchaSuccess"></div>
@@ -958,7 +958,7 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
-        // ===== 加載弹窗控制（只畀登入/登出用） =====
+        // ===== 加載弹窗控制（只畀登录/登出用） =====
         let loadingTimer = null;
 
         function showLoading(text) {
@@ -1012,13 +1012,13 @@
         const avatarCanvas = document.getElementById('avatarCanvas');
         const avatarCtx = avatarCanvas.getContext('2d');
 
-        // ===== 管理员判斷 =====
+        // ===== 管理员判断 =====
         function isAdmin(user) {
             if (!user) return false;
             return user.email === 'oscarmtr114514@gmail.com';
         }
 
-        // ===== 頭像生成器 =====
+        // ===== 头像生成器 =====
         function generateIdenticon(name) {
             const seed = name || 'default';
             const encoder = new TextEncoder();
@@ -1111,7 +1111,7 @@
         }
 
         function hideUI() {
-            authNavLink.textContent = '登入';
+            authNavLink.textContent = '登录';
             authNavLink.className = 'auth-link';
             authNavLink.removeEventListener('click', openAuthModal);
             authNavLink.removeEventListener('click', handleLogout);
@@ -1143,9 +1143,9 @@
             adminModal.classList.remove('show');
         }
 
-        // ===== Firebase 認证 =====
+        // ===== Firebase 认证 =====
         async function googleLogin() {
-            showLoading('Google 登入中...');
+            showLoading('Google 登录中...');
             const provider = new firebase.auth.GoogleAuthProvider();
             try {
                 const result = await auth.signInWithPopup(provider);
@@ -1157,7 +1157,7 @@
             } catch (e) {
                 hideLoading();
                 if (e.code !== 'auth/popup-closed-by-user') {
-                    showMsg(loginMessage, 'Google 登入失敗：' + e.message, 'error');
+                    showMsg(loginMessage, 'Google 登录失败：' + e.message, 'error');
                 }
             }
         }
@@ -1166,21 +1166,21 @@
             const name = regName.value.trim(),
                 pw = regPassword.value,
                 cf = regConfirmPassword.value;
-            if (!name || !pw || !cf) { showMsg(registerMessage, '請填寫所有栏位', 'error'); return; }
-            if (name.length < 2) { showMsg(registerMessage, '姓名至少2個字元', 'error'); return; }
-            if (pw.length < 4) { showMsg(registerMessage, '密碼至少4個字元', 'error'); return; }
-            if (pw !== cf) { showMsg(registerMessage, '密碼不一致', 'error'); return; }
-            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '驗证碼錯誤，請重新獲取', 'error'); return; }
-            showLoading('註冊中...');
+            if (!name || !pw || !cf) { showMsg(registerMessage, '請填写所有栏位', 'error'); return; }
+            if (name.length < 2) { showMsg(registerMessage, '姓名至少2个字元', 'error'); return; }
+            if (pw.length < 4) { showMsg(registerMessage, '密码至少4个字元', 'error'); return; }
+            if (pw !== cf) { showMsg(registerMessage, '密码不一致', 'error'); return; }
+            if (!checkCaptcha('registerCaptcha', 'registerExpectedCaptcha')) { showMsg(registerMessage, '验证碼错误，請重新獲取', 'error'); return; }
+            showLoading('注册中...');
             registerSubmit.disabled = true;
-            registerSubmit.innerHTML = '<span class="spinner"></span>註冊中...';
+            registerSubmit.innerHTML = '<span class="spinner"></span>注册中...';
             try {
                                 const safeName = name.replace(/[.#$\[\]]/g, '_');
                 const snap = await db.ref('users/' + safeName).once('value');
                 if (snap.exists()) { showMsg(registerMessage, '此姓名已被使用', 'error');
                     hideLoading();
                     registerSubmit.disabled = false;
-                    registerSubmit.textContent = '註冊'; return; }
+                    registerSubmit.textContent = '注册'; return; }
                 const avatar = generateIdenticon(name);
                                 const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
@@ -1191,24 +1191,24 @@
                 regPassword.value = '';
                 regConfirmPassword.value = '';
                 document.getElementById('registerCaptcha').value = '';
-            } catch (e) { showMsg(registerMessage, '註冊失敗', 'error');
+            } catch (e) { showMsg(registerMessage, '注册失败', 'error');
                 hideLoading(); } finally { registerSubmit.disabled = false;
-                registerSubmit.textContent = '註冊'; }
+                registerSubmit.textContent = '注册'; }
         }
 
         async function handleLogin() {
             const name = loginName.value.trim(),
                 pw = loginPassword.value;
-            if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密碼', 'error'); return; }
-            showLoading('登入中...');
+            if (!name || !pw) { showMsg(loginMessage, '請输入姓名和密码', 'error'); return; }
+            showLoading('登录中...');
             loginSubmit.disabled = true;
-            loginSubmit.innerHTML = '<span class="spinner"></span>登入中...';
+            loginSubmit.innerHTML = '<span class="spinner"></span>登录中...';
             try {
                 const snap = await db.ref('users').orderByChild('name').equalTo(name).once('value');
-                if (!snap.exists()) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                if (!snap.exists()) { showMsg(loginMessage, '账户或密码不正确', 'error');
                     hideLoading();
                     loginSubmit.disabled = false;
-                    loginSubmit.textContent = '登入'; return; }
+                    loginSubmit.textContent = '登录'; return; }
                 let found = false;
                 snap.forEach(c => {
                     const d = c.val();
@@ -1223,11 +1223,11 @@
                         document.getElementById('loginCaptcha').value = '';
                     }
                 });
-                if (!found) showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+                if (!found) showMsg(loginMessage, '账户或密码不正确', 'error');
                 hideLoading();
-            } catch (e) { showMsg(loginMessage, '帳戶或密碼不正確', 'error');
+            } catch (e) { showMsg(loginMessage, '账户或密码不正确', 'error');
                 hideLoading(); } finally { loginSubmit.disabled = false;
-                loginSubmit.textContent = '登入'; }
+                loginSubmit.textContent = '登录'; }
         }
 
         function handleLogout() {
@@ -1236,9 +1236,9 @@
             hideUI();
         }
 
-        // ===== 用戶管理 =====
+        // ===== 用户管理 =====
 
-        // ===== HTML 轉義（防止 XSS） =====
+        // ===== HTML 转义（防止 XSS） =====
         function escapeHtml(str) {
             if (str == null) return '';
             const div = document.createElement('div');
@@ -1260,46 +1260,46 @@
                     });
                 }
                 if (allUsers.length === 0) {
-                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+                    userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">没有任何用户</p>';
                     return;
                 }
                 let html =
-                    `<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>`;
+                    `<table><thead><tr><th>姓名</th><th>Email</th><th>密码</th><th>注册时间</th><th>操作</th></tr></thead><tbody>`;
                 allUsers.forEach((u) => {
                     const d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('cn-HK') : '-';
                     const pwDisplay = u.password ? u.password : 'Google';
                     html +=
-                        `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 刪除</button></td></tr>`;
+                        `<tr><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.email || '-')}</td><td>${escapeHtml(pwDisplay)}</td><td>${d}</td><td><button class="delete-user-btn" onclick="window._deleteUser('${u.key}','${escapeHtml(u.name).replace(/'/g, "\\'")}')"><i class="fas fa-trash"></i> 删除</button></td></tr>`;
                 });
                 html += '</tbody></table>';
                 userTableContainer.innerHTML = html;
             } catch (e) {
-                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+                userTableContainer.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失败</p>';
             }
         }
 
         window._deleteUser = async function(key, name) {
-            if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作无法撤销。')) return;
+            if (!confirm('确定要删除用户「' + name + '」嗎？此操作无法撤销。')) return;
             try {
                 await db.ref('users/' + key).remove();
                 const local = JSON.parse(localStorage.getItem('currentUser') || 'null');
                 if (local && local.uid === key) { hideUI(); }
                 loadUserTable();
-            } catch (e) { alert('刪除失敗：' + e.message); }
+            } catch (e) { alert('删除失败：' + e.message); }
         };
 
 
 
         // ===== 安全注意 =====
-        // Firebase Realtime Database 規則請設定为：
+        // Firebase Realtime Database 规则請设定为：
         // {
         //   "rules": {
         //     ".read": "auth != null",
         //     ".write": "auth != null"
         //   }
         // }
-        // 或更嚴格的規則以保护用户数據
-        // ===== CAPTCHA 驗证碼 =====
+        // 或更嚴格的规则以保护用户数据
+        // ===== CAPTCHA 验证碼 =====
         const captchaChars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
         function generateCaptchaText() {
@@ -1340,7 +1340,7 @@ function refreshRegisterCaptcha() {
             if (!window.registerExpectedCaptcha) refreshRegisterCaptcha();
         };
 
-        // ===== 事件綁定 =====
+        // ===== 事件绑定 =====
         loginTabBtn.addEventListener('click', switchToLogin);
         registerTabBtn.addEventListener('click', switchToRegister);
         loginSubmit.addEventListener('click', handleLogin);
@@ -1387,7 +1387,7 @@ function refreshRegisterCaptcha() {
             }
         });
 
-        // ===== 联系我們 =====
+        // ===== 联系我们 =====
         const contactBtn = document.getElementById('contactBtn');
         const contactModal = document.getElementById('contactModal');
 
@@ -1441,13 +1441,13 @@ function refreshRegisterCaptcha() {
             proxyNote.className = 'proxy-note';
             if (status === 'online') {
                 proxyNote.className = 'proxy-note online';
-                proxyNote.innerHTML = '✅ 當前代理在線，可以使用';
+                proxyNote.innerHTML = '✅ 當前代理在线，可以使用';
             } else if (status === 'offline') {
                 proxyNote.className = 'proxy-note offline';
-                proxyNote.innerHTML = '⚠️ 當前代理離線，請切換其他代理';
+                proxyNote.innerHTML = '⚠️ 當前代理離线，請切换其他代理';
             } else {
                 proxyNote.className = 'proxy-note checking';
-                proxyNote.innerHTML = '⏳ 檢測代理狀態中...';
+                proxyNote.innerHTML = '⏳ 检测代理狀態中...';
             }
         }
 
@@ -1464,7 +1464,7 @@ function refreshRegisterCaptcha() {
             if (!hasOnline) {
                 const option = document.createElement('option');
                 option.value = '-1';
-                option.textContent = '⚠️ 无可用代理，請稍後再試';
+                option.textContent = '⚠️ 无可用代理，請稍后再试';
                 proxySelect.appendChild(option);
                 proxySelect.disabled = true;
                 updateStatusDot('offline');
@@ -1560,7 +1560,7 @@ function refreshRegisterCaptcha() {
             executeFetch();
         };
 
-        // ✅ 已修正：唔用 showError()，直接用 errorDiv 显示錯誤
+        // ✅ 已修正：唔用 showError()，直接用 errorDiv 显示错误
         function executeFetch() {
             const url = pendingUrl;
             const mode = pendingMode;
@@ -1568,7 +1568,7 @@ function refreshRegisterCaptcha() {
 
             if (!url || !proxyUrl) {
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '沒有可用的代理，請稍後再試';
+                errorDiv.innerHTML = '没有可用的代理，請稍后再试';
                 return;
             }
 
@@ -1603,7 +1603,7 @@ function refreshRegisterCaptcha() {
                     errorDiv.style.display = 'none';
                 } else {
                     errorDiv.style.display = 'block';
-                    errorDiv.innerHTML = `錯誤 ${xhr.status} - ${xhr.statusText || '代理可能失效'}`;
+                    errorDiv.innerHTML = `错误 ${xhr.status} - ${xhr.statusText || '代理可能失效'}`;
                     resetDisplay();
                 }
             };
@@ -1611,14 +1611,14 @@ function refreshRegisterCaptcha() {
                 fetchBtn.disabled = false;
                 loadingDiv.style.display = 'none';
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '网路錯誤，請檢查連線';
+                errorDiv.innerHTML = '网路错误，請检查连线';
                 resetDisplay();
             };
             xhr.ontimeout = function() {
                 fetchBtn.disabled = false;
                 loadingDiv.style.display = 'none';
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '連線超時，請稍後再試';
+                errorDiv.innerHTML = '连线超时，請稍后再试';
                 resetDisplay();
             };
             xhr.send();
@@ -1632,7 +1632,7 @@ function refreshRegisterCaptcha() {
         };
 
         function resetDisplay() {
-            codeDisplay.textContent = '👆 输入网址，點擊「抓取」进行人機驗证';
+            codeDisplay.textContent = '👆 输入网址，点击「抓取」进行人机验证';
             codeDisplay.className = 'empty-state';
             urlDisplay.textContent = '';
             statsDisplay.textContent = '等待抓取';
@@ -1650,7 +1650,7 @@ function refreshRegisterCaptcha() {
             }
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 errorDiv.style.display = 'block';
-                errorDiv.innerHTML = '网址須以 http:// 或 https:// 开頭';
+                errorDiv.innerHTML = '网址須以 http:// 或 https:// 开头';
                 return;
             }
 
@@ -1687,16 +1687,16 @@ function refreshRegisterCaptcha() {
             if (text.includes('输入网址') || text.includes('抓取中')) return;
 
             navigator.clipboard?.writeText(text).then(() => {
-                copyBtn.textContent = '✓ 已複製';
-                setTimeout(() => copyBtn.textContent = '複製', 1500);
+                copyBtn.textContent = '✓ 已复制';
+                setTimeout(() => copyBtn.textContent = '复制', 1500);
             }).catch(() => {
                 const range = document.createRange();
                 range.selectNode(codeDisplay);
                 window.getSelection().removeAllRanges();
                 window.getSelection().addRange(range);
                 document.execCommand('copy');
-                copyBtn.textContent = '✓ 已複製';
-                setTimeout(() => copyBtn.textContent = '複製', 1500);
+                copyBtn.textContent = '✓ 已复制';
+                setTimeout(() => copyBtn.textContent = '复制', 1500);
             });
         });
 
@@ -1729,16 +1729,16 @@ function refreshRegisterCaptcha() {
     <div class="footer-inner">
         <div class="footer-col">
             <h4>隐私政策</h4>
-            <p>本站不收集任何個人数據。所有工具均在本地浏览器运行，不會將你的数據上传至任何服務器。我們不使用 Cookie 追踪，也不與第三方共享数據。</p>
+            <p>本站不收集任何个人数据。所有工具均在本地浏览器运行，不會將你的数据上传至任何服务器。我们不使用 Cookie 追踪，也不与第三方共享数据。</p>
         </div>
         <div class="footer-col">
-            <h4>联系我們</h4>
-            <p>這是梁喆同學的個人作品集网站，上面所有工具均由原創开發。网站使用 GitHub Pages 托管，並整合了 Firebase 認证功能。</p>
-            <p>郵箱: oscarmtr114514@gmail.com</p>
+            <h4>联系我们</h4>
+            <p>这是梁喆同学的个人作品集网站，上面所有工具均由原创开发。网站使用 GitHub Pages 托管，並整合了 Firebase 认证功能。</p>
+            <p>邮箱: oscarmtr114514@gmail.com</p>
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 梁喆同學工作室LZTX Studio</span>
+        <span>© 2026 梁喆同学工作室LZTX Studio</span>
     </div>
 </div>
 
