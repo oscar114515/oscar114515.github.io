@@ -207,5 +207,150 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-</script></body>
+</script>
+<!-- ===== 登入 + 管理員模組 ===== -->
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.15.0/firebase-database-compat.js"></script>
+<script>
+(function () {
+  var T = {"login":"登录","logout":"退出登录","welcome":"欢迎你的使用","google":"使用 Google 账号登录","nav":"用户管理","title":"用户管理","thName":"姓名","thEmail":"Email","thPw":"密码","thTime":"注册时间","thOp":"操作","del":"删除","loading":"载入中...","none":"没有任何用户","fail":"载入失败","c1":"确定要删除用户「","c2":"」吗？此操作无法撤销。","delFail":"删除失败：","gfail":"Google 登录失败：","signedAs":"已登录为"};
+  var ADMIN_EMAIL = 'oscarmtr114514@gmail.com';
+  var OV = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);justify-content:center;align-items:center;padding:1rem;z-index:8000;';
+  var BX = 'background:#fff;border-radius:18px;padding:1.8rem;max-width:430px;width:100%;max-height:82vh;overflow-y:auto;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.22);font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang HK,Microsoft JhengHei,sans-serif;';
+  var GB = 'width:100%;background:#fff;color:#333;border:1px solid #ddd;padding:.8rem;border-radius:10px;font-size:.92rem;cursor:pointer;';
+  var CB = 'position:absolute;top:.7rem;right:.7rem;background:#f0f0f0;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.95rem;color:#555;';
+  if (!window.firebase) return;
+  if (!firebase.apps || !firebase.apps.length) { firebase.initializeApp({ apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I", authDomain: "oscar-io-log-in.firebaseapp.com", projectId: "oscar-io-log-in", storageBucket: "oscar-io-log-in.firebasestorage.app", messagingSenderId: "51821788083", appId: "1:51821788083:web:bf9461f4fa3fd2bc07e9c6" }); }
+  var auth = firebase.auth();
+  var db = firebase.database();
+  function isAdmin(u) { return !!u && u.email === ADMIN_EMAIL; }
+  window.__isAdmin = isAdmin;
+  function mk(tag, style, html) { var d = document.createElement(tag); if (style) d.setAttribute('style', style); if (html != null) d.innerHTML = html; return d; }
+
+  var authOv, adminOv, navLink, adminItem, loggedPanel, anonPanel;
+
+  function build() {
+    var ul = document.querySelector('.nav-links');
+    if (ul) {
+      var li = mk('li');
+      navLink = mk('a', 'cursor:pointer;', null);
+      navLink.id = 'authNavLink';
+      navLink.href = '#';
+      navLink.textContent = T.login;
+      li.appendChild(navLink);
+      ul.appendChild(li);
+      navLink.addEventListener('click', function (e) { e.preventDefault(); openAuth(); });
+
+      adminItem = mk('li', 'display:none;');
+    adminItem.id = 'adminNavItem';
+      var al = mk('a', 'cursor:pointer;', null);
+      al.id = 'adminNavLink';
+      al.href = '#';
+      al.textContent = T.nav;
+      adminItem.appendChild(al);
+      ul.appendChild(adminItem);
+      al.addEventListener('click', function (e) { e.preventDefault(); openAdmin(); });
+    }
+
+    authOv = mk('div', OV);
+    var bx = mk('div', BX);
+    bx.appendChild(mk('button', CB, '&#10005;')).id = 'authCloseBtn';
+    bx.appendChild(mk('h2', 'font-size:1.1rem;font-weight:600;color:#111;text-align:center;margin:0 0 1.2rem;', T.welcome));
+    anonPanel = mk('div');
+    var gb = mk('button', GB, '&#128273; ' + T.google);
+    gb.id = 'googleLoginBtn';
+    anonPanel.appendChild(gb);
+    loggedPanel = mk('div', 'display:none;text-align:center;');
+    loggedPanel.appendChild(mk('p', 'font-size:.92rem;color:#333;margin:0 0 1.1rem;word-break:break-all;', '<span style="color:#6b7280;">' + T.signedAs + '</span><br><b id="authWho"></b>'));
+    var lo = mk('button', GB, T.logout);
+    lo.id = 'authLogoutBtn';
+    loggedPanel.appendChild(lo);
+    bx.appendChild(anonPanel);
+    bx.appendChild(loggedPanel);
+    authOv.appendChild(bx);
+    document.body.appendChild(authOv);
+    authOv.addEventListener('click', function (e) { if (e.target === authOv) closeAuth(); });
+    document.getElementById('authCloseBtn').addEventListener('click', closeAuth);
+    lo.addEventListener('click', function () { auth.signOut(); });
+    gb.addEventListener('click', googleLogin);
+
+    adminOv = mk('div', OV);
+    adminOv.id = 'adminModal';
+    var ab = mk('div', BX.replace('max-width:430px', 'max-width:640px'));
+    var ac = mk('button', CB, '&#10005;');
+    ac.id = 'adminCloseBtn';
+    ab.appendChild(ac);
+    ab.appendChild(mk('h3', 'margin:0 0 1.1rem;font-size:1.05rem;font-weight:600;color:#111;', '&#128101; ' + T.title));
+    ab.appendChild(mk('div', 'text-align:center;padding:2rem;color:#6b7280;font-size:.9rem;', T.loading)).id = 'userTableContainer';
+    adminOv.appendChild(ab);
+    document.body.appendChild(adminOv);
+    ac.addEventListener('click', closeAdmin);
+    adminOv.addEventListener('click', function (e) { if (e.target === adminOv) closeAdmin(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      if (adminOv.style.display === 'flex') closeAdmin();
+      if (authOv.style.display === 'flex') closeAuth();
+    });
+  }
+
+  function openAuth() { authOv.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+  function closeAuth() { authOv.style.display = 'none'; document.body.style.overflow = ''; }
+  function openAdmin() { adminOv.style.display = 'flex'; document.body.style.overflow = 'hidden'; loadUserTable(); }
+  function closeAdmin() { adminOv.style.display = 'none'; document.body.style.overflow = ''; }
+
+  function googleLogin() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(function () { closeAuth(); }).catch(function (e) { alert(T.gfail + e.message); });
+  }
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+  function loadUserTable() {
+    var box = document.getElementById('userTableContainer');
+    if (!box) return;
+    box.innerHTML = T.loading;
+    db.ref('users').once('value').then(function (snap) {
+      var rows = [];
+      if (snap.exists()) snap.forEach(function (c) { var d = c.val(); if (d && d.name) rows.push({ key: c.key, v: d }); });
+      if (!rows.length) { box.innerHTML = T.none; return; }
+      var th = 'padding:.7rem .5rem;text-align:left;border-bottom:1px solid #e8ecf0;font-size:.78rem;color:#6b7280;';
+      var td = 'padding:.7rem .5rem;text-align:left;border-bottom:1px solid #f0f0f0;font-size:.85rem;color:#333;';
+      var h = '<table style="width:100%;border-collapse:collapse;"><thead><tr>' +
+        '<th style="' + th + '">' + T.thName + '</th><th style="' + th + '">' + T.thEmail + '</th>' +
+        '<th style="' + th + '">' + T.thPw + '</th><th style="' + th + '">' + T.thTime + '</th>' +
+        '<th style="' + th + '">' + T.thOp + '</th></tr></thead><tbody>';
+      rows.forEach(function (r) {
+        var v = r.v;
+        var d = v.createdAt ? new Date(v.createdAt).toLocaleDateString() : '-';
+        h += '<tr><td style="' + td + '">' + esc(v.name) + '</td><td style="' + td + '">' + esc(v.email || '-') + '</td>' +
+          '<td style="' + td + '">' + esc(v.password || 'Google') + '</td><td style="' + td + '">' + d + '</td>' +
+          '<td style="' + td + '"><button data-k="' + esc(r.key) + '" data-n="' + esc(v.name) + '" class="__aDel" style="background:#fee2e2;color:#dc2626;border:none;padding:.35rem .7rem;border-radius:6px;cursor:pointer;font-size:.78rem;">' + T.del + '</button></td></tr>';
+      });
+      box.innerHTML = h + '</tbody></table>';
+      Array.prototype.forEach.call(box.querySelectorAll('.__aDel'), function (b) {
+        b.addEventListener('click', function () { delUser(b.getAttribute('data-k'), b.getAttribute('data-n')); });
+      });
+    }).catch(function () { box.innerHTML = T.fail; });
+  }
+
+  function delUser(key, name) {
+    if (!confirm(T.c1 + name + T.c2)) return;
+    db.ref('users/' + key).remove().then(function () { loadUserTable(); }).catch(function (e) { alert(T.delFail + e.message); });
+  }
+
+  function applyUser(u) {
+    if (!navLink || !adminItem) return;
+    navLink.textContent = u ? T.logout : T.login;
+    adminItem.style.display = isAdmin(u) ? '' : 'none';
+    anonPanel.style.display = u ? 'none' : 'block';
+    loggedPanel.style.display = u ? 'block' : 'none';
+    if (u) { var w = document.getElementById('authWho'); if (w) w.textContent = u.displayName || u.email || ''; }
+  }
+
+  function boot() { build(); auth.onAuthStateChanged(applyUser); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+
+</body>
 </html>
