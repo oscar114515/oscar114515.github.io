@@ -139,6 +139,7 @@
         }
         .auth-modal-overlay { z-index: 5000; }
         .admin-modal-overlay { z-index: 6000; }
+        .admin-modal-overlay.show { display: flex; }
         .loading-overlay { z-index: 9999; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
 
         .modal-box, .auth-modal-box, .admin-modal-box, .loading-box {
@@ -439,7 +440,7 @@
         // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCkJhI7FwrRNlNhPn9tp9w_aTKj--SUg7I",
-            authDomain: "oscar-io-log-in.firebase.com",
+            authDomain: "oscar-io-log-in.firebaseapp.com",
             projectId: "oscar-io-log-in",
             storageBucket: "oscar-io-log-in.firebasestorage.app",
             messagingSenderId: "51821788083",
@@ -816,5 +817,113 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-</script></body>
+</script>
+<script>
+/* ===== 用戶管理（補齊：404 頁原本完全沒有這段實作）===== */
+(function () {
+  var ADMIN_EMAIL = 'oscarmtr114514@gmail.com';
+  function isAdmin(u) { return !!u && u.email === ADMIN_EMAIL; }
+  function $(id) { return document.getElementById(id); }
+
+  function openAdminModalFn() {
+    var m = $('adminModal');
+    if (!m) return;
+    m.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    loadUserTable();
+  }
+  function closeAdminModalFn() {
+    var m = $('adminModal');
+    if (!m) return;
+    m.classList.remove('show');
+    document.body.style.overflow = 'auto';
+  }
+  function loadUserTable() {
+    var box = $('userTableContainer');
+    if (!box) return;
+    box.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">載入中...</p>';
+    var db;
+    try { db = firebase.database(); } catch (e) { return; }
+    db.ref('users').once('value').then(function (snap) {
+      var data = snap.val();
+      if (!data) {
+        box.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">沒有任何用戶</p>';
+        return;
+      }
+      var esc = function (s) { var d = document.createElement('div'); d.textContent = (s == null ? '' : String(s)); return d.innerHTML; };
+      var html = '<table><thead><tr><th>姓名</th><th>Email</th><th>密碼</th><th>註冊時間</th><th>操作</th></tr></thead><tbody>';
+      Object.keys(data).forEach(function (key) {
+        var u = data[key] || {};
+        var d = u.createdAt ? new Date(u.createdAt).toLocaleDateString('zh-HK') : '-';
+        var pw = u.password ? u.password : 'Google';
+        html += '<tr><td>' + (esc(u.name) || '-') + '</td>'
+             + '<td>' + (esc(u.email) || '-') + '</td>'
+             + '<td>' + esc(pw) + '</td>'
+             + '<td>' + d + '</td>'
+             + '<td><button class="delete-user-btn" data-key="' + esc(key) + '" data-name="' + esc(u.name) + '"><i class="fas fa-trash"></i> 刪除</button></td></tr>';
+      });
+      html += '</tbody></table>';
+      box.innerHTML = html;
+      Array.prototype.forEach.call(box.querySelectorAll('.delete-user-btn'), function (b) {
+        b.addEventListener('click', function () {
+          window._deleteUser(b.getAttribute('data-key'), b.getAttribute('data-name'));
+        });
+      });
+    }).catch(function () {
+      box.innerHTML = '<p style="text-align:center;color:#dc2626;padding:2rem;">載入失敗</p>';
+    });
+  }
+  window._deleteUser = function (key, name) {
+    if (!confirm('確定要刪除用戶「' + name + '」嗎？此操作無法撤銷。')) return;
+    try {
+      firebase.database().ref('users/' + key).remove().then(function () {
+        var local = null;
+        try { local = JSON.parse(localStorage.getItem('currentUser') || 'null'); } catch (e) {}
+        if (local && local.uid === key && window.hideUI) { window.hideUI(); }
+        loadUserTable();
+      }).catch(function (e) { alert('刪除失敗：' + e.message); });
+    } catch (e) { alert('刪除失敗：' + e.message); }
+  };
+  window.openAdminModalFn = openAdminModalFn;
+  window.closeAdminModalFn = closeAdminModalFn;
+  window.loadUserTable = loadUserTable;
+
+  function syncAdminBtn(u) {
+    var btn = $('authAdminBtn');
+    if (btn) btn.style.display = isAdmin(u) ? 'block' : 'none';
+  }
+
+  function bind() {
+    var btn = $('authAdminBtn');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        var m = $('authModal');
+        if (m) { m.style.display = 'none'; document.body.style.overflow = 'auto'; }
+        setTimeout(openAdminModalFn, 300);
+      });
+    }
+    var cb = $('closeAdminModal');
+    if (cb) cb.addEventListener('click', closeAdminModalFn);
+    var ov = $('adminModal');
+    if (ov) ov.addEventListener('click', function (e) { if (e.target === ov) closeAdminModalFn(); });
+    document.addEventListener('keydown', function (e) {
+      var m = $('adminModal');
+      if (e.key === 'Escape' && m && m.classList.contains('show')) closeAdminModalFn();
+    });
+    // 保險：任何登入狀態變化都重新校正「用戶管理」入口的可見性（只有管理員可見）
+    try {
+      firebase.auth().onAuthStateChanged(function (u) {
+        if (u) syncAdminBtn(u);
+      });
+    } catch (e) {}
+    // 未登入時按鈕必須隱藏
+    try {
+      var local = JSON.parse(localStorage.getItem('currentUser') || 'null');
+      syncAdminBtn(local);
+    } catch (e) { syncAdminBtn(null); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+})();
+</script>
+</body>
 </html>
