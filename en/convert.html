@@ -876,34 +876,7 @@
 <body>
 <pre>${text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
 
-<script>
-function switchLanguageInline(targetLang) {
-    const path = window.location.pathname;
-    const langOrder = ['zh', 'cn', 'en'];
-    let pagePath = 'index.html';
-    for (const lang of langOrder) {
-        const prefix = '/' + lang + '/';
-        if (path.includes(prefix)) {
-            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
-            break;
-        }
-    }
-    window.location.href = '/' + targetLang + '/' + pagePath;
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const sel = document.getElementById('langSwitcherInline');
-    if (sel) {
-        const path = window.location.pathname;
-        const langOrder = ['zh', 'cn', 'en'];
-        for (const lang of langOrder) {
-            if (path.includes('/' + lang + '/')) {
-                sel.value = lang;
-                break;
-            }
-        }
-    }
-});
-</script></body>
+</body>
 </html>`;
                 downloadFile(htmlContent, currentFile.name.replace(/\.[^/.]+$/, '') + '.html', 'text/html');
             } else if (targetExt === 'JSON') {

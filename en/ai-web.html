@@ -739,69 +739,13 @@ const STUDIO_BADGE_SCRIPT = [
 
 function injectFix(html) {
   if (!html) return html;
-  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, IFRAME_FIX_SCRIPT + '
-<script>
-function switchLanguageInline(targetLang) {
-    const path = window.location.pathname;
-    const langOrder = ['zh', 'cn', 'en'];
-    let pagePath = 'index.html';
-    for (const lang of langOrder) {
-        const prefix = '/' + lang + '/';
-        if (path.includes(prefix)) {
-            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
-            break;
-        }
-    }
-    window.location.href = '/' + targetLang + '/' + pagePath;
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const sel = document.getElementById('langSwitcherInline');
-    if (sel) {
-        const path = window.location.pathname;
-        const langOrder = ['zh', 'cn', 'en'];
-        for (const lang of langOrder) {
-            if (path.includes('/' + lang + '/')) {
-                sel.value = lang;
-                break;
-            }
-        }
-    }
-});
-</script></body>');
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, IFRAME_FIX_SCRIPT + '</body>');
   return html + IFRAME_FIX_SCRIPT;
 }
 
 function injectStudioBadge(html) {
   if (!html) return html;
-  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, STUDIO_BADGE_SCRIPT + '
-<script>
-function switchLanguageInline(targetLang) {
-    const path = window.location.pathname;
-    const langOrder = ['zh', 'cn', 'en'];
-    let pagePath = 'index.html';
-    for (const lang of langOrder) {
-        const prefix = '/' + lang + '/';
-        if (path.includes(prefix)) {
-            pagePath = path.substring(path.indexOf(prefix) + prefix.length);
-            break;
-        }
-    }
-    window.location.href = '/' + targetLang + '/' + pagePath;
-}
-document.addEventListener('DOMContentLoaded', function() {
-    const sel = document.getElementById('langSwitcherInline');
-    if (sel) {
-        const path = window.location.pathname;
-        const langOrder = ['zh', 'cn', 'en'];
-        for (const lang of langOrder) {
-            if (path.includes('/' + lang + '/')) {
-                sel.value = lang;
-                break;
-            }
-        }
-    }
-});
-</script></body>');
+  if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, STUDIO_BADGE_SCRIPT + '</body>');
   return html + STUDIO_BADGE_SCRIPT;
 }
 
@@ -1171,16 +1115,15 @@ function onUserLogin(uid) {
 // ============================================================
 // 11. User Management
 // ============================================================
-async 
-        // ===== HTML Escape（Prevent XSS） =====
-        function escapeHtml(str) {
-            if (str == null) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
+// ===== HTML Escape（Prevent XSS） =====
+function escapeHtml(str) {
+    if (str == null) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
 
-function loadUserTable() {
+async function loadUserTable() {
   userTableContainer.innerHTML = '<p style="text-align:center;color:#6b7280;padding:2rem;">Loading...</p>';
   try {
     const snap = await db.ref('users').once('value');

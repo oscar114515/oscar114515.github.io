@@ -1147,7 +1147,6 @@
                     registerSubmit.textContent = '注册'; return; }
                 const avatar = generateIdenticon(name);
                 // 使用姓名作为 Firebase key（防止重复姓名）
-                const safeName = name.replace(/[.#$\[\]]/g, '_');
                 const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
                 const ud = { name, email: '', photo: avatar, uid: safeName };

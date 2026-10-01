@@ -1147,7 +1147,6 @@
                     registerSubmit.textContent = 'Register'; return; }
                 const avatar = generateIdenticon(name);
                 // UseNameas Firebase key（Prevent duplicate names）
-                const safeName = name.replace(/[.#$\[\]]/g, '_');
                 const ref = db.ref('users/' + safeName);
                 await ref.set({ name, password: pw, photo: avatar, createdAt: Date.now() });
                 const ud = { name, email: '', photo: avatar, uid: safeName };
