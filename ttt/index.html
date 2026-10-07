@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>临时文本传输</title>
+<style>
+html,body{margin:0;height:100%}
+body{display:flex;flex-direction:column;font:14px/1.5 system-ui,"Microsoft YaHei",sans-serif;background:#111;color:#eee;overflow:hidden}
+#list{flex:1;overflow-y:auto;padding:6px}
+.item{padding:6px 8px;border-bottom:1px solid #262626;white-space:pre-wrap;word-break:break-word;cursor:pointer}
+.item:active{background:#1e1e1e}
+.item b{color:#7a7a7a;font-weight:400;font-size:11px;margin-right:6px}
+#msg{color:#3ddc84;font-size:11px;height:16px;padding:0 8px}
+#bar{display:flex;gap:6px;padding:6px;border-top:1px solid #2b2b2b}
+#box{flex:1;min-width:0;padding:9px;background:#1b1b1b;border:1px solid #333;border-radius:6px;color:#eee;font:inherit}
+#go{padding:9px 16px;background:#2f6fed;color:#fff;border:0;border-radius:6px;font:inherit}
+</style>
+</head>
+<body>
+<div id="list"></div>
+<div id="msg"></div>
+<div id="bar">
+<input id="box" placeholder="输入内容，回车发送" autocomplete="off">
+<button id="go">发送</button>
+</div>
+<script>
+var TOPIC='oscar-ttt-7f3a91';
+var API='https://ntfy.sh/'+TOPIC;
+var list=document.getElementById('list'),seen={},since=Math.floor(Date.now()/1000)-43200;
+
+function add(o){
+  if(seen[o.id])return; seen[o.id]=1;
+  var d=document.createElement('div'); d.className='item';
+  var b=document.createElement('b');
+  b.textContent=new Date(o.time*1000).toLocaleTimeString().slice(0,5);
+  d.appendChild(b); d.appendChild(document.createTextNode(o.message));
+  d.onclick=function(){copy(o.message)};
+  list.appendChild(d);
+  list.scrollTop=list.scrollHeight;
+}
+function copy(t){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(t).then(function(){say('已复制')},function(){say('复制失败')});
+  }else{
+    var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();
+    document.execCommand('copy');x.remove();say('已复制');
+  }
+}
+function say(t){var e=document.getElementById('msg');e.textContent=t;setTimeout(function(){e.textContent=''},1200)}
+function load(){
+  fetch(API+'/json?poll=1&since='+since).then(function(r){return r.text()}).then(function(t){
+    t.split('\n').forEach(function(l){
+      if(!l)return; var o; try{o=JSON.parse(l)}catch(e){return}
+      if(o.event==='message'&&o.message){add(o); if(o.time>=since)since=o.time+1}
+    });
+  }).catch(function(){});
+}
+function send(){
+  var v=document.getElementById('box').value.trim(); if(!v)return;
+  document.getElementById('box').value='';
+  fetch(API,{method:'POST',body:v}).then(function(r){say(r.ok?'已发送':'发送失败')}).catch(function(){say('发送失败')});
+  setTimeout(load,700);
+}
+document.getElementById('go').onclick=send;
+document.getElementById('box').addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.isComposing){e.preventDefault();send()}
+});
+load(); setInterval(load,3000);
+window.addEventListener('focus',load);
+</script>
+</body>
+</html>
