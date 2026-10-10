@@ -992,8 +992,8 @@ function hideUI() {
 }
 function openAuthModal() { authModal.style.display = 'flex'; }
 function closeAuthModal() { authModal.style.display = 'none'; }
-function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable(); }
-function closeAdminModalFn() { adminModal.classList.remove('show'); }
+function openAdminModalFn() { adminModal.classList.add('show'); adminModal.style.display = 'flex'; loadUserTable(); }
+function closeAdminModalFn() { adminModal.classList.remove('show'); adminModal.style.display = ''; }
 
 // ============================================================
 // 10. Firebase 認證

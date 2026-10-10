@@ -623,8 +623,8 @@
         }
         function openAuthModal() { authModal.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
         function closeAuthModal() { authModal.style.display = 'none'; document.body.style.overflow = 'auto'; }
-        function openAdminModalFn() { adminModal.classList.add('show'); loadUserTable(); }
-        function closeAdminModalFn() { adminModal.classList.remove('show'); }
+        function openAdminModalFn() { adminModal.classList.add('show'); adminModal.style.display = 'flex'; loadUserTable(); }
+        function closeAdminModalFn() { adminModal.classList.remove('show'); adminModal.style.display = ''; }
 
         async function googleLogin() {
             showLoading('Google 登录中...');

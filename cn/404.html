@@ -828,14 +828,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function openAdminModalFn() {
     var m = $('adminModal');
     if (!m) return;
-    m.classList.add('show');
+    m.classList.add('show'); m.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     loadUserTable();
   }
   function closeAdminModalFn() {
     var m = $('adminModal');
     if (!m) return;
-    m.classList.remove('show');
+    m.classList.remove('show'); m.style.display = 'none';
     document.body.style.overflow = 'auto';
   }
   function loadUserTable() {

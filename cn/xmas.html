@@ -1349,12 +1349,12 @@
         }
 
         function openAdminModalFn() {
-            adminModal.classList.add('show');
+            adminModal.classList.add('show'); adminModal.style.display = 'flex';
             loadUserTable();
         }
 
         function closeAdminModalFn() {
-            adminModal.classList.remove('show');
+            adminModal.classList.remove('show'); adminModal.style.display = '';
         }
 
         // ===== Firebase 认证 =====
